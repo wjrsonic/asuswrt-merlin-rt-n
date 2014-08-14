@@ -67,6 +67,7 @@ export LINUXDIR := $(SRCBASE)/linux/linux-2.6.36
 export EXTRALDFLAGS = -lgcc_s
 export EXTRALDFLAGS2 = -L$(TOP)/nvram$(BCMEX) -lnvram -L$(TOP)/shared -lshared
 
+export STRIP := $(STRIP) -X -R .note -R .comment -R .pdr -R .mdebug -R .reginfo -R .options -R .MIPS.options
 
 export LD_LIBRARY_PATH := $(SRCBASE)/toolchains/hndtools-arm-linux-2.6.36-uclibc-4.5.3/lib
 ifeq (2_6_36,$(LINUX_VERSION))
@@ -715,8 +716,8 @@ gen_target:
 		rm -rf $(TARGETDIR)/iNIC_RT3352/ ; \
 	fi
 ##!!TB	find $(TARGETDIR)/lib/modules -name *.o -exec mipsel-linux-strip --strip-unneeded {} \;
-	find $(TARGETDIR)/lib/modules -name *.o -exec $(STRIP) --strip-debug {} \;
-	find $(TARGETDIR)/lib/modules -name *.ko -exec $(STRIP) --strip-debug {} \;
+	find $(TARGETDIR)/lib/modules -name *.o -exec $(STRIP) --strip-debug --strip-unneeded {} \;
+	find $(TARGETDIR)/lib/modules -name *.ko -exec $(STRIP) --strip-debug --strip-unneeded {} \;
 
 #	-cd $(TARGETDIR)/lib/modules/*/kernel/drivers/net && mv diag/* . && rm -rf diag
 
