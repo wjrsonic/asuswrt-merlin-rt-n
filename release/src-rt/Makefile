@@ -1302,8 +1302,6 @@ define BusyboxOptions
 				echo "# CONFIG_SORT is not set" >>$(1); \
 				sed -i "/CONFIG_DMESG/d" $(1); \
 				echo "# CONFIG_DMESG is not set" >>$(1); \
-				sed -i "/CONFIG_CROND/d" $(1); \
-				echo "# CONFIG_CROND is not set" >>$(1); \
 				sed -i "/CONFIG_EXPR_MATH_SUPPORT_64/d" $(1); \
 				echo "# CONFIG_EXPR_MATH_SUPPORT_64 is not set" >>$(1); \
 				sed -i "/CONFIG_HEAD/d" $(1); \
