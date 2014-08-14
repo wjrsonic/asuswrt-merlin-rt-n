@@ -44,9 +44,116 @@ export CONFIG_BCMWL5=y
 export PARALLEL_BUILD := -j`grep -c '^processor' /proc/cpuinfo`
 
 define platformRouterOptions
+@( \
+	if [ "$(USB)" = "n" ]; then \
+		sed -i "/RTCONFIG_FTP/d" $(1); \
+		echo "# RTCONFIG_FTP is not set" >>$(1); \
+		sed -i "/RTCONFIG_SAMBASRV/d" $(1); \
+		echo "# RTCONFIG_SAMBASRV is not set" >>$(1); \
+		sed -i "/RTCONFIG_SAMBA3/d" $(1); \
+		echo "# RTCONFIG_SAMBA3 is not set" >>$(1); \
+	fi; \
+	if [ "$(IPV6)" = "n" ]; then \
+		sed -i "/RTCONFIG_IPV6/d" $(1); \
+		echo "# RTCONFIG_IPV6 is not set" >>$(1); \
+		sed -i "/RTCONFIG_WIDEDHCP6/d" $(1); \
+		echo "# RTCONFIG_WIDEDHCP6 is not set" >>$(1); \
+	fi; \
+	if [ "$(SFPRAM16M)" = "y" ]; then \
+		sed -i "/RTCONFIG_L7/d" $(1); \
+		echo "# RTCONFIG_L7 is not set" >>$(1); \
+		sed -i "/RTCONFIG_L7PAT/d" $(1); \
+		echo "# RTCONFIG_L7PAT is not set" >>$(1); \
+	fi; \
+	if [ "$(IPV6SUPP)" = "y" ]; then \
+		rm -r ./router/miniupnpd/*; \
+		cp -r ./router/miniupnpd-merlin/* ./router/miniupnpd/; \
+	else \
+		rm -r ./router/miniupnpd/*; \
+		cp -r ./router/miniupnpd-asus/* ./router/miniupnpd/; \
+	fi; \
+)
 endef
 
 define platformBusyboxOptions
+@( \
+	if [ "$(BECEEM)" = "y" ]; then \
+		sed -i "/CONFIG_E2FSCK/d" $(1); \
+		echo "# CONFIG_E2FSCK is not set" >>$(1); \
+		sed -i "/CONFIG_MKE2FS/d" $(1); \
+		echo "# CONFIG_MKE2FS is not set" >>$(1); \
+		sed -i "/CONFIG_TUNE2FS/d" $(1); \
+		echo "# CONFIG_TUNE2FS is not set" >>$(1); \
+		sed -i "/CONFIG_MKFS_EXT2/d" $(1); \
+		echo "# CONFIG_MKFS_EXT2 is not set" >>$(1); \
+		sed -i "/CONFIG_MKFS_VFAT/d" $(1); \
+		echo "# CONFIG_MKFS_VFAT is not set" >>$(1); \
+	fi; \
+	if [ "$(USB)" = "n" ]; then \
+		sed -i "/CONFIG_E2FSCK/d" $(1); \
+		echo "# CONFIG_E2FSCK is not set" >>$(1); \
+		sed -i "/CONFIG_MKE2FS/d" $(1); \
+		echo "# CONFIG_MKE2FS is not set" >>$(1); \
+		sed -i "/CONFIG_TUNE2FS/d" $(1); \
+		echo "# CONFIG_TUNE2FS is not set" >>$(1); \
+		sed -i "/CONFIG_MKFS_EXT2/d" $(1); \
+		echo "# CONFIG_MKFS_EXT2 is not set" >>$(1); \
+		sed -i "/CONFIG_MKFS_VFAT/d" $(1); \
+		echo "# CONFIG_MKFS_VFAT is not set" >>$(1); \
+		sed -i "/CONFIG_FEATURE_MOUNT_NFS/d" $(1); \
+		echo "# CONFIG_FEATURE_MOUNT_NFS is not set" >>$(1); \
+	fi; \
+	if [ "$(IPV6)" = "n" ]; then \
+		sed -i "/CONFIG_PING6/d" $(1); \
+		echo "# CONFIG_PING6 is not set" >>$(1); \
+		sed -i "/CONFIG_FEATURE_IPV6/d" $(1); \
+		echo "# CONFIG_FEATURE_IPV6 is not set" >>$(1); \
+		sed -i "/CONFIG_TRACEROUTE6/d" $(1); \
+		echo "# CONFIG_TRACEROUTE6 is not set" >>$(1); \
+	fi; \
+	if [ "$(SFPRAM16M)" = "y" ]; then \
+		sed -i "/CONFIG_FSYNC/d" $(1); \
+		echo "# CONFIG_FSYNC is not set" >>$(1); \
+		sed -i "/CONFIG_MAKEMIME/d" $(1); \
+		echo "# CONFIG_MAKEMIME is not set" >>$(1); \
+		sed -i "/CONFIG_FDISK/d" $(1); \
+		echo "# CONFIG_FDISK is not set" >>$(1); \
+		sed -i "/CONFIG_MKSWAP/d" $(1); \
+		echo "# CONFIG_MKSWAP is not set" >>$(1); \
+		sed -i "/CONFIG_SWAPONOFF/d" $(1); \
+		echo "# CONFIG_SWAPONOFF is not set" >>$(1); \
+		sed -i "/CONFIG_FEATURE_VOLUMEID_LINUXSWAP/d" $(1); \
+		echo "# CONFIG_FEATURE_VOLUMEID_LINUXSWAP is not set" >>$(1); \
+		sed -i "/CONFIG_UNZIP/d" $(1); \
+		echo "# CONFIG_UNZIP is not set" >>$(1); \
+		sed -i "/CONFIG_TEE/d" $(1); \
+		echo "# CONFIG_TEE is not set" >>$(1); \
+		sed -i "/CONFIG_PSCAN/d" $(1); \
+		echo "# CONFIG_PSCAN is not set" >>$(1); \
+		sed -i "/CONFIG_NC/d" $(1); \
+		echo "# CONFIG_NC is not set" >>$(1); \
+		sed -i "/CONFIG_LSUSB/d" $(1); \
+		echo "# CONFIG_LSUSB is not set" >>$(1); \
+		sed -i "/CONFIG_FLOCK/d" $(1); \
+		echo "# CONFIG_FLOCK is not set" >>$(1); \
+		sed -i "/CONFIG_SENDMAIL/d" $(1); \
+		echo "# CONFIG_SENDMAIL is not set" >>$(1); \
+		sed -i "/CONFIG_SETCONSOLE/d" $(1); \
+		echo "# CONFIG_SETCONSOLE is not set" >>$(1); \
+		sed -i "/CONFIG_TFTP/d" $(1); \
+		echo "# CONFIG_TFTP is not set" >>$(1); \
+		sed -i "/CONFIG_FEATURE_TFTP_PUT/d" $(1); \
+		echo "# CONFIG_FEATURE_TFTP_PUT is not set" >>$(1); \
+		sed -i "/CONFIG_FTPPUT/d" $(1); \
+		echo "# CONFIG_FTPPUT is not set" >>$(1); \
+		sed -i "/CONFIG_FTPGET/d" $(1); \
+		echo "# CONFIG_FTPGET is not set" >>$(1); \
+		sed -i "/CONFIG_DIFF/d" $(1); \
+		echo "# CONFIG_DIFF is not set" >>$(1); \
+		sed -i "/CONFIG_CLEAR/d" $(1); \
+		echo "# CONFIG_CLEAR is not set" >>$(1); \
+	fi; \
+)
 endef
 
 define platformKernelConfig
@@ -115,6 +222,10 @@ define platformKernelConfig
 		echo "# CONFIG_NET_SCH_ESFQ is not set" >> $(1); \
 		sed -i "/CONFIG_NET_SCH_TBF/d" $(1); \
 		echo "# CONFIG_NET_SCH_TBF is not set" >> $(1); \
+		sed -i "/CONFIG_INPUT_JOYDEV/d" $(1); \
+		echo "# CONFIG_INPUT_JOYDEV is not set" >> $(1); \
+		sed -i "/CONFIG_PROXYARP/d" $(1); \
+		echo "# CONFIG_PROXYARP is not set" >> $(1); \
 		sed -i "/CONFIG_NLS/d" $(1); \
 		echo "# CONFIG_NLS is not set" >>$(1); \
 		echo "# CONFIG_NLS_DEFAULT=\"iso8859-1\"">>$(1); \
@@ -193,12 +304,34 @@ define platformKernelConfig
 		echo "# CONFIG_VFAT_FS is not set" >> $(1); \
 		sed -i "/CONFIG_NFS_FS/d" $(1); \
 		echo "# CONFIG_NFS_FS is not set" >> $(1); \
+		sed -i "/CONFIG_NFS_V3/d" $(1); \
+		echo "# CONFIG_NFS_V3 is not set" >> $(1); \
+		sed -i "/CONFIG_NFS_COMMON/d" $(1); \
+		echo "# CONFIG_NFS_COMMON is not set" >> $(1); \
 		sed -i "/CONFIG_NFSD/d" $(1); \
 		echo "# CONFIG_NFSD is not set" >> $(1); \
 		sed -i "/CONFIG_FUSE_FS/d" $(1); \
 		echo "# CONFIG_FUSE_FS is not set" >> $(1); \
+		sed -i "/CONFIG_XFS_FS/d" $(1); \
+		echo "# CONFIG_XFS_FS is not set" >> $(1); \
+		sed -i "/CONFIG_FS_MBCACHE/d" $(1); \
+		echo "# CONFIG_FS_MBCACHE is not set" >> $(1); \
 		sed -i "/CONFIG_CIFS/d" $(1); \
 		echo "# CONFIG_CIFS is not set" >> $(1); \
+		sed -i "/CONFIG_JFFS2_FS/d" $(1); \
+		echo "# CONFIG_JFFS2_FS is not set" >> $(1); \
+		sed -i "/CONFIG_JFFS2_ZLIB/d" $(1); \
+		echo "# CONFIG_JFFS2_ZLIB is not set" >> $(1); \
+		sed -i "/CONFIG_JFFS2_LZO/d" $(1); \
+		echo "# CONFIG_JFFS2_LZO is not set" >> $(1); \
+		sed -i "/CONFIG_JFFS2_RTIME/d" $(1); \
+		echo "# CONFIG_JFFS2_RTIME is not set" >> $(1); \
+		sed -i "/CONFIG_JFFS2_RUBIN/d" $(1); \
+		echo "# CONFIG_JFFS2_RUBIN is not set" >> $(1); \
+		sed -i "/CONFIG_JFFS_FS/d" $(1); \
+		echo "# CONFIG_JFFS_FS is not set" >> $(1); \
+		sed -i "/CONFIG_EXPORTFS/d" $(1); \
+		echo "# CONFIG_EXPORTFS is not set" >> $(1); \
 		sed -i "/CONFIG_FAT/d" $(1); \
 		sed -i "/CONFIG_INOTIFY/d" $(1); \
 		echo "# CONFIG_INOTIFY is not set" >> $(1); \
@@ -214,6 +347,50 @@ define platformKernelConfig
 		echo "# CONFIG_CRYPTO_ECB is not set" >> $(1); \
 		sed -i "/CONFIG_CRYPTO_CBC/d" $(1); \
 		echo "# CONFIG_CRYPTO_CBC is not set" >> $(1); \
+		sed -i "/CONFIG_ZLIB_INFLATE/d" $(1); \
+		echo "# CONFIG_ZLIB_INFLATE is not set" >> $(1); \
+		sed -i "/CONFIG_ZLIB_DEFLATE/d" $(1); \
+		echo "# CONFIG_ZLIB_DEFLATE is not set" >> $(1); \
+		sed -i "/CONFIG_LZO_COMPRESS/d" $(1); \
+		echo "# CONFIG_LZO_COMPRESS is not set" >> $(1); \
+		sed -i "/CONFIG_LZO_DECOMPRESS/d" $(1); \
+		echo "# CONFIG_LZO_DECOMPRESS is not set" >> $(1); \
+		sed -i "/CONFIG_NETFILTER_XT_MATCH_LAYER7/d" $(1); \
+		echo "# CONFIG_NETFILTER_XT_MATCH_LAYER7 is not set" >> $(1); \
+		sed -i "/CONFIG_IP_NF_SET/d" $(1); \
+		echo "# CONFIG_IP_NF_SET is not set" >>$(1); \
+		sed -i "/CONFIG_IP_NF_SET_MAX/d" $(1); \
+		echo "# CONFIG_IP_NF_SET_MAX is not set" >>$(1); \
+		sed -i "/CONFIG_IP_NF_SET_HASHSIZE/d" $(1); \
+		echo "# CONFIG_IP_NF_SET_HASHSIZE is not set" >>$(1); \
+		sed -i "/CONFIG_IP_NF_SET_IPMAP/d" $(1); \
+		echo "# CONFIG_IP_NF_SET_IPMAP is not set" >>$(1); \
+		sed -i "/CONFIG_IP_NF_SET_MACIPMAP/d" $(1); \
+		echo "# CONFIG_IP_NF_SET_MACIPMAP is not set" >>$(1); \
+		sed -i "/CONFIG_IP_NF_SET_PORTMAP/d" $(1); \
+		echo "# CONFIG_IP_NF_SET_PORTMAP is not set" >>$(1); \
+		sed -i "/CONFIG_IP_NF_SET_IPHASH/d" $(1); \
+		echo "# CONFIG_IP_NF_SET_IPHASH is not set" >>$(1); \
+		sed -i "/CONFIG_IP_NF_SET_NETHASH/d" $(1); \
+		echo "# CONFIG_IP_NF_SET_NETHASH is not set" >>$(1); \
+		sed -i "/CONFIG_IP_NF_SET_IPPORTHASH/d" $(1); \
+		echo "# CONFIG_IP_NF_SET_IPPORTHASH is not set" >>$(1); \
+		sed -i "/CONFIG_IP_NF_SET_IPPORTIPHASH/d" $(1); \
+		echo "# CONFIG_IP_NF_SET_IPPORTIPHASH is not set" >>$(1); \
+		sed -i "/CONFIG_IP_NF_SET_IPPORTNETHASH/d" $(1); \
+		echo "# CONFIG_IP_NF_SET_IPPORTNETHASH is not set" >>$(1); \
+		sed -i "/CONFIG_IP_NF_SET_IPTREE/d" $(1); \
+		echo "# CONFIG_IP_NF_SET_IPTREE is not set" >>$(1); \
+		sed -i "/CONFIG_IP_NF_SET_IPTREEMAP/d" $(1); \
+		echo "# CONFIG_IP_NF_SET_IPTREEMAP is not set" >>$(1); \
+		sed -i "/CONFIG_IP_NF_SET_SETLIST/d" $(1); \
+		echo "# CONFIG_IP_NF_SET_SETLIST is not set" >>$(1); \
+		sed -i "/CONFIG_IP_NF_MATCH_SET/d" $(1); \
+		echo "# CONFIG_IP_NF_MATCH_SET is not set" >>$(1); \
+		sed -i "/CONFIG_IP_NF_TARGET_SET/d" $(1); \
+		echo "# CONFIG_IP_NF_TARGET_SET is not set" >>$(1); \
+		sed -i "/CONFIG_IP_NF_MATCH_ACCOUNT/d" $(1); \
+		echo "# CONFIG_IP_NF_MATCH_ACCOUNT is not set" >>$(1); \
 	fi; \
 	if [ "$(ARM)" = "y" ]; then \
                 if [ "$(BWDPI)" = "y" ] && [ -d $(SRCBASE)/router/wl_arm/dpi/$(BUILD_NAME) ]; then \
