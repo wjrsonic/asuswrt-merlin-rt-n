@@ -1014,8 +1014,6 @@ define RouterOptions
 		echo "RTCONFIG_UIDEBUG=y" >>$(1); \
 		sed -i "/RTCONFIG_CIFS/d" $(1); \
 		echo "RTCONFIG_CIFS=y" >>$(1); \
-		sed -i "/RTCONFIG_AUTODICT/d" $(1); \
-		echo "RTCONFIG_AUTODICT=n" >>$(1); \
 	fi; \
 	if [ "$(ROG)" = "y" ]; then \
 		sed -i "/RTCONFIG_ROG/d" $(1); \
