@@ -665,6 +665,10 @@ define RouterOptions
 		sed -i "/RTCONFIG_USER_LOW_RSSI/d" $(1); \
 		echo "RTCONFIG_USER_LOW_RSSI=y" >>$(1); \
 	fi; \
+	if [ "$(HTTPS)" = "y" ]; then \
+		sed -i "/RTCONFIG_HTTPS/d" $(1); \
+		echo "RTCONFIG_HTTPS=y" >>$(1); \
+	fi; \
 	if [ "$(USB)" = "USB" ]; then \
 		sed -i "/RTCONFIG_USB is not set/d" $(1); \
 		echo "RTCONFIG_USB=y" >>$(1); \
@@ -772,10 +776,6 @@ define RouterOptions
 		if [ "$(WEBDAV)" = "y" ]; then \
 			sed -i "/RTCONFIG_WEBDAV/d" $(1); \
 			echo "RTCONFIG_WEBDAV=y" >>$(1); \
-		fi; \
-		if [ "$(HTTPS)" = "y" ]; then \
-			sed -i "/RTCONFIG_HTTPS/d" $(1); \
-			echo "RTCONFIG_HTTPS=y" >>$(1); \
 		fi; \
 		if [ "$(USBAP)" = "y" ]; then \
 			sed -i "/RTCONFIG_BRCM_USBAP/d" $(1); \
