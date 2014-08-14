@@ -671,6 +671,10 @@ define RouterOptions
 		sed -i "/RTCONFIG_USER_LOW_RSSI/d" $(1); \
 		echo "RTCONFIG_USER_LOW_RSSI=y" >>$(1); \
 	fi; \
+	if [ "$(HTTPS)" = "y" ]; then \
+		sed -i "/RTCONFIG_HTTPS/d" $(1); \
+		echo "RTCONFIG_HTTPS=y" >>$(1); \
+	fi; \
 	if [ "$(USB)" = "USB" ]; then \
 		sed -i "/RTCONFIG_USB is not set/d" $(1); \
 		echo "RTCONFIG_USB=y" >>$(1); \
