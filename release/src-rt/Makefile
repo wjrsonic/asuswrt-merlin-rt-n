@@ -128,7 +128,7 @@ BUILD_INFO := $(shell git log --pretty="%h" -n 1)
 
 ifeq ($(CONFIG_LINUX26),y)
 mips_rev = $(if $(filter $(MIPS32),r2),MIPSR2,MIPSR1)
-KERN_SIZE_OPT ?= n
+KERN_SIZE_OPT ?= y
 else
 mips_rev =
 KERN_SIZE_OPT ?= y
