@@ -3789,6 +3789,18 @@ int init_nvram(void)
 	add_rc_support("pptpd");
 #endif
 
+#ifdef RTCONFIG_SSH
+	add_rc_support("ssh");
+#endif
+
+#ifdef RTCONFIG_CIFS
+	add_rc_support("cifs");
+#endif
+
+#ifdef RTCONFIG_JFFS2
+	add_rc_support("jffs");
+#endif
+
 #ifdef RTCONFIG_USB
 #ifdef RTCONFIG_USB_PRINTER
 	add_rc_support("printer");
@@ -3811,10 +3823,6 @@ int init_nvram(void)
 
 #ifdef RTCONFIG_PUSH_EMAIL
 	add_rc_support("email");
-#endif
-
-#ifdef RTCONFIG_SSH
-	add_rc_support("ssh");
 #endif
 
 #ifdef RTCONFIG_WEBDAV
