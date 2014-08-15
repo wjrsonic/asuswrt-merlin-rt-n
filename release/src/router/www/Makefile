@@ -91,16 +91,30 @@ ifneq ($(RTCONFIG_DNSFILTER),y)
 	rm -rf $(INSTALLDIR)/www/DNSFilter.asp
 	rm -rf $(INSTALLDIR)/www/Home_Security.asp
 endif
-ifeq ($(RTCONFIG_8M_SFP),y)
+ifneq ($(RTCONFIG_OPENVPN),y)
 	rm -rf $(INSTALLDIR)/www/images/cloudsync/invite_model.jpg
-	rm -rf $(INSTALLDIR)/www/images/New_ui/network_config.png
+#	rm -rf $(INSTALLDIR)/www/images/New_ui/network_config.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/TimeLimits.png
-	rm -rf $(INSTALLDIR)/www/images/New_ui/QoS.png
+#	rm -rf $(INSTALLDIR)/www/images/New_ui/QoS.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/parental-control.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/rt.jpg
 	rm -rf $(INSTALLDIR)/www/images/New_ui/re.jpg
 	rm -rf $(INSTALLDIR)/www/images/New_ui/ap.jpg
 	rm -rf $(INSTALLDIR)/www/images/New_ui/mb.jpg
+#Andrey
+	rm -rf $(INSTALLDIR)/www/AiStream*
+	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_NFS.asp
+	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_webdav.asp
+	rm -rf $(INSTALLDIR)/www/DNSFilter.asp
+	rm -rf $(INSTALLDIR)/www/Home_Security.asp
+	rm -rf $(INSTALLDIR)/www/Advanced_OpenVPNClient_Content.asp
+	rm -rf $(INSTALLDIR)/www/ajax_openvpn_server.asp
+	rm -rf $(INSTALLDIR)/www/Advanced_PerformanceTuning_Content.asp
+#Tools
+#	rm -rf $(INSTALLDIR)/www/Tools_Sysinfo.asp
+#	rm -rf $(INSTALLDIR)/www/Tools_OtherSettings.asp
+#	rm -rf $(INSTALLDIR)/www/Tools_RunCmd.asp
+#Dictionary
 endif
 ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -rf $(INSTALLDIR)/www/images/cloudsync/invite_model.jpg
