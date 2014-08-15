@@ -189,31 +189,160 @@ function show_etherstate(){
 			}
 			tmpPort = line[1].replace(":","");
 
-			if (tmpPort == "8") {		// CPU Port
-				continue;
-			} else if ((based_modelid == "RT-AC56U") || (based_modelid == "RT-AC56S")) {
-				tmpPort++;		// Port starts at 0
-				if (tmpPort == "5") tmpPort = 0;	// Last port is WAN
-			} else if (based_modelid == "RT-AC87U") {
-				if (tmpPort == "4")
-					continue;	// This is the internal LAN port
-				if (tmpPort == "5") {
-					tmpPort = "4";	// This is the LAN 4 port from QTN
-					devicename = '<span class="ClientName">&lt;unknown&gt;</span>';
-				}
-			}
-			if (tmpPort == "0") {
+switch (based_modelid)
+{
+		case "RT-AC87U":
+		{
+		  switch (tmpPort) 
+			{
+			  case "0":
 				port = "WAN";
-			} else {
-				if ((based_modelid == "RT-N16") || (based_modelid == "RT-AC87U"))  tmpPort = 5 - tmpPort;
-				port = "LAN "+tmpPort;
+				break;
+			  case "1":
+				port = "LAN 4";
+				break;
+			  case "2":
+				port = "LAN 3";
+				break;
+			  case "3":
+				port = "LAN 2";
+				break;
+			  case "5":
+				port = "LAN 1";
+				break;
+			  default:
+				port = "CPU";
 			}
-			entry = '<tr><td>' + port + '</td><td>' + (line[7] & 0xFFF) + '</td><td><span>' + state2 + '</span></td>';
-			entry += '<td>'+ devicename +'</td></tr>';
+		break;
+		}
 
-			if (based_modelid == "RT-N16")
-				code_ports = entry + code_ports;
-			else
+		case "RT-AC66U":
+		case "RT-N66U":
+		case "RT-AC68U":
+		case "RT-N18U":
+		case "RT-AC3200":
+		case "RT-AC53U":
+		{
+		  switch (tmpPort) 
+			{
+			  case "0":
+				port = "WAN";
+				break;
+			  case "1":
+				port = "LAN 1";
+				break;
+			  case "2":
+				port = "LAN 2";
+				break;
+			  case "3":
+				port = "LAN 3";
+				break;
+			  case "4":
+				port = "LAN 4";
+				break;
+			  default:
+				port = "CPU";
+			}
+		break;
+		}
+
+		case "RT-N16":
+		case "RT-N10U":
+		{
+		  switch (tmpPort) 
+			{
+			  case "0":
+				port = "WAN";
+				break;
+			  case "1":
+				port = "LAN 4";
+				break;
+			  case "2":
+				port = "LAN 3";
+				break;
+			  case "3":
+				port = "LAN 2";
+				break;
+			  case "4":
+				port = "LAN 1";
+				break;
+			  default:
+				port = "CPU";
+			}
+		break;
+		}
+
+		case "RT-N15U":
+		case "RT-N53":
+		case "RT-N12":
+		case "RT-N12A1":
+		case "RT-N12B1":
+		case "RT-N12C1":
+		case "RT-N12D1":
+		case "RT-N12HP":
+		case "RT-N12HP_V1":
+		case "RT-N12VP":
+		case "RT-N10P":
+		case "RT-N10P_V2":
+		case "RT-N10D1":
+		{
+		  switch (tmpPort) 
+			{
+			  case "4":
+				port = "WAN";
+				break;
+			  case "0":
+				port = "LAN 4";
+				break;
+			  case "1":
+				port = "LAN 3";
+				break;
+			  case "2":
+				port = "LAN 2";
+				break;
+			  case "3":
+				port = "LAN 1";
+				break;
+			  default:
+				port = "CPU";
+			}
+		break;
+		}
+
+		case "RT-AC56U":
+		case "RT-N14UHP":
+		{
+		  switch (tmpPort) 
+			{
+			  case "4":
+				port = "WAN";
+				break;
+			  case "0":
+				port = "LAN 1";
+				break;
+			  case "1":
+				port = "LAN 2";
+				break;
+			  case "2":
+				port = "LAN 3";
+				break;
+			  case "3":
+				port = "LAN 4";
+				break;
+			  default:
+				port = "CPU";
+			}
+		break;
+		}
+}//Andrey end
+			if ( port !== "CPU") {			
+			entry = '<tr><td>' + port + '</td><td>' + (line[7] & 0xFFF) + '</td><td><span>' + state2 + '</span></td>';
+			entry += '<td>'+ devicename +'</td></tr>';}
+			else break;
+
+//			if (based_modelid == "RT-N16")
+//				code_ports = entry + code_ports;
+//			else
 				code_ports += entry;
 		}
 	}
