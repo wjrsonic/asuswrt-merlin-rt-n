@@ -694,8 +694,8 @@ gen_target:
 		rm -rf $(TARGETDIR)/iNIC_RT3352/ ; \
 	fi
 ##!!TB	find $(TARGETDIR)/lib/modules -name *.o -exec mipsel-linux-strip --strip-unneeded {} \;
-	find $(TARGETDIR)/lib/modules -name *.o -exec $(STRIP) --strip-debug {} \;
-	find $(TARGETDIR)/lib/modules -name *.ko -exec $(STRIP) --strip-debug {} \;
+	find $(TARGETDIR)/lib/modules -name *.o -exec $(STRIP) --strip-debug --strip-unneeded {} \;
+	find $(TARGETDIR)/lib/modules -name *.ko -exec $(STRIP) --strip-debug --strip-unneeded {} \;
 
 ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -f $(TARGETDIR)/lib/modules/*/kernel/drivers/net/wl/wl.ko
