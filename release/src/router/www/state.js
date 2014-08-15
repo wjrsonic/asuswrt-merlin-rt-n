@@ -821,9 +821,11 @@ function remove_url(){
 	}
 	else if(pptpd_support && !openvpnd_support){
 		if(!vpnc_support){
-//			remove_menu_item("Advanced_VPNClient_Content.asp");
+			remove_menu_item("Advanced_VPNClient_Content.asp");
 			remove_menu_item("Advanced_OpenVPNClient_Content.asp");
 		}
+		else if 
+			remove_menu_item("Advanced_OpenVPNClient_Content.asp");
 	}
 
 	if(!nfsd_support){
