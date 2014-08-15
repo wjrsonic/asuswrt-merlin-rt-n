@@ -2575,7 +2575,7 @@ int init_nvram(void)
 	case MODEL_RTN12HP:
 	case MODEL_RTN12HP_B1:
 		nvram_set("wl0_vifnames", "wl0.1 wl0.2 wl0.3");
-		add_rc_support("2.4G mssid");
+		add_rc_support("2.4G mssid small_fw");
 		nvram_set_int("btn_rst_gpio", 22|GPIO_ACTIVE_LOW);
 		nvram_set_int("btn_wps_gpio", 23|GPIO_ACTIVE_LOW);
 		nvram_set_int("led_pwr_gpio", 18|GPIO_ACTIVE_LOW);
@@ -2608,7 +2608,7 @@ int init_nvram(void)
 	case MODEL_RTN12D1:
 	case MODEL_RTN12VP:
 		nvram_set("wl0_vifnames", "wl0.1 wl0.2 wl0.3");
-		add_rc_support("2.4G mssid");
+		add_rc_support("2.4G mssid small_fw");
 		nvram_set_int("btn_rst_gpio", 22|GPIO_ACTIVE_LOW);
 		nvram_set_int("btn_wps_gpio", 23|GPIO_ACTIVE_LOW);
 		nvram_set_int("led_pwr_gpio", 18|GPIO_ACTIVE_LOW);
@@ -2648,7 +2648,7 @@ int init_nvram(void)
 
 	case MODEL_RTN12C1:
 		nvram_set("wl0_vifnames", "wl0.1 wl0.2 wl0.3");
-		add_rc_support("2.4G mssid");
+		add_rc_support("2.4G mssid small_fw");
 		nvram_set_int("btn_rst_gpio", 22|GPIO_ACTIVE_LOW);
 		nvram_set_int("btn_wps_gpio", 23|GPIO_ACTIVE_LOW);
 		nvram_set_int("led_pwr_gpio", 18|GPIO_ACTIVE_LOW);
@@ -2691,7 +2691,7 @@ int init_nvram(void)
 
 	case MODEL_RTN12B1:
 		nvram_set("wl0_vifnames", "wl0.1 wl0.2 wl0.3");
-		add_rc_support("2.4G mssid");
+		add_rc_support("2.4G mssid small_fw");
 		nvram_set_int("btn_rst_gpio", 22|GPIO_ACTIVE_LOW);
 		nvram_set_int("btn_wps_gpio", 23|GPIO_ACTIVE_LOW);
 		nvram_set_int("led_pwr_gpio", 18|GPIO_ACTIVE_LOW);
@@ -2873,7 +2873,7 @@ int init_nvram(void)
 		nvram_set("ohci_ports", "2-1");
 		if (!nvram_get("ct_max") || nvram_get("ct_max") < 65535)
 			nvram_set("ct_max", "65535"); //force
-		add_rc_support("2.4G mssid usbX1");
+		add_rc_support("2.4G mssid usbX1 small_fw");
 		add_rc_support("switchctrl"); // broadcom: for jumbo frame only
 		add_rc_support("manual_stb");
 #ifndef RTCONFIG_CLOUDSYNC
@@ -3027,8 +3027,8 @@ int init_nvram(void)
 		nvram_unset("vlan2ports");
 		nvram_unset("vlan2hwname");
 		/* end */
-		if (!nvram_get("ct_max") || nvram_get("ct_max") < 16384 )
-			nvram_set("ct_max", "16384"); //force
+		if (!nvram_get("ct_max") || nvram_get("ct_max") < 65535 )
+			nvram_set("ct_max", "65535"); //force
 
 		add_rc_support("2.4G 5G mssid no5gmssid small_fw");
 		add_rc_support("pwrctrl"); // wl power adjust
@@ -4311,7 +4311,7 @@ int init_nvram(void)
 			else 
 				nvram_set("ct_max", "16384");
 		 }
-		add_rc_support("2.4G mssid");
+		add_rc_support("2.4G mssid small_fw");
 #ifdef RTCONFIG_KYIVSTAR
 		add_rc_support("kyivstar");
 #endif
