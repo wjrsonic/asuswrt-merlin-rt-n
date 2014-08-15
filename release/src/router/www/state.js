@@ -540,7 +540,7 @@ else{
 	tabtitle[13] = new Array("");
 	tabtitle[14] = new Array("");
 }
-tabtitle[15] = new Array("", "Sysinfo", "Other Settings");
+tabtitle[15] = new Array("", "Sysinfo", "Other Settings", "Run Cmd");
 
 var tablink = new Array();
 tablink[0] = new Array("", "Advanced_Wireless_Content.asp", "Advanced_WWPS_Content.asp", "Advanced_WMode_Content.asp", "Advanced_ACL_Content.asp", "Advanced_WSecurity_Content.asp", "Advanced_WAdvanced_Content.asp", "Advanced_Wireless_Survey.asp");
@@ -573,7 +573,7 @@ if(bwdpi_support){
 	tablink[13] = new Array("");
 	tablink[14] = new Array("");
 }
-tablink[15] = new Array("", "Tools_Sysinfo.asp", "Tools_OtherSettings.asp");
+tablink[15] = new Array("", "Tools_Sysinfo.asp", "Tools_OtherSettings.asp", "Tools_RunCmd.asp");
 
 // Level 2 Menu
 menuL2_title = new Array("", "<#menu5_1#>", "Passpoint", "<#menu5_2#>", "<#menu5_3#>", "<#menu5_4#>", "IPv6", "VPN", "<#menu5_5#>", "<#menu5_6#>", "<#System_Log#>", "<#Network_Tools#>");
