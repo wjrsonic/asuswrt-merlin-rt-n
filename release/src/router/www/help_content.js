@@ -174,7 +174,8 @@ helpcontent[13] = new Array("",
 //UPnP
 helpcontent[14] = new Array("",
 							"<#UPnPMediaServer_Help#>",
-							"<#vpnc_reconnection_desc#>");
+							"<#vpnc_reconnection_desc#>",
+							"VPN client use remote gateway as default gateway");
 //AiDisk Wizard
 helpcontent[15] = new Array("",
 							"", /*<#AiDisk_moreconfig#>*/
