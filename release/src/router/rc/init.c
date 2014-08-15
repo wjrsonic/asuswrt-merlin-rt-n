@@ -3813,7 +3813,6 @@ int init_nvram(void)
 		nvram_set("wl_country_code", "#a");
 		nvram_set("wl0_country_code", "#a");
 		nvram_set("wl1_country_code", "#a");
-
 		if (!nvram_get("ct_max") || nvram_get("ct_max") < 8192 ) {
 			if (model == MODEL_RTN10D1 || model == MODEL_RTN10PV2)
 				nvram_set("ct_max", "8192");
