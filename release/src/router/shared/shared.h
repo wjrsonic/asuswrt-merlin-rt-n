@@ -155,6 +155,8 @@ extern int nvram_set_int(const char *key, int value);
 #ifdef RTCONFIG_SSH
 extern int nvram_get_file(const char *key, const char *fname, int max);
 extern int nvram_set_file(const char *key, const char *fname, int max);
+extern char *get_parsed_crt(const char *name, char *buf);
+extern int set_crt_parsed(const char *name, char *file_path);
 #endif
 extern int nvram_contains_word(const char *key, const char *word);
 extern int nvram_is_empty(const char *key);
