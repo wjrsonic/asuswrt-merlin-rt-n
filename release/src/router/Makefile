@@ -518,7 +518,9 @@ obj-$(RTCONFIG_TCPDUMP) += tcpdump-4.4.0
 
 # Merlin addons
 obj-n += wol
+ifneq ($(RTCONFIG_4M_SFP),y)
 obj-y += ipset
+endif
 
 obj-$(RTCONFIG_BONDING) += ifenslave
 
