@@ -85,6 +85,10 @@ ifeq ($(RTCONFIG_SFP),y)
 #	rm -rf $(INSTALLDIR)/www/TW.dict
 #	rm -rf $(INSTALLDIR)/www/UK.dict
 endif
+ifneq ($(RTCONFIG_DNSFILTER),y)
+	rm -rf $(INSTALLDIR)/www/DNSFilter.asp
+	rm -rf $(INSTALLDIR)/www/Home_Security.asp
+endif
 ifeq ($(RTCONFIG_8M_SFP),y)
 	rm -rf $(INSTALLDIR)/www/images/New_ui/network_config.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/TimeLimits.png
