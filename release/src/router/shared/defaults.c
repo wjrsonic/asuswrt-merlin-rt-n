@@ -1569,6 +1569,7 @@ struct nvram_tuple router_defaults[] = {
 	{ "sshd_authkeys",    ""},
 	{ "sshd_wan","0"},
 	{ "sshd_bfp","0"},
+	{"sshd_rwb","12288"},
 #endif
 
 	{ "Dev3G", "AUTO"},
