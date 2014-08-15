@@ -534,7 +534,7 @@ else{
 	tabtitle[11] = new Array("", "QoS", "<#traffic_monitor#>", "<table style='margin-top:-10px \\9;'><tr><td><img src='/images/ROG_Logo.png' style='border:0px;width:32px;'></td><td>ROG First</td></tr></table>", "Spectrum");
 	tabtitle[12] = new Array("", "<#Parental_Control#>", "<#YandexDNS#>", "DNS Filtering");
 }
-tabtitle[13] = new Array("", "Sysinfo", "Other Settings");
+tabtitle[13] = new Array("", "Sysinfo", "Other Settings", "Run Cmd");
 
 var tablink = new Array();
 tablink[0] = new Array("", "Advanced_Wireless_Content.asp", "Advanced_WWPS_Content.asp", "Advanced_WMode_Content.asp", "Advanced_ACL_Content.asp", "Advanced_WSecurity_Content.asp", "Advanced_WAdvanced_Content.asp", "Advanced_Wireless_Survey.asp");
@@ -563,7 +563,7 @@ if(bwdpi_support){
 	tablink[11] = new Array("", "QoS_EZQoS.asp", "Main_TrafficMonitor_realtime.asp", "AdaptiveQoS_ROG.asp", "Main_Spectrum_Content.asp", "Main_TrafficMonitor_last24.asp", "Main_TrafficMonitor_daily.asp", "Main_TrafficMonitor_monthly.asp", "Main_TrafficMonitor_devrealtime.asp", "Main_TrafficMonitor_devdaily.asp", "Main_TrafficMonitor_devmonthly.asp", "Advanced_QOSUserPrio_Content.asp", "Advanced_QOSUserRules_Content.asp");
 	tablink[12] = new Array("", "ParentalControl.asp", "YandexDNS.asp", "DNSFilter.asp");
 }
-tablink[13] = new Array("", "Tools_Sysinfo.asp", "Tools_OtherSettings.asp");
+tablink[13] = new Array("", "Tools_Sysinfo.asp", "Tools_OtherSettings.asp", "Tools_RunCmd.asp");
 
 // Level 2 Menu
 menuL2_title = new Array("", "<#menu5_1#>", "Passpoint", "<#menu5_2#>", "<#menu5_3#>", "<#menu5_4#>", "IPv6", "VPN", "<#menu5_5#>", "<#menu5_6#>", "<#System_Log#>", "<#Network_Tools#>");
