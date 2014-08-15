@@ -303,7 +303,7 @@ ifneq ($(RTCONFIG_4M_SFP),y)
 obj-y += libdisk
 endif
 
-obj-y += e2fsprogs
+obj-$(RTCONFIG_USB) += e2fsprogs
 obj-$(RTCONFIG_NFS) += nfs-utils
 obj-$(RTCONFIG_NFS) += portmap
 
