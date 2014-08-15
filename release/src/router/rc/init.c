@@ -3720,6 +3720,29 @@ int init_nvram(void)
 	add_rc_support("pptpd");
 #endif
 
+#ifdef RTCONFIG_HTTPS
+	add_rc_support("HTTPS");
+#endif
+
+#ifdef RTCONFIG_SSH
+	add_rc_support("ssh");
+#endif
+
+#ifdef RTCONFIG_CIFS
+	add_rc_support("cifs");
+#endif
+
+#ifdef RTCONFIG_JFFS2
+	add_rc_support("jffs");
+#endif
+
+#ifdef RTCONFIG_VPNC
+	add_rc_support("vpnc");
+	//nvram_set("vpnc_proto", "disable");
+	nvram_set_int("vpnc_state_t", 0);
+	nvram_set_int("vpnc_sbstate_t", 0);
+#endif
+
 #ifdef RTCONFIG_USB
 #ifdef RTCONFIG_USB_PRINTER
 	add_rc_support("printer");
@@ -3742,14 +3765,6 @@ int init_nvram(void)
 
 #ifdef RTCONFIG_PUSH_EMAIL
 	add_rc_support("email");
-#endif
-
-#ifdef RTCONFIG_HTTPS
-	add_rc_support("HTTPS");
-#endif
-
-#ifdef RTCONFIG_SSH
-	add_rc_support("ssh");
 #endif
 
 #ifdef RTCONFIG_WEBDAV
@@ -3813,12 +3828,6 @@ int init_nvram(void)
 //#endif
 #endif // RTCONFIG_APP_NETINSTALLED
 
-#ifdef RTCONFIG_VPNC
-	add_rc_support("vpnc");
-	//nvram_set("vpnc_proto", "disable");
-	nvram_set_int("vpnc_state_t", 0);
-	nvram_set_int("vpnc_sbstate_t", 0);
-#endif
 
 #ifdef RTCONFIG_TIMEMACHINE
 	add_rc_support("timemachine");
