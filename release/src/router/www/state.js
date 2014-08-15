@@ -838,9 +838,9 @@ function remove_url(){
 		remove_menu_item("AdaptiveQoS_ROG.asp");
 	}
 
-//	if(!cooler_support){
-//		remove_menu_item("Advanced_PerformanceTuning_Content.asp");
-//	}
+	if(!cooler_support){
+		remove_menu_item("Advanced_PerformanceTuning_Content.asp");
+	}
 
 	if(!ParentalCtrl2_support && !yadns_support && !dnsfilter_support){
 		menuL1_title[4] = "";
@@ -2078,17 +2078,18 @@ function show_top_status(){
 	var swpjverno = '<% nvram_get("swpjverno"); %>';
 	var buildno = '<% nvram_get("buildno"); %>';
 	var firmver = '<% nvram_get("firmver"); %>'
-	var extendno = '<% nvram_get("extendno"); %>';
+		var extendno = '<% nvram_get("extendno"); %>';
+		if(extendno == "") extendno="0";
 
-	if(swpjverno == ''){
-		if ((extendno == "") || (extendno == "0"))
-			showtext($("firmver"), buildno);
+  if(swpjverno == ''){
+		if(swisscom_support)
+			showtext($("firmver"), firmver + "." + buildno + '_' + extendno.split("-g")[0] + '_swisscom' );
 		else
-			showtext($("firmver"), buildno + '_' + extendno.split("-g")[0]);
+			showtext($("firmver"), firmver + "." + buildno + '_' + extendno.split("-g")[0]);
 	}
-	else{
+  else{
 		showtext($("firmver"), swpjverno + '_' + extendno);
-	}
+  }
 
 
 	// no_op_mode
