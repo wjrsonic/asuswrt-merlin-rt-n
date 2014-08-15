@@ -945,6 +945,64 @@ int nvram_set_file(const char *key, const char *fname, int max)
 	return 0;
 */
 }
+
+char *get_parsed_crt(const char *name, char *buf)
+{
+	char *value;
+	int len, i;
+
+	value = nvram_safe_get(name);
+
+	len = strlen(value);
+
+	for (i=0; (i < len); i++) {
+		if (value[i] == '>')
+			buf[i] = '\n';
+		else
+			buf[i] = value[i];
+	}
+
+	buf[i] = '\0';
+
+	return buf;
+}
+
+int set_crt_parsed(const char *name, char *file_path)
+{
+	FILE *fp=fopen(file_path, "r");
+	char buffer[3000] = {0};
+	char buffer2[256] = {0};
+	char *p = buffer;
+
+	if(fp) {
+		while(fgets(buffer, sizeof(buffer), fp)) {
+			if(!strncmp(buffer, "-----BEGIN", 10))
+				break;
+		}
+		if(feof(fp)) {
+			fclose(fp);
+			return -EINVAL;
+		}
+		p += strlen(buffer);
+		//if( *(p-1) == '\n' )
+			//*(p-1) = '>';
+		while(fgets(buffer2, sizeof(buffer2), fp)) {
+			strncpy(p, buffer2, strlen(buffer2));
+			p += strlen(buffer2);
+			//if( *(p-1) == '\n' )
+				//*(p-1) = '>';
+		}
+		*p = '\0';
+		nvram_set(name, buffer);
+		fclose(fp);
+		return 0;
+	}
+	else
+		return -ENOENT;
+}
+
+
+
 #endif
 
 int nvram_contains_word(const char *key, const char *word)
