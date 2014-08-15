@@ -30,6 +30,7 @@ struct nvram_tuple router_defaults[] = {
 	{ "restore_defaults",	"0"	},	// Set to 0 to not restore defaults on boot
 	{ "sw_mode", "1" 		}, 	// big switch for different mode
 	{ "preferred_lang", "EN"	},
+	{ "computer_name", ""},
 	// NVRAM from init_nvram: system wide parameters accodring to model and mode
 	//{ "wan_ifnames", "" },
 	//{ "lan_ifnames", "" },
@@ -1415,7 +1416,6 @@ struct nvram_tuple router_defaults[] = {
 	{ "enable_ftp", "0"},
 	{ "enable_samba", "1"},
 	{ "st_max_user", "5"},
-	{ "computer_name", ""},
 	{ "st_samba_workgroup", "WORKGROUP"},
 	{ "ftp_lang", "EN" },
 	{ "ftp_wanac", "0"},
