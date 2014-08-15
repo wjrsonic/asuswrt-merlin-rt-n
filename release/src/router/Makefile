@@ -299,7 +299,9 @@ obj-$(RTCONFIG_USB_BECEEM) += wpa_supplicant-0.7.3 # for GCT WiMAX
 obj-$(RTCONFIG_USB_BECEEM) += zlib # for GCT WiMAX
 obj-$(RTCONFIG_USB_BECEEM) += gctwimax-0.0.3rc4 # for GCT WiMAX
 
+ifneq ($(RTCONFIG_4M_SFP),y)
 obj-y += libdisk
+endif
 
 obj-y += e2fsprogs
 obj-$(RTCONFIG_NFS) += nfs-utils
