@@ -1531,7 +1531,7 @@ END:
 #endif
 
 #ifdef RTCONFIG_OPENVPN
-char *get_parsed_crt(const char *name, char *buf)
+/*char *get_parsed_crt(const char *name, char *buf)
 {
 	char *value;
 	int len, i;
@@ -1587,7 +1587,7 @@ int set_crt_parsed(const char *name, char *file_path)
 	}
 	else
 		return -ENOENT;
-}
+}*/
 #endif
 
 #ifdef RTCONFIG_DUALWAN
