@@ -2306,6 +2306,8 @@ int init_nvram(void)
 		//nvram_set("wan_ifnames", "eth0");
 		//nvram_set("wandevs", "et0");
 		nvram_set("wl_ifnames", "eth1");
+		if(!nvram_get("ct_max") || nvram_get("ct_max") < 32768 )
+			nvram_set("ct_max", "32768"); //force
 
 	if (model == MODEL_RTN12D1 || model == MODEL_RTN12HP || model == MODEL_RTN12HP_B1)
 	{
@@ -2433,8 +2435,8 @@ int init_nvram(void)
 		nvram_set_int("sb/1/ledbh0", 0x82);
 		nvram_set("ehci_ports", "1-1");
 		nvram_set("ohci_ports", "2-1");
-		if (!nvram_get("ct_max"))
-			nvram_set("ct_max", "15000");
+		if (!nvram_get("ct_max") || nvram_get("ct_max") < 65535)
+			nvram_set("ct_max", "65535"); //force
 		add_rc_support("2.4G update mssid usbX1 nomedia");
 		add_rc_support("switchctrl"); // broadcom: for jumbo frame only
 		add_rc_support("manual_stb");
@@ -2542,8 +2544,8 @@ int init_nvram(void)
 		nvram_unset("vlan2ports");
 		nvram_unset("vlan2hwname");
 		/* end */
-		if (!nvram_get("ct_max"))
-			nvram_set("ct_max", "2048");
+		if (!nvram_get("ct_max") || nvram_get("ct_max") < 16384 )
+			nvram_set("ct_max", "16384"); //force
 
 		add_rc_support("2.4G 5G update mssid no5gmssid");
 #ifdef RTCONFIG_WLAN_LED
@@ -3482,8 +3484,8 @@ int init_nvram(void)
 #endif
 		nvram_set("ehci_ports", "1-1");
 		nvram_set("ohci_ports", "2-1");
-		if (!nvram_get("ct_max"))
-			nvram_set("ct_max", "2048");
+		if (!nvram_get("ct_max") || nvram_get("ct_max") < 16384 )
+			nvram_set("ct_max", "16384"); //force
 		add_rc_support("2.4G mssid media usbX1 update");
 		break;
 
@@ -3552,8 +3554,8 @@ int init_nvram(void)
 		nvram_set_int("led_usb_gpio", 8);
 		nvram_set("ehci_ports", "1-1");
 		nvram_set("ohci_ports", "2-1");
-		if (!nvram_get("ct_max"))
-			nvram_set("ct_max", "2048");
+		if (!nvram_get("ct_max") || nvram_get("ct_max") < 32768 )
+			nvram_set("ct_max", "32768"); //force
 		add_rc_support("2.4G mssid usbX1 update nomedia");
 		break;
 
@@ -3623,10 +3625,12 @@ int init_nvram(void)
 		nvram_set_int("led_wps_gpio", 7);
 		nvram_set("sb/1/maxp2ga0", "0x52");
 		nvram_set("sb/1/maxp2ga1", "0x52");
-		if (!nvram_get("ct_max")) {
-			if (model == MODEL_RTN10D1)
-				nvram_set_int("ct_max", 1024);
-		}
+		if (!nvram_get("ct_max") || nvram_get("ct_max") < 8192 ) {
+			if (model == MODEL_RTN10D1 || model == MODEL_RTN10PV2)
+				nvram_set("ct_max", "8192");
+			else 
+				nvram_set("ct_max", "16384");
+		 }
 		add_rc_support("2.4G mssid");
 #ifdef RTCONFIG_KYIVSTAR
 		add_rc_support("kyivstar");
