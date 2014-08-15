@@ -286,6 +286,7 @@ obj-y += libusb-0.1.12
 #ifneq ($(RTCONFIG_8M_SFP),y)
 obj-y += hub-ctrl
 #endif
+endif
 obj-$(RTCONFIG_USB_PRINTER) += u2ec
 obj-$(RTCONFIG_USB_PRINTER) += LPRng
 
