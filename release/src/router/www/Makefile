@@ -126,6 +126,9 @@ ifneq ($(RTCONFIG_OPENVPN),y)
 endif
 ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -rf $(INSTALLDIR)/www/images/cloudsync/invite_model.jpg
+	rm -rf $(INSTALLDIR)/www/switcherplugin
+	rm -rf $(INSTALLDIR)/www/images/PrinterServer
+	rm -rf $(INSTALLDIR)/www/images/appinstall
 	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/bg.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/client-list.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/client-listover.png
@@ -134,6 +137,7 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -rf $(INSTALLDIR)/www/svghtc
 	rm -rf $(INSTALLDIR)/www/svg.js
 	rm -rf $(INSTALLDIR)/www/Main_TrafficMonitor_daily.asp
+	rm -rf $(INSTALLDIR)/www/Main_TrafficMonitor_monthly.asp
 	rm -rf $(INSTALLDIR)/www/Main_TrafficMonitor_last24.asp
 	rm -rf $(INSTALLDIR)/www/Main_TrafficMonitor_realtime.asp
 	rm -rf $(INSTALLDIR)/www/tm.svg
@@ -141,21 +145,24 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -rf $(INSTALLDIR)/www/tmhist.js
 	rm -rf $(INSTALLDIR)/www/tmmenu.css
 	rm -rf $(INSTALLDIR)/www/tmmenu.js
+	rm -rf $(INSTALLDIR)/www/Main_TrafficMonitor_devdaily.asp
+	rm -rf $(INSTALLDIR)/www/Main_TrafficMonitor_devmonthly.asp
+	rm -rf $(INSTALLDIR)/www/Main_TrafficMonitor_devrealtime.asp
 	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/map-iconClient-d.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/map-iconInternet-d.png
 	rm -rf $(INSTALLDIR)/www/images/qis/android*
 	rm -rf $(INSTALLDIR)/www/images/qis/iOS*
 	rm -rf $(INSTALLDIR)/www/images/qis/mac.jpg
 	rm -rf $(INSTALLDIR)/www/images/qis/osx_network_icon.jpg
-#	rm -rf $(INSTALLDIR)/www/images/qis/router_login.jpg
+	rm -rf $(INSTALLDIR)/www/images/qis/router_login.jpg
 	rm -rf $(INSTALLDIR)/www/images/qis/security_key.png
 	rm -rf $(INSTALLDIR)/www/images/qis/select_wireless.jpg
 	rm -rf $(INSTALLDIR)/www/images/qis/win7.jpg
 	rm -rf $(INSTALLDIR)/www/images/qis/win7_network_icon1.jpg
 	rm -rf $(INSTALLDIR)/www/images/qis/win7_network_icon2.jpg
 	rm -rf $(INSTALLDIR)/www/images/qis/winxp.jpg
-#	rm -rf $(INSTALLDIR)/www/Advanced_WANPort_Content.asp
-#	rm -rf $(INSTALLDIR)/www/mediaserver.asp
+	rm -rf $(INSTALLDIR)/www/Advanced_WANPort_Content.asp
+	rm -rf $(INSTALLDIR)/www/mediaserver.asp
 	rm -rf $(INSTALLDIR)/www/ajax_dms_status.asp
 	rm -rf $(INSTALLDIR)/www/Advanced_PerformanceTuning_Content.asp
 	rm -rf $(INSTALLDIR)/www/Advanced_IPv6_Content.asp
@@ -163,18 +170,102 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -rf $(INSTALLDIR)/www/ure*
 	rm -rf $(INSTALLDIR)/www/disk*
 	rm -rf $(INSTALLDIR)/www/fan.svg
-#	rm -rf $(INSTALLDIR)/www/detect_firmware.asp
+	rm -rf $(INSTALLDIR)/www/detect_firmware.asp
 	rm -rf $(INSTALLDIR)/www/ajax_coretmp.asp
 	rm -rf $(INSTALLDIR)/www/qis/QIS_internet_ruisp.htm
 	rm -rf $(INSTALLDIR)/www/qis/ruisp.js
-	rm -rf $(INSTALLDIR)/www/images/New_ui/network_config.png
+#	rm -rf $(INSTALLDIR)/www/images/New_ui/network_config.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/TimeLimits.png
-	rm -rf $(INSTALLDIR)/www/images/New_ui/QoS.png
+#	rm -rf $(INSTALLDIR)/www/images/New_ui/QoS.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/parental-control.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/rt.jpg
 	rm -rf $(INSTALLDIR)/www/images/New_ui/re.jpg
 	rm -rf $(INSTALLDIR)/www/images/New_ui/ap.jpg
 	rm -rf $(INSTALLDIR)/www/images/New_ui/mb.jpg
+#Andrey
+	rm -rf $(INSTALLDIR)/www/AiStream*
+	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_NFS.asp
+	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_webdav.asp
+	rm -rf $(INSTALLDIR)/www/DNSFilter.asp
+	rm -rf $(INSTALLDIR)/www/Home_Security.asp
+	rm -rf $(INSTALLDIR)/www/Advanced_OpenVPNClient_Content.asp
+	rm -rf $(INSTALLDIR)/www/Advanced_PerformanceTuning_Content.asp
+#Tools
+	rm -rf $(INSTALLDIR)/www/Tools_Sysinfo.asp
+	rm -rf $(INSTALLDIR)/www/Tools_OtherSettings.asp
+	rm -rf $(INSTALLDIR)/www/Tools_RunCmd.asp
+	rm -rf $(INSTALLDIR)/www/Advanced_Wireless_Survey.asp
+	rm -rf $(INSTALLDIR)/www/Advanced_Feedback.asp
+	rm -rf $(INSTALLDIR)/www/Feedback_Info.asp
+	rm -rf $(INSTALLDIR)/www/find_device.asp
+	rm -rf $(INSTALLDIR)/www/ParentalControl.asp
+	rm -rf $(INSTALLDIR)/www/ParentalControl.css
+#USB
+	rm -rf $(INSTALLDIR)/www/images/New_ui/USBExt
+	rm -rf $(INSTALLDIR)/www/images/New_ui/aidisk
+	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/map-iconPrinter.png
+	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/map-iconmodem.png
+	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/map-iconUSBdisk.png
+	rm -rf $(INSTALLDIR)/www/images/New_ui/advancesetting
+	rm -rf $(INSTALLDIR)/www/images/WANunplug_usb.png
+	rm -rf $(INSTALLDIR)/www/images/New_ui/usbstatus.png
+	rm -rf $(INSTALLDIR)/www/images/New_ui/printstatus.png
+	rm -rf $(INSTALLDIR)/www/aidisk
+	rm -rf $(INSTALLDIR)/www/mediaserver.asp
+	rm -rf $(INSTALLDIR)/www/ajax_dms_status.asp
+	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_ftp.asp
+	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_samba.asp
+	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_others.asp
+	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_webdav.asp
+	rm -rf $(INSTALLDIR)/www/Advanced_APPList_Content.asp
+	rm -rf $(INSTALLDIR)/www/Advanced_Modem_Content.asp
+	rm -rf $(INSTALLDIR)/www/aidisk.asp
+	rm -rf $(INSTALLDIR)/www/PrinterServer.asp
+	rm -rf $(INSTALLDIR)/www/APP_Installation.asp
+	rm -rf $(INSTALLDIR)/www/app_installation.css
+	rm -rf $(INSTALLDIR)/www/cdma2000_list.js
+	rm -rf $(INSTALLDIR)/www/wcdma_list.js
+	rm -rf $(INSTALLDIR)/www/wimax_list.js
+	rm -rf $(INSTALLDIR)/www/td-scdma_list.js
+	rm -rf $(INSTALLDIR)/www/device-map/printer.asp
+	rm -rf $(INSTALLDIR)/www/device-map/modem.asp
+	rm -rf $(INSTALLDIR)/www/device-map/disk.asp
+	rm -rf $(INSTALLDIR)/www/getfoldertree.asp
+	rm -rf $(INSTALLDIR)/www/gettree.asp
+	rm -rf $(INSTALLDIR)/www/update_appstate.asp
+	rm -rf $(INSTALLDIR)/www/images/Tree
+	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/devicebt_default.png
+	rm -rf $(INSTALLDIR)/www/switch_AiDisk_app.asp
+	rm -rf $(INSTALLDIR)/www/update_diskinfo.asp
+	rm -rf $(INSTALLDIR)/www/device-map/safely_remove_disk.asp
+	rm -rf $(INSTALLDIR)/www/device-map/disk.asp
+	rm -rf $(INSTALLDIR)/www/images/tmo_modem_plug.png
+	rm -rf $(INSTALLDIR)/www/images/tmo_modem_unplug.png
+	rm -rf $(INSTALLDIR)/www/images/modem_plug.png
+	rm -rf $(INSTALLDIR)/www/images/modem_unplug.png
+	rm -rf $(INSTALLDIR)/www/images/survey/radio_status.png
+	-rm -f $(INSTALLDIR)/www/qis/QIS_modem.htm
+	rm -rf $(INSTALLDIR)/www/qis/QIS_resetModem.htm
+	rm -rf $(INSTALLDIR)/www/qis/QIS_resetModem2.htm
+	rm -rf $(INSTALLDIR)/www/MobileQIS_Login.asp
+	# disk utility
+	rm -rf $(INSTALLDIR)/www/device-map/disk_utility.asp
+	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/backgroud_move_3_02.gif
+	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/white_04.gif
+	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/yellow_04.gif
+	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/red_04.gif
+	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/normal.png
+	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/orange.png
+	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/red.png
+	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/USB_2.png
+	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/USB2.png
+	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/USB3.png
+	rm -rf $(INSTALLDIR)/www/disk_msg.js
+	rm -rf $(INSTALLDIR)/www/disk_fsck.xml
+	rm -rf $(INSTALLDIR)/www/disk_scan.asp
+	rm -rf $(INSTALLDIR)/www/diskmon_test.asp
+	rm -rf $(INSTALLDIR)/www/disk_functions.js
+#Dictionary
 endif
 ifneq ($(RTCONFIG_PROXYSTA),y)
 	rm -rf $(INSTALLDIR)/www/images/New_ui/mb.jpg
