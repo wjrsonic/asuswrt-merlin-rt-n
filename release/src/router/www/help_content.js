@@ -171,7 +171,8 @@ helpcontent[13] = new Array("",
 //UPnP
 helpcontent[14] = new Array("",
 							"<#UPnPMediaServer_Help#>",
-							"VPN client will reconnect automatically after router reboot / internet reconnection if enable this function.");
+							"VPN client will reconnect automatically after router reboot.  								Internet reconnection if enable this function.",
+							"VPN client use remote gateway as default gateway");
 //AiDisk Wizard
 helpcontent[15] = new Array("",
 							"", /*<#AiDisk_moreconfig#>*/
