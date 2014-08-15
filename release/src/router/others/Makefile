@@ -39,7 +39,9 @@ endif
 ifeq ($(RTCONFIG_BCMARM),y)
 	install -m 0700 entware.arm/entware-setup.sh $(INSTALLDIR)/usr/sbin
 else
+ifneq ($(RTCONFIG_4M_SFP),y)
 	install -m 0700 entware.mips/entware-setup.sh $(INSTALLDIR)/usr/sbin
+endif
 endif
 
 # Postconf helper script
