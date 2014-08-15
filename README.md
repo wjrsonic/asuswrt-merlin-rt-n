@@ -17,6 +17,21 @@ At this time, the supported devices are:
 - RT-AC68U
 - RT-AC87U
 
+added models:
+
+- RT-N10P (tested)
+- RT-N10U (tested)
+- RT-N12B1 (tested)
+- RT-N12C1 (not tested, no equipment)
+- RT-N12D1 (not tested, no equipment)
+- RT-N12HP (not tested, no equipment)
+- RT-N12HP_B1 (not tested, no equipment)
+- RT-N12VP (not tested, no equipment)
+- RT-N14UHP (not tested, no equipment)
+- RT-N15U (tested)
+- RT-N53 (not tested, no equipment)
+- RT-N16 (tested)
+
 Firmware builds can be downloaded from the official download site:
 
 http://www.lostrealm.ca/asuswrt-merlin/download
