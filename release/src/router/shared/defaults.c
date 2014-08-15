@@ -1709,6 +1709,12 @@ struct nvram_tuple router_defaults[] = {
 	{ "vpnc_connect_row", ""},
 	{ "vpnc_auto_conn", ""},
 	{ "vpnc_pptp_options_x_list", ""},
+	{ "vpnc_defgw", ""},
+	{ "vpnc_defaultroute", ""},
+	{ "vpnc_addroute", ""},
+	{ "vpnc_addroute_net", ""},
+	{ "vpnc_addroute_mask", ""},
+	{ "vpnc_nodefgw_net", ""},
 #endif
 
 #if defined(RTCONFIG_PPTPD) || defined(RTCONFIG_ACCEL_PPTPD) || defined(RTCONFIG_OPENVPN)
