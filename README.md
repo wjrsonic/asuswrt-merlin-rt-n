@@ -35,8 +35,11 @@ added models:
 Firmware builds can be downloaded from:
 
 ftp://78.25.8.242/pub/ASUS/ASUSWRT_MODDED/
+
 ftp://85.198.188.40/pub/ASUS/ASUSWRT_MODDED/
+
 ftp://82.207.89.70/pub/ASUS/ASUSWRT_MODDED/
+
 ftp://134.249.139.43/pub/ASUS/ASUSWRT_MODDED/
 
 
