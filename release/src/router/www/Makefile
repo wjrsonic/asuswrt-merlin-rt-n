@@ -313,6 +313,7 @@ ifneq ($(RTCONFIG_CLOUDSYNC),y)
 	rm -rf $(INSTALLDIR)/www/update_cloudstatus.asp
 	rm -rf $(INSTALLDIR)/www/get_webdavInfo.asp
 	rm -rf $(INSTALLDIR)/www/*cloud*.asp
+	rm -rf $(INSTALLDIR)/www/dropbox_callback.htm
 endif
 endif
 endif
@@ -402,12 +403,15 @@ ifneq ($(RTCONFIG_USB),y)
 endif
 ifneq ($(MODEM),y)
 	-rm -f $(INSTALLDIR)/www/qis/QIS_modem.htm
+	rm -rf $(INSTALLDIR)/www/qis/QIS_resetModem.htm
+	rm -rf $(INSTALLDIR)/www/qis/QIS_resetModem2.htm
+	rm -rf $(INSTALLDIR)/www/MobileQIS_Login.asp
 endif
 endif
 
-ifeq ($(BUILD_NAME), RT-N12)
-	cd $(INSTALLDIR)/www && find . -name "*.dict"|xargs -n 1 -I @ sed -i "s/RT-N12/ZVDYNMODELVZ/g" @
-endif
+#ifeq ($(BUILD_NAME), RT-N12)
+#	cd $(INSTALLDIR)/www && find . -name "*.dict"|xargs -n 1 -I @ sed -i "s/RT-N12/ZVDYNMODELVZ/g" @
+#endif
 
 ifeq ($(RTCONFIG_OPENVPN), y)
 	cd $(INSTALLDIR)/www && ln -sf ../etc/openvpn/server1/client.ovpn client1.ovpn && cd $(TOP)/www
@@ -417,6 +421,10 @@ else
 ifneq ($(RTCONFIG_ACCEL_PPTPD), y)
 	rm -rf $(INSTALLDIR)/www/images/New_ui/vpnstatus.png
 	rm -rf $(INSTALLDIR)/www/Advanced_VPN_PPTP.asp
+	rm -rf $(INSTALLDIR)/www/ajax_openvpn_server.asp
+	rm -rf $(INSTALLDIR)/www/Advanced_VPNAdvanced_Content.asp
+	rm -rf $(INSTALLDIR)/www/Advanced_VPN_Content.asp
+	rm -rf $(INSTALLDIR)/www/Advanced_VPNStatus.asp
 endif
 endif
 ifneq ($(RTCONFIG_VPNC), y)	
@@ -446,6 +454,7 @@ ifneq ($(RTCONFIG_BWDPI),y)
 	rm -rf $(INSTALLDIR)/www/AdaptiveQoS_Adaptive.asp
 	rm -rf $(INSTALLDIR)/www/AdaptiveQoS_Bandwidth_Monitor.asp
 	rm -rf $(INSTALLDIR)/www/AdaptiveQoS_WebHistory.asp
+	rm -rf $(INSTALLDIR)/www/AdaptiveQoS_Adaptive.asp
 	rm -rf $(INSTALLDIR)/www/AiProtection_HomeSecurity.asp
 	rm -rf $(INSTALLDIR)/www/AiProtection_Group.asp
 	rm -rf $(INSTALLDIR)/www/AiProtection_HomeProtection.asp
@@ -470,15 +479,23 @@ endif
 	rm -rf $(INSTALLDIR)/www/images/New_ui/sample_35.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/app_icons
 ifneq ($(RTCONFIG_ROG),y)
+	rm -rf $(INSTALLDIR)/www/AdaptiveQoS_ROG.asp
+	rm -rf $(INSTALLDIR)/www/rog.css
 	rm -rf $(INSTALLDIR)/www/images/New_ui/indicator.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/speedmeter.png
+	rm -rf $(INSTALLDIR)/www/images/ROG_Logo.png
 endif
 ifneq ($(BUILD_NAME),RT-AC3200)
-	rm -rf $(INSTALLDIR)/www/TrafficAnalyzer_Statistic.asp.asp
+	rm -rf $(INSTALLDIR)/www/TrafficAnalyzer_Statistic.asp
 	rm -rf $(INSTALLDIR)/www/statistic_default.js
 	rm -rf $(INSTALLDIR)/www/chart.js
 	rm -rf $(INSTALLDIR)/www/datepicker.css
 endif
+else
+	rm -rf $(INSTALLDIR)/www/Main_TrafficMonitor_daily.asp
+	rm -rf $(INSTALLDIR)/www/Main_TrafficMonitor_last24.asp
+	rm -rf $(INSTALLDIR)/www/Main_TrafficMonitor_realtime.asp
+	rm -rf $(INSTALLDIR)/www/tmmenu.js
 endif
 ifneq ($(RTCONFIG_ADBLOCK),y)
 	rm -rf $(INSTALLDIR)/www/AiProtection_AdBlock.asp
