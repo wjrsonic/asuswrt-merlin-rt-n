@@ -1042,12 +1042,12 @@ restore_defaults(void)
 	nvram_set_int("auto_upgrade", 0);
 #endif
 
-/*
+
 	if (restore_defaults)
 	{
-		nvram_set("jffs2_clean_fs", "1");
+		nvram_set("jffs2_clean_fs", "0");
 	}
-*/
+
 }
 
 /* Set terminal settings to reasonable defaults */
