@@ -58,6 +58,7 @@ export LINUXDIR := $(SRCBASE)/linux/linux-2.6.36
 export EXTRALDFLAGS = -lgcc_s
 export EXTRALDFLAGS2 = -L$(TOP)/nvram$(BCMEX) -lnvram -L$(TOP)/shared -lshared
 
+export STRIP := $(STRIP) -X -R .note -R .comment -R .pdr -R .mdebug -R .reginfo -R .options -R .MIPS.options
 
 export LD_LIBRARY_PATH := $(SRCBASE)/toolchains/hndtools-arm-linux-2.6.36-uclibc-4.5.3/lib
 ifeq (2_6_36,$(LINUX_VERSION))
