@@ -362,6 +362,14 @@ function validForm(){
 		document.form.sshd_port.disabled = true;
 	}
 
+	if(document.form.sshd_enable[0].checked){
+		if (!validate_range(document.form.sshd_rwb, 0, 1048576))
+			return false;
+	}
+	else{
+		document.form.sshd_rwb.disabled = true;
+	}
+
 	if((document.form.sshd_enable[0].checked) && (document.form.sshd_authkeys.value.length == 0) && (!document.form.sshd_pass[0].checked)){
 		alert("You must configure at least one SSH authentication method!");
 		return false;
@@ -903,6 +911,7 @@ function check_sshd_enable(obj_value){
 	$("sshd_bfp_field").style.display = state;
 	$("sshd_password_tr").style.display = state;
 	$("sshd_port_tr").style.display = state;
+	$("sshd_rwb_tr").style.display = state;
 }
 
 /*function sshd_remote_access(obj_value){
@@ -1010,87 +1019,6 @@ function check_sshd_enable(obj_value){
 					</td>
 				</tr>
 			</table>
-			<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
-				<thead>
-					<tr>
-						<td colspan="2">Persistent JFFS2 partition</td>
-					</tr>
-				</thead>
-				<tr>
-					<th>Enable JFFS partition</th>
-					<td>
-						<input type="radio" name="jffs2_on" class="input" value="1" <% nvram_match("jffs2_on", "1", "checked"); %>><#checkbox_Yes#>
-						<input type="radio" name="jffs2_on" class="input" value="0" <% nvram_match("jffs2_on", "0", "checked"); %>><#checkbox_No#>
-					</td>
-				</tr>
-				<tr>
-					<th>Format JFFS partition at next boot</th>
-    				<td>
-    					<input type="radio" name="jffs2_format" class="input" value="1" <% nvram_match("jffs2_format", "1", "checked"); %>><#checkbox_Yes#>
-						<input type="radio" name="jffs2_format" class="input" value="0" <% nvram_match("jffs2_format", "0", "checked"); %>><#checkbox_No#>
-					</td>
-				</tr>
-			</table>
-			<table id="ssh_table" width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable" style="margin-top:8px;">
-				<thead>
-					<tr>
-						<td colspan="2">SSH Daemon</td>
-					</tr>
-				</thead>
-				<tr>
-					<th>Enable SSH</th>
-					<td>
-						<input type="radio" name="sshd_enable" class="input" onClick="check_sshd_enable(this.value);" value="1" <% nvram_match("sshd_enable", "1", "checked"); %>><#checkbox_Yes#>
-						<input type="radio" name="sshd_enable" class="input" onClick="check_sshd_enable(this.value);" value="0" <% nvram_match("sshd_enable", "0", "checked"); %>><#checkbox_No#>
-					</td>
-				</tr>
-
-				<tr id="remote_forwarding_tr">
-					<th>Allow SSH Port Forwarding</th>
-					<td>
-						<input type="radio" name="sshd_forwarding" class="input" value="1" <% nvram_match("sshd_forwarding", "1", "checked"); %>><#checkbox_Yes#>
-						<input type="radio" name="sshd_forwarding" class="input" value="0" <% nvram_match("sshd_forwarding", "0", "checked"); %>><#checkbox_No#>
-					</td>
-				</tr>
-
-				<tr id="sshd_port_tr">
-					<th>SSH service port</th>
-					<td>
-						<input type="text" maxlength="5" class="input_6_table" name="sshd_port" onKeyPress="return is_number(this,event);" onblur="validate_number_range(this, 1, 65535)" value="<% nvram_get("sshd_port"); %>">
-					</td>
-				</tr>
-
-				<tr id="remote_access_tr">
-					<th>Allow SSH access from WAN</th>
-					<td>
-						<input type="radio" name="sshd_wan" class="input" value="1" <% nvram_match("sshd_wan", "1", "checked"); %>><#checkbox_Yes#>
-						<input type="radio" name="sshd_wan" class="input" value="0" <% nvram_match("sshd_wan", "0", "checked"); %>><#checkbox_No#>
-					</td>
-				</tr>
-				<tr id="sshd_password_tr">
-					<th>Allow SSH password login</th>
-					<td>
-						<input type="radio" name="sshd_pass" class="input" value="1" <% nvram_match("sshd_pass", "1", "checked"); %>><#checkbox_Yes#>
-						<input type="radio" name="sshd_pass" class="input" value="0" <% nvram_match("sshd_pass", "0", "checked"); %>><#checkbox_No#>
-					</td>
-				</tr>
-				<tr id="sshd_bfp_field">
-					<th>Enable SSH Brute Force Protection</th>
-					<td>
-						<input type="radio" name="sshd_bfp" class="input" value="1" <% nvram_match("sshd_bfp", "1", "checked"); %>><#checkbox_Yes#>
-						<input type="radio" name="sshd_bfp" class="input" value="0" <% nvram_match("sshd_bfp", "0", "checked"); %>><#checkbox_No#>
-					</td>
-				</tr>
-
-				<tr id="auth_keys_tr">
-					<th>SSH Authentication key</th>
-					<td>
-						<textarea rows="8" class="textarea_ssh_table" name="sshd_authkeys" style="width:95%;" maxlength="3499"><% nvram_clean_get("sshd_authkeys"); %></textarea>
-						<span id="ssh_alert_msg"></span>
-					</td>
-				</tr>
-			</table>
-			
 			<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable" style="margin-top:8px;">
 				<thead>
 					<tr>
@@ -1146,6 +1074,120 @@ function check_sshd_enable(obj_value){
 						<div id="svc_hint_div" style="display:none;"><span style="color:#FFCC00;"><#General_x_SystemTime_syncNTP#></span></div>
 					</td>
 				</tr>
+
+<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+                <thead>
+                <tr>
+          <td colspan="2">Persistent JFFS2 partition</td>
+        </tr>
+        </thead>
+	<tr>
+		<th>Enable JFFS partition</th>
+			<td>
+				<input type="radio" name="jffs2_on" class="input" value="1" <% nvram_match("jffs2_on", "1", "checked"); %>><#checkbox_Yes#>
+				<input type="radio" name="jffs2_on" class="input" value="0" <% nvram_match("jffs2_on", "0", "checked"); %>><#checkbox_No#>
+			</td>
+	</tr>
+	<tr>
+		<th>Format JFFS partition at next boot</th>
+			<td>
+				<input type="radio" name="jffs2_format" class="input" value="1" <% nvram_match("jffs2_format", "1", "checked"); %>><#checkbox_Yes#>
+				<input type="radio" name="jffs2_format" class="input" value="0" <% nvram_match("jffs2_format", "0", "checked"); %>><#checkbox_No#>
+			</td>
+	</tr>
+</table>
+
+<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+                <thead>
+                <tr>
+          <td colspan="2">SSH Access</td>
+        </tr>
+        </thead>
+
+	<tr>
+			<th>Enable SSH</th>
+				<td>
+						<input type="radio" name="sshd_enable" class="input" onClick="check_sshd_enable(this.value);" value="1" <% nvram_match("sshd_enable", "1", "checked"); %>><#checkbox_Yes#>
+						<input type="radio" name="sshd_enable" class="input" onClick="check_sshd_enable(this.value);" value="0" <% nvram_match("sshd_enable", "0", "checked"); %>><#checkbox_No#>
+				</td>
+	</tr>
+
+	<tr id="remote_forwarding_tr">
+			<th>Allow SSH Port Forwarding</th>
+				<td>
+					<input type="radio" name="sshd_forwarding" class="input" value="1" <% nvram_match("sshd_forwarding", "1", "checked"); %>><#checkbox_Yes#>
+					<input type="radio" name="sshd_forwarding" class="input" value="0" <% nvram_match("sshd_forwarding", "0", "checked"); %>><#checkbox_No#>
+				</td>
+	</tr>
+
+	<tr id="sshd_port_tr">
+			<th>SSH service port</th>
+				<td>
+					<input type="text" maxlength="5" class="input_6_table" name="sshd_port" onKeyPress="return is_number(this,event);" onblur="validate_number_range(this, 1, 65535)" value="<% nvram_get("sshd_port"); %>">
+				</td>
+	</tr>
+
+	<tr id="sshd_rwb_tr">
+			<th>SSH recieve window buffer</th>
+				<td>
+					<input type="text" maxlength="8" class="input_15_table" name="sshd_rwb" onKeyPress="return is_number(this,event);" onblur="validate_number_range(this, 1, 1048576)" value="<% nvram_get("sshd_rwb"); %>">
+				</td>
+	</tr>
+
+	<tr id="remote_access_tr">
+			<th>Allow SSH access from WAN</th>
+				<td>
+					<input type="radio" name="sshd_wan" class="input" value="1" <% nvram_match("sshd_wan", "1", "checked"); %>><#checkbox_Yes#>
+					<input type="radio" name="sshd_wan" class="input" value="0" <% nvram_match("sshd_wan", "0", "checked"); %>><#checkbox_No#>
+				</td>
+	</tr>
+	
+	<tr id="sshd_password_tr">
+			<th>Allow SSH password login</th>
+				<td>
+					<input type="radio" name="sshd_pass" class="input" value="1" <% nvram_match("sshd_pass", "1", "checked"); %>><#checkbox_Yes#>
+					<input type="radio" name="sshd_pass" class="input" value="0" <% nvram_match("sshd_pass", "0", "checked"); %>><#checkbox_No#>
+				</td>
+	</tr>
+
+	<tr id="sshd_bfp_field">
+			<th>Enable SSH Brute Force Protection</th>
+				<td>
+					<input type="radio" name="sshd_bfp" class="input" value="1" <% nvram_match("sshd_bfp", "1", "checked"); %>><#checkbox_Yes#>
+					<input type="radio" name="sshd_bfp" class="input" value="0" <% nvram_match("sshd_bfp", "0", "checked"); %>><#checkbox_No#>
+				</td>
+	</tr>
+
+	<tr id="auth_keys_tr">
+			<th>SSH Authentication key</th>
+				<td>
+					<textarea rows="8" class="textarea_ssh_table" name="sshd_authkeys" style="width:95%;" maxlength="3499"><% nvram_clean_get("sshd_authkeys"); %></textarea>
+				<span id="ssh_alert_msg"></span>
+				</td>
+	</tr>
+</table>
+
+<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+                <thead>
+                <tr>
+          <td colspan="2">Cron Jobs</td>
+        </tr>
+        </thead>
+					<tr>
+						<th>Cron Tasks</th>
+						<td>
+							<textarea rows="12" class="textarea_cron_table" name="cron_tasks" cols="58" maxlength="8192"><% nvram_dump("../jffs/crontabs/admin",""); %></textarea>
+						</td>
+				</tr>
+</table>
+
+
+<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+                <thead>
+                <tr>
+          <td colspan="2">Telnet and WAN Access</td>
+        </tr>
+        </thead>
 				<tr id="telnet_tr">
 					<th><#Enable_Telnet#></th>
 					<td>
@@ -1229,6 +1271,7 @@ function check_sshd_enable(obj_value){
 					 </td>	
 				</tr>
 			</table>
+</table>
 			<div id="http_clientlist_Block"></div>
 			<div class="apply_gen">
 				<input name="button" type="button" class="button_gen" onclick="applyRule();" value="<#CTL_apply#>"/>
