@@ -800,6 +800,11 @@ gen_target:
 	find $(TARGETDIR)/lib/modules -name *.o -exec $(STRIP) --strip-debug --strip-unneeded {} \;
 	find $(TARGETDIR)/lib/modules -name *.ko -exec $(STRIP) --strip-debug --strip-unneeded {} \;
 
+ifeq ($(RTCONFIG_4M_SFP),y)
+	rm -f $(TARGETDIR)/lib/modules/*/kernel/drivers/net/wl/wl.ko
+	cp -f  $(SRCBASE)/wl/sysdeps/SFP4M/wl.ko $(TARGETDIR)/lib/modules/*/kernel/drivers/net/wl
+endif
+
 #	-cd $(TARGETDIR)/lib/modules/*/kernel/drivers/net && mv diag/* . && rm -rf diag
 
 # nice and clean
