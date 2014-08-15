@@ -57,7 +57,8 @@
 	cursor:default;
 }	
 </style>
-<script>time_day = uptimeStr.substring(5,7);//Mon, 01 Aug 2011 16:25:44 +0800(1467 secs since boot....
+<script>
+time_day = uptimeStr.substring(5,7);//Mon, 01 Aug 2011 16:25:44 +0800(1467 secs since boot....
 time_mon = uptimeStr.substring(9,12);
 time_time = uptimeStr.substring(18,20);
 dstoffset = '<% nvram_get("time_zone_dstoff"); %>';
@@ -93,8 +94,8 @@ function initial(){
 	load_dst_m_Options();
 	load_dst_w_Options();
 	load_dst_d_Options();
-	load_dst_h_Options();	
-	document.form.http_passwd2.value = "";	
+	load_dst_h_Options();
+	document.form.http_passwd2.value = "";
 	
 	if(svc_ready == "0")
 		$('svc_hint_div').style.display = "";	
@@ -144,6 +145,17 @@ function initial(){
 		$('ssh_table').style.display = "none";	
 	}
 
+	if(appnet_support || appbase_support){
+		check_apps_swap_enable('<% nvram_get("apps_swap_enable"); %>');
+	}	
+	else{
+		$('swap_table').style.display = "none";	
+	}
+
+	if(!appnet_support && !appbase_support){
+		$('apps_table').style.display = "none";	
+	}
+
 	if(tmo_support){
 		document.getElementById("telnet_tr").style.display = "none";
 		document.form.telnetd_enable[0].disabled = true;
@@ -191,7 +203,7 @@ function applyRule(){
 			document.form.http_passwd.value = document.form.http_passwd2.value;
 			document.form.http_passwd.disabled = false;
 		}
-		
+
 		if(document.form.time_zone_select.value.search("DST") >= 0 || document.form.time_zone_select.value.search("TDT") >= 0){		// DST area
 
 				time_zone_tmp = document.form.time_zone_select.value.split("_");	//0:time_zone 1:serial number
@@ -200,7 +212,7 @@ function applyRule(){
 				document.form.time_zone_dstoff.value=time_zone_s_tmp+","+time_zone_e_tmp;
 				document.form.time_zone.value = document.form.time_zone_select.value;
 		}else{
-				//document.form.time_zone_dstoff.value="";	//Don't change time_zone_dstoff vale
+				//document.form.time_zone_dstoff.value="";	//Don't change time_zone_dstoff value
 				document.form.time_zone.value = document.form.time_zone_select.value;
 		}
 		
@@ -324,7 +336,7 @@ function validForm(){
 			)
 		return false;
 
-	
+
 	if((document.form.time_zone_select.value.search("DST") >= 0 || document.form.time_zone_select.value.search("TDT") >= 0)			// DST area
 			&& document.form.dst_start_m.value == document.form.dst_end_m.value
 			&& document.form.dst_start_w.value == document.form.dst_end_w.value
@@ -359,9 +371,25 @@ function validForm(){
 		document.form.sshd_port.disabled = true;
 	}
 
+	if(document.form.sshd_enable[0].checked){
+		if (!validator.range(document.form.sshd_rwb, 0, 1048576))
+			return false;
+	}
+	else{
+		document.form.sshd_rwb.disabled = true;
+	}
+
 	if((document.form.sshd_enable[0].checked) && (document.form.sshd_authkeys.value.length == 0) && (!document.form.sshd_pass[0].checked)){
 		alert("You must configure at least one SSH authentication method!");
 		return false;
+	}
+
+	if(document.form.apps_swap_enable[0].checked){
+		if (!validator.range(document.form.apps_swap_size, 32768, 1048576))
+			return false;
+	}
+	else{
+		document.form.apps_swap_size = true;
 	}
 	
 	if(isPortConflict(document.form.misc_httpport_x.value)){
@@ -522,7 +550,7 @@ function load_timezones(){
 			timezones[i][1], timezones[i][0],
 			(document.form.time_zone.value == timezones[i][0]));
 	}
-	select_time_zone();	
+	select_time_zone();
 }
 
 var dst_month = new Array("", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12");
@@ -555,7 +583,7 @@ function parse_dstoffset(){     //Mm.w.d/h,Mm.w.d/h
 					//alert(dstoff_end_m+"."+dstoff_end_w+"."+dstoff_end_d+"/"+dstoff_end_h);
 		}
 }
-
+															
 function load_dst_m_Options(){
 	free_options(document.form.dst_start_m);
 	free_options(document.form.dst_end_m);
@@ -600,7 +628,7 @@ function load_dst_w_Options(){
 				add_option(document.form.dst_end_w, dst_week[i], i, 0);
 			}
 		}
-		else{		//exist time_zone_dstoff
+		else{		//exist time_zone_dstoff		
 			if(dstoff_start_w == i)
 				add_option(document.form.dst_start_w, dst_week[i], i, 1);
 			else	
@@ -884,6 +912,20 @@ function check_sshd_enable(obj_value){
 	$("sshd_bfp_field").style.display = state;
 	$("sshd_password_tr").style.display = state;
 	$("sshd_port_tr").style.display = state;
+	$("sshd_rwb_tr").style.display = state;
+}
+
+function check_apps_swap_enable(obj_value){
+	var state;
+
+	if (obj_value == 1)
+		state = "";
+	else
+		state = "none";
+
+	$("apps_swap_size_tr").style.display = state;
+	$("apps_swap_file_tr").style.display = state;
+
 }
 
 /*function sshd_remote_access(obj_value){
@@ -1011,7 +1053,7 @@ function toggle_jffs_visibility(state){
 					</td>
 				</tr>
 			</table>
-			<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+			<table id="jffs_table" width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
 				<thead>
 					<tr>
 						<td colspan="2">Persistent JFFS2 partition</td>
@@ -1038,6 +1080,76 @@ function toggle_jffs_visibility(state){
 						<input type="radio" name="jffs2_scripts" class="input" value="0" <% nvram_match("jffs2_scripts", "0", "checked"); %>><#checkbox_No#>
 						</td>
 				</tr>
+			</table>
+			<table id="apps_table" width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+                		<thead>
+                			<tr>
+          					<td colspan="2">USB installed applications path and device </td>
+					</tr>
+				</thead>
+					<tr id="apps_dev_tr">
+					<th>USB installed applications device</th>
+					<td>
+						<input type="text" maxlength="5" class="input_6_table" name="apps_dev" value="<% nvram_get("apps_dev"); %>" onKeyPress="return validator.isString(this, event);">
+					</td>
+					</tr>
+					<tr id="apps_mounted_tr">
+					<th>USB installed applications mounted device</th>
+					<td>
+						<input type="text" maxlength="256" class="input_32_table" name="apps_mounted_path" value="<% nvram_get("apps_mounted_path"); %>" onKeyPress="return validator.isString(this, event);">
+					</td>
+					</tr>
+					<tr id="apps_install_folder_tr">
+					<th>USB installed applications folder name</th>
+					<td>
+						<input type="text" maxlength="256" class="input_32_table" name="apps_install_folder" value="<% nvram_get("apps_install_folder"); %>" onKeyPress="return validator.isString(this, event);">
+					</td>
+					</tr>
+					<tr id="apps_local_space_tr">
+					<th>USB installed applications local space path</th>
+					<td>
+						<input type="text" maxlength="256" class="input_32_table" name="apps_local_space" value="<% nvram_get("apps_local_space"); %>" onKeyPress="return validator.isString(this, event);">
+					</td>
+					</tr>
+			</table>
+			<table id="swap_table" width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+                		<thead>
+                			<tr>
+          					<td colspan="2">Swap file for USB installed applications</td>
+					</tr>
+				</thead>
+					<tr>
+					<th>Enable Swap file</th>
+					<td>
+						<input type="radio" name="apps_swap_enable" class="input" onClick="check_apps_swap_enable(this.value);" value="1" <% nvram_match("apps_swap_enable", "1", "checked"); %>><#checkbox_Yes#>
+						<input type="radio" name="apps_swap_enable" class="input" onClick="check_apps_swap_enable(this.value);" value="0" <% nvram_match("apps_swap_enable", "0", "checked"); %>><#checkbox_No#>
+					</td>
+			</tr>
+			<tr id="apps_swap_size_tr">
+					<th>Swap file size</th>
+					<td>
+					<input type="text" maxlength="8" class="input_15_table" name="apps_swap_size" onKeyPress="return validator.isNumber(this,event);" onblur="validate_number_range(this, 1, 1048576)" value="<% nvram_get("apps_swap_size"); %>">
+					</td>
+				</tr>
+			<tr id="apps_swap_file_tr">
+					<th>Swap file name and location</th>
+					<td>
+						<input type="text" maxlength="256" class="input_32_table" name="apps_swap_file" value="<% nvram_get("apps_swap_file"); %>" onKeyPress="return validator.isString(this, event);">
+					</td>
+				</tr>
+			</table>
+			<table id="cron_table" width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+		                <thead>
+			                <tr>
+					          <td colspan="2">Cron Jobs</td>
+				        </tr>
+			        </thead>
+					<tr>
+						<th>Cron Tasks</th>
+						<td>
+							<textarea rows="12" class="textarea_cron_table" name="cron_tasks" cols="58" maxlength="8192"><% nvram_dump("../jffs/crontabs/admin",""); %></textarea>
+						</td>
+					</tr>
 			</table>
 			<table id="ssh_table" width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable" style="margin-top:8px;">
 				<thead>
@@ -1067,7 +1179,12 @@ function toggle_jffs_visibility(state){
 						<input type="text" maxlength="5" class="input_6_table" name="sshd_port" onKeyPress="return validator.isNumber(this,event);" onblur="validate_number_range(this, 1, 65535)" value="<% nvram_get("sshd_port"); %>">
 					</td>
 				</tr>
-
+				<tr id="sshd_rwb_tr">
+					<th>SSH recieve window buffer</th>
+					<td>
+					<input type="text" maxlength="8" class="input_15_table" name="sshd_rwb" onKeyPress="return validator.isNumber(this,event);" onblur="validate_number_range(this, 1, 1048576)" value="<% nvram_get("sshd_rwb"); %>">
+					</td>
+				</tr>
 				<tr id="remote_access_tr">
 					<th>Allow SSH access from WAN</th>
 					<td>
