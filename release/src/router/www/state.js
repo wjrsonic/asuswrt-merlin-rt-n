@@ -824,8 +824,7 @@ function remove_url(){
 			remove_menu_item("Advanced_VPNClient_Content.asp");
 			remove_menu_item("Advanced_OpenVPNClient_Content.asp");
 		}
-		else if 
-			remove_menu_item("Advanced_OpenVPNClient_Content.asp");
+		else 	remove_menu_item("Advanced_OpenVPNClient_Content.asp");
 	}
 
 	if(!nfsd_support){
