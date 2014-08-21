@@ -63,33 +63,31 @@ endif
 
 export BRANCH := $(shell git branch)
 
-#ifneq ($(BRANCH),) 
-#include ./router/extendno.conf
-#else
-#export EXTENDNO := $(shell git log --pretty=oneline asuswrt_$(KERNEL_VER).$(FS_VER).$(SERIALNO)..HEAD | wc -l)-g$(shell git log --pretty=format:'%h' -n 1)
-#endif
+ifneq ($(BRANCH),) 
+include ./router/extendno.conf
+else
+export EXTENDNO := $(shell git log --pretty=oneline asuswrt_$(KERNEL_VER).$(FS_VER).$(SERIALNO)..HEAD | wc -l)-g$(shell git log --pretty=format:'%h' -n 1)
+endif
 
-#ifeq ($(EXTENDNO),)
-#export EXTENDNO := 0-g$(shell git log --pretty=format:'%h' -n 1)
-#endif
+ifeq ($(EXTENDNO),)
+export EXTENDNO := 0-g$(shell git log --pretty=format:'%h' -n 1)
+endif
 
 export SWPJNAME := $(shell git branch | grep "*" | grep "swpj-" | sed 's/.*swpj-//g')
 
 ifneq ($(SWPJNAME),)
 export SWPJVERNO := $(shell cat $(SRCBASE)/router/APP-IPK/$(SWPJNAME)/CONTROL/control | grep "Version:" | sed 's/Version: //g')
-export SWPJEXTENDNO := $(shell git describe --match swpj_$(SWPJNAME)_$(SWPJVERNO) | sed 's/swpj_$(SWPJNAME)_$(SWPJVERNO)-//g')
 ifneq ($(SWPJVERNO),)
 export SWPJVER := $(SWPJNAME)_$(SWPJVERNO)_
-export SWPJEXTENDNO := $(shell git describe --match swpj_$(SWPJNAME)_$(SWPJVER) | sed 's/swpj_$(SWPJNAME)_$(SWPJVER)-//g')
 endif
 
 export SWPJEXTENDNO := $(shell git describe --match swpj_$(SWPJNAME)_$(SWPJVERNO) | sed 's/swpj_$(SWPJNAME)_$(SWPJVERNO)-//g')
 
-ifneq ($(SWPJEXTENDNO),)
-export EXTENDNO := $(SWPJEXTENDNO)
-else
-export EXTENDNO := 0-g$(shell git log --pretty=format:'%h' -n 1)
-endif
+#ifneq ($(SWPJEXTENDNO),)
+#export EXTENDNO := $(SWPJEXTENDNO)
+#else
+#export EXTENDNO := 0-g$(shell git log --pretty=format:'%h' -n 1)
+#endif
 endif
 
 include ./platform.mak
