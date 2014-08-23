@@ -208,6 +208,10 @@ start_vpnc(void)
 	if (nvram_invmatch(strcat_r(prefix, "dnsenable_x", tmp), "0"))
 		fprintf(fp, "usepeerdns\n");
 
+	
+	if (nvram_match(strcat_r(prefix, "defaultroute", tmp), "0"))
+		fprintf(fp, "nodefaultroute\n");
+
 	fprintf(fp, "ipcp-accept-remote ipcp-accept-local noipdefault\n");
 	fprintf(fp, "ktune\n");
 
