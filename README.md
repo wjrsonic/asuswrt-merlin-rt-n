@@ -1,5 +1,5 @@
-asuswrt-merlin
-==============
+asuswrt-merlin-rt-n
+===================
 
 This is an enhanced version of Asuswrt - the firmware used by all recent Asus routers. 
 
@@ -16,7 +16,7 @@ At this time, the supported devices are:
 - RT-AC66U
 - RT-AC68U
 - RT-AC87U
-
+ 
 added models:
 
 - RT-N10P (tested)
@@ -32,6 +32,12 @@ added models:
 - RT-N53 (not tested, no equipment)
 - RT-N16 (tested)
 
-Firmware builds can be downloaded from the official download site:
+Firmware builds can be downloaded from:
 
-http://www.lostrealm.ca/asuswrt-merlin/download
+ftp://78.25.8.242/pub/ASUS/ASUSWRT_MODDED/
+
+ftp://85.198.188.40/pub/ASUS/ASUSWRT_MODDED/
+
+ftp://82.207.89.70/pub/ASUS/ASUSWRT_MODDED/
+
+ftp://134.249.139.43/pub/ASUS/ASUSWRT_MODDED/
