@@ -1628,6 +1628,10 @@ struct nvram_tuple router_defaults[] = {
 	{ "vpnc_appendix", ""},
 	{ "vpnc_defgw", ""},
 	{ "vpnc_defaultroute", ""},
+	{ "vpnc_addroute", ""},
+	{ "vpnc_addroute_net", ""},
+	{ "vpnc_addroute_mask", ""},
+	{ "vpnc_nodefgw_net", ""},
 #endif
 
 #if defined(RTCONFIG_PPTPD) || defined(RTCONFIG_ACCEL_PPTPD) || defined(RTCONFIG_OPENVPN)

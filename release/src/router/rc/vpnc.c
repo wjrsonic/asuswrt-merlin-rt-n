@@ -494,11 +494,18 @@ vpnc_up(char *vpnc_ifname)
 		}
 	}
 	
+	/* Add routes when remote gateway NOT the default gateway for VPN client */
+	if (nvram_match(strcat_r(prefix, "defaultroute", tmp), "0")){
+	route_add(vpnc_ifname, 0, nvram_safe_get(strcat_r(prefix, "ipaddr", tmp)), "0.0.0.0", "255.255.255.255");
+	route_add(vpnc_ifname, 1, nvram_safe_get(strcat_r(prefix, "nodefgw_net", tmp)), nvram_safe_get(strcat_r(prefix, "ipaddr", tmp)), "255.255.255.0");
+	}
+	else {	
 	/* Add the default gateway of VPN client */
 	route_add(vpnc_ifname, 0, "0.0.0.0", nvram_safe_get(strcat_r(prefix, "gateway", tmp)), "0.0.0.0");
 
 	/* Remove route to the gateway - no longer needed */
 	route_del(vpnc_ifname, 0, nvram_safe_get(strcat_r(prefix, "gateway", tmp)), NULL, "255.255.255.255");
+	}
 
 	/* Add dns servers to resolv.conf */
 	vpnc_update_resolvconf();
@@ -517,6 +524,7 @@ vpnc_ipup_main(int argc, char **argv)
 	char *vpnc_linkname = safe_getenv("LINKNAME");
 	char tmp[100], prefix[] = "vpnc_";
 	char buf[256], *value;
+	char *nodefgw_net = NULL, *nodefgw_network = NULL;
 	int unit;
 
 	_dprintf("%s():: %s\n", __FUNCTION__, argv[0]);
@@ -557,6 +565,18 @@ vpnc_ipup_main(int argc, char **argv)
 		sprintf(buf, "%s", nvram_safe_get(strcat_r(prefix, "xdns", tmp)));
 
 	nvram_set(strcat_r(prefix, "dns", tmp), buf);
+
+	//detect VPN Server network address
+	nodefgw_net = nvram_safe_get(strcat_r(prefix, "ipaddr", tmp));
+	nodefgw_network = strdupa(nodefgw_net);
+	nodefgw_net = strdupa(strtok(nodefgw_network, "."));
+	nodefgw_net = strcat(nodefgw_net, ".");
+	nodefgw_net = strcat(nodefgw_net, strtok(NULL, "."));
+	nodefgw_net = strcat(nodefgw_net, ".");
+	nodefgw_net = strcat(nodefgw_net, strtok(NULL, "."));
+	nodefgw_net = strcat(nodefgw_net, ".0");
+	nvram_set(strcat_r(prefix, "nodefgw_net", tmp), nodefgw_net);
+	//VPN Server network address detected
 
 	vpnc_up(vpnc_ifname);
 
@@ -628,6 +648,15 @@ vpnc_down(char *vpnc_ifname)
 		if (nvram_get_int(strcat_r(prefix, "dut_disc", tmp)) && strcmp(wan_proto, "pppoe"))
 			route_del(wan_ifname, 0, nvram_safe_get(strcat_r(wan_prefix, "gateway", tmp)), "0.0.0.0", "255.255.255.255");
 	}
+
+
+	/* delete routes when remote gateway NOT the default gateway for VPN client */
+	if (nvram_match(strcat_r(prefix, "defaultroute", tmp), "0")){
+	route_del(vpnc_ifname, 0, nvram_safe_get(strcat_r(prefix, "ipaddr", tmp)), NULL, "255.255.255.255");
+	route_del(vpnc_ifname, 1, nvram_safe_get(strcat_r(prefix, "nodefgw_net", tmp)), nvram_safe_get(strcat_r(prefix, "ipaddr", tmp)), "255.255.255.0");
+	route_del(vpnc_ifname, 0, nvram_safe_get(strcat_r(prefix, "gateway", tmp)), NULL, "255.255.255.255");
+	}
+
 
 	/* Delete firewall rules for VPN client */
 	vpnc_del_firewall_rule();
