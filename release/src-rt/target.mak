@@ -98,8 +98,6 @@ export RT-N10PV2 := MIPS32=r2 AUTODICT=y PARENTAL2=n SFP=y SFP4M=y BOOTLZMA=y BU
 		SFPRAM16M=y USB=n IPV6=n OPENVPN=n DNSMQ=y SAMBA3=n SSH=n CIFS=n FTP=n SAMBASRV=n IPV6SUPP=n \
 		SMALL_FW_UPDATE=y L7=n L7PAT=n
 
->>>>>>> 09f75de... Update target.mak to add support for Broadcom MIPS RT-N series
-
 # Broadcom ARM platform
 export RT-AC68U_BASE := IPV6SUPP=y HTTPS=y ARM=y BCM57=y AUTODICT=y BBEXTRAS=y USBEXTRAS=y EBTABLES=y \
                         SAMBA3=y MEDIASRV=y MODEM=y MODEMPIN=y BECEEM=y PARENTAL2=y ACCEL_PPTPD=y PRINTER=y \
