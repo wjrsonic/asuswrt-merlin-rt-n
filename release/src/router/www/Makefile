@@ -96,10 +96,10 @@ ifneq ($(RTCONFIG_OPENVPN),y)
 #	rm -rf $(INSTALLDIR)/www/images/New_ui/network_config.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/TimeLimits.png
 #	rm -rf $(INSTALLDIR)/www/images/New_ui/QoS.png
-	rm -rf $(INSTALLDIR)/www/images/New_ui/parental-control.png
-	rm -rf $(INSTALLDIR)/www/images/New_ui/rt.jpg
-	rm -rf $(INSTALLDIR)/www/images/New_ui/re.jpg
-	rm -rf $(INSTALLDIR)/www/images/New_ui/ap.jpg
+#	rm -rf $(INSTALLDIR)/www/images/New_ui/parental-control.png
+#	rm -rf $(INSTALLDIR)/www/images/New_ui/rt.jpg
+#	rm -rf $(INSTALLDIR)/www/images/New_ui/re.jpg
+#	rm -rf $(INSTALLDIR)/www/images/New_ui/ap.jpg
 	rm -rf $(INSTALLDIR)/www/images/New_ui/mb.jpg
 #Andrey
 	rm -rf $(INSTALLDIR)/www/AiStream*
@@ -110,6 +110,7 @@ ifneq ($(RTCONFIG_OPENVPN),y)
 	rm -rf $(INSTALLDIR)/www/Advanced_OpenVPNClient_Content.asp
 	rm -rf $(INSTALLDIR)/www/ajax_openvpn_server.asp
 	rm -rf $(INSTALLDIR)/www/Advanced_PerformanceTuning_Content.asp
+	rm -rf $(INSTALLDIR)/www/images/New_ui/app_icons
 #Tools
 #	rm -rf $(INSTALLDIR)/www/Tools_Sysinfo.asp
 #	rm -rf $(INSTALLDIR)/www/Tools_OtherSettings.asp
@@ -195,6 +196,7 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 #USB
 	rm -rf $(INSTALLDIR)/www/images/New_ui/USBExt
 	rm -rf $(INSTALLDIR)/www/images/New_ui/aidisk
+	rm -rf $(INSTALLDIR)/www/images/New_ui/app_icons
 	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/map-iconPrinter.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/map-iconmodem.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/map-iconUSBdisk.png
