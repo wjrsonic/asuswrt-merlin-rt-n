@@ -715,6 +715,10 @@ gen_target:
 	else \
 		rm -rf $(TARGETDIR)/iNIC_RT3352/ ; \
 	fi
+# experimental: driver from 376.2048 wl.ko
+	rm -f $(TARGETDIR)/lib/modules/*/kernel/drivers/net/wl/wl.ko
+	cp -f  $(SRCBASE)/wl/sysdeps/376.2048/wl.ko $(TARGETDIR)/lib/modules/*/kernel/drivers/net/wl
+
 ##!!TB	find $(TARGETDIR)/lib/modules -name *.o -exec mipsel-linux-strip --strip-unneeded {} \;
 	find $(TARGETDIR)/lib/modules -name *.o -exec $(STRIP) --strip-debug --strip-unneeded {} \;
 	find $(TARGETDIR)/lib/modules -name *.ko -exec $(STRIP) --strip-debug --strip-unneeded {} \;
