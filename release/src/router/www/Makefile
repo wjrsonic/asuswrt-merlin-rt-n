@@ -298,6 +298,11 @@ else
 	rm -rf $(INSTALLDIR)/www/ajax_signals.asp
 endif
 
+ifneq ($(RTCONFIG_DSL),y)
+	rm -rf $(INSTALLDIR)/www/Advanced_Feedback.asp
+	rm -rf $(INSTALLDIR)/www/Feedback_Info.asp
+endif
+
 ifneq ($(BUILD_NAME),DSL-N55U)
 ifneq ($(BUILD_NAME),DSL-N55U-B)
 ifneq ($(BUILD_NAME),RT-N56U)
