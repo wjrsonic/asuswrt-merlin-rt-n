@@ -2437,7 +2437,7 @@ int init_nvram(void)
 		nvram_set("ohci_ports", "2-1");
 		if (!nvram_get("ct_max") || nvram_get("ct_max") < 65535)
 			nvram_set("ct_max", "65535"); //force
-		add_rc_support("2.4G update mssid usbX1 nomedia");
+		add_rc_support("2.4G update mssid usbX1");
 		add_rc_support("switchctrl"); // broadcom: for jumbo frame only
 		add_rc_support("manual_stb");
 		break;
@@ -3556,7 +3556,7 @@ int init_nvram(void)
 		nvram_set("ohci_ports", "2-1");
 		if (!nvram_get("ct_max") || nvram_get("ct_max") < 32768 )
 			nvram_set("ct_max", "32768"); //force
-		add_rc_support("2.4G mssid usbX1 update nomedia");
+		add_rc_support("2.4G mssid usbX1 update");
 		break;
 
 	case MODEL_RTN10P:
