@@ -299,10 +299,9 @@ else
 	rm -rf $(INSTALLDIR)/www/ajax_signals.asp
 endif
 
-ifeq ($(BUILD_NAME),DSL-N55U)
-ifeq ($(BUILD_NAME),DSL-N55U-B)
-	rm -rf $(INSTALLDIR)/www/images/Model_product.png
-endif
+ifneq ($(RTCONFIG_DSL),y)
+	rm -rf $(INSTALLDIR)/www/Advanced_Feedback.asp
+	rm -rf $(INSTALLDIR)/www/Feedback_Info.asp
 endif
 
 ifneq ($(BUILD_NAME),DSL-N55U)
