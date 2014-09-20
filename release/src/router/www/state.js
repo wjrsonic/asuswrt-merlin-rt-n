@@ -646,8 +646,8 @@ function remove_url(){
 		menuL1_link[6] = "";
 	}
 
-	if(based_modelid == "RT-N10U")	//MODELDEP
-		remove_menu_item("Advanced_WMode_Content.asp");
+//	if(based_modelid == "RT-N10U")	//MODELDEP
+//		remove_menu_item("Advanced_WMode_Content.asp");
 	
 	if(based_modelid == "RT-AC87U" && '<% nvram_get("wl_unit"); %>' == '1')	//MODELDEP	
 		remove_menu_item("Advanced_WSecurity_Content.asp");
