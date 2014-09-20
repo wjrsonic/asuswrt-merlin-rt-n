@@ -2306,7 +2306,7 @@ function show_selected_language(){
 			break;
 		}	
 		case 'UK':{
-			$('selected_lang').innerHTML = "Український";
+			$('selected_lang').innerHTML = "Українська";
 			break;
 		}		
 	}
