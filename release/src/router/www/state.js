@@ -2145,7 +2145,7 @@ function show_selected_language(){
 			break;
 		}	
 		case 'UK':{
-			$('selected_lang').innerHTML = "Ukrainian";
+			$('selected_lang').innerHTML = "Українська";
 			break;
 		}		
 	}
