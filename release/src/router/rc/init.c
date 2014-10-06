@@ -2474,6 +2474,8 @@ int init_nvram(void)
 		add_rc_support("2.4G update mssid usbX1");
 		add_rc_support("switchctrl"); // broadcom: for jumbo frame only
 		add_rc_support("manual_stb");
+		add_rc_support("aicloudipk"); // 
+		add_rc_support("rrsut");	//syn server
 		add_rc_support("pwrctrl"); // wl power adjust
 		nvram_set("sb/1/maxp2ga0", "0x52");
 		nvram_set("sb/1/maxp2ga1", "0x52");
@@ -3569,6 +3571,8 @@ int init_nvram(void)
 		if (!nvram_get("ct_max") || nvram_get("ct_max") < 16384 )
 			nvram_set("ct_max", "16384"); //force
 		add_rc_support("2.4G mssid media usbX1 update");
+		add_rc_support("aicloudipk"); // 
+		add_rc_support("rrsut");	//syn server
 		 // wl power adjust
 		nvram_set("sb/1/maxp2ga0", "0x52");
 		nvram_set("sb/1/maxp2ga1", "0x52");
@@ -3655,6 +3659,8 @@ int init_nvram(void)
 		if (!nvram_get("ct_max") || nvram_get("ct_max") < 32768 )
 			nvram_set("ct_max", "32768"); //force
 		add_rc_support("2.4G mssid usbX1 update");
+		add_rc_support("aicloudipk"); // 
+		add_rc_support("rrsut");	//syn server
 		add_rc_support("pwrctrl"); // wl power adjust
 		nvram_set("sb/1/maxp2ga0", "0x52");
 		nvram_set("sb/1/maxp2ga1", "0x52");
