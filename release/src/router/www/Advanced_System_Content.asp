@@ -375,6 +375,14 @@ function validForm(){
 		return false;
 	}
 	
+	if(document.form.apps_swap_enable[0].checked){
+		if (!validate_range(document.form.apps_swap_size, 32768, 1048576))
+			return false;
+	}
+	else{
+		document.form.apps_swap_size = true;
+	}
+
 	if(isPortConflict(document.form.misc_httpport_x.value)){
 		alert(isPortConflict(document.form.misc_httpport_x.value));
 		document.form.misc_httpport_x.focus();
@@ -914,6 +922,17 @@ function check_sshd_enable(obj_value){
 	$("sshd_rwb_tr").style.display = state;
 }
 
+function check_apps_swap_enable(obj_value){
+	var state;
+
+	if (obj_value == 1)
+		state = "";
+	else
+		state = "none";
+
+	$("apps_swap_size_tr").style.display = state;
+}
+
 /*function sshd_remote_access(obj_value){
 	if(obj_value == 1){
 		$('remote_access_port_tr').style.display = "";
@@ -1096,6 +1115,31 @@ function check_sshd_enable(obj_value){
 			</td>
 	</tr>
 </table>
+
+
+<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+                <thead>
+                <tr>
+          <td colspan="2">Swap file</td>
+        </tr>
+        </thead>
+
+	<tr>
+			<th>Enable Swap file</th>
+				<td>
+						<input type="radio" name="apps_swap_enable" class="input" onClick="check_apps_swap_enable(this.value);" value="1" <% nvram_match("apps_swap_enable", "1", "checked"); %>><#checkbox_Yes#>
+						<input type="radio" name="apps_swap_enable" class="input" onClick="check_apps_swap_enable(this.value);" value="0" <% nvram_match("apps_swap_enable", "0", "checked"); %>><#checkbox_No#>
+				</td>
+	</tr>
+
+	<tr id="apps_swap_size_tr">
+			<th>Swap file size</th>
+				<td>
+					<input type="text" maxlength="8" class="input_15_table" name="apps_swap_size" onKeyPress="return is_number(this,event);" onblur="validate_number_range(this, 1, 1048576)" value="<% nvram_get("apps_swap_size"); %>">
+				</td>
+	</tr>
+</table>
+
 
 <table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
                 <thead>
