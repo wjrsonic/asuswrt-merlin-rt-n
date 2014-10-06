@@ -2,14 +2,11 @@ export LINUXDIR := $(SRCBASE)/linux/linux-2.6
 
 EXTRA_CFLAGS := -DLINUX26 -DCONFIG_BCMWL5 -DDEBUG_NOISY -DDEBUG_RCTEST -pipe -DTTEST
 
-export PARALLEL_BUILD :=
-#export PARALLEL_BUILD := -j`grep -c '^processor' /proc/cpuinfo`
-
 export CONFIG_LINUX26=y
 export CONFIG_BCMWL5=y
 
-#export PARALLEL_BUILD :=
-export PARALLEL_BUILD := -j`grep -c '^processor' /proc/cpuinfo`
+export PARALLEL_BUILD :=
+#export PARALLEL_BUILD := -j`grep -c '^processor' /proc/cpuinfo`
 
 define platformRouterOptions
 @( \
@@ -402,6 +399,10 @@ define platformKernelConfig
 			cp -rf $(SRCBASE)/router/net-snmp-5.7.2/asus_mibs/sysdeps/$(BUILD_NAME)/$(BUILD_NAME)-MIB.txt $(SRCBASE)/router/net-snmp-5.7.2/mibs ; \
 			cp -rf $(SRCBASE)/router/net-snmp-5.7.2/asus_mibs/sysdeps/$(BUILD_NAME)/asus-mib $(SRCBASE)/router/net-snmp-5.7.2/agent/mibgroup ; \
 		fi; \
+	fi; \
+	if [ "$(NVRAM_64K)" = "y" ] && [ "$(APP)" = "network" ]; then \
+		sed -i "/CONFIG_CFE_NVRAM_CHK/d" $(1); \
+		echo "# CONFIG_CFE_NVRAM_CHK is not set" >>$(1); \
 	fi; \
 	)
 endef
