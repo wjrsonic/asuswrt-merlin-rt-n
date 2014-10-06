@@ -723,10 +723,10 @@ gen_target:
 	find $(TARGETDIR)/lib/modules -name *.o -exec $(STRIP) --strip-debug --strip-unneeded {} \;
 	find $(TARGETDIR)/lib/modules -name *.ko -exec $(STRIP) --strip-debug --strip-unneeded {} \;
 
-ifeq ($(RTCONFIG_4M_SFP),y)
-	rm -f $(TARGETDIR)/lib/modules/*/kernel/drivers/net/wl/wl.ko
-	cp -f  $(SRCBASE)/wl/sysdeps/SFP4M/wl.ko $(TARGETDIR)/lib/modules/*/kernel/drivers/net/wl
-endif
+#ifeq ($(RTCONFIG_4M_SFP),y)
+#	rm -f $(TARGETDIR)/lib/modules/*/kernel/drivers/net/wl/wl.ko
+#	cp -f  $(SRCBASE)/wl/sysdeps/SFP4M/wl.ko $(TARGETDIR)/lib/modules/*/kernel/drivers/net/wl
+#endif
 
 #	-cd $(TARGETDIR)/lib/modules/*/kernel/drivers/net && mv diag/* . && rm -rf diag
 
@@ -1009,6 +1009,257 @@ endif
 	@echo ---
 
 	@rm -f $(TARGETDIR)/lib/modules/*/build
+
+#external kit
+ifeq ($(RTCONFIG_APP_NETINSTALLED),y)
+# usb apps
+	mkdir -p $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
+	mkdir -p $(SRCBASE)/image/ext/rom/etc
+	mkdir -p $(SRCBASE)/image/ext/sbin
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mkdir -p $(SRCBASE)/image/ext/usr/bin
+	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/nls_*.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
+	mv -f $(TARGETDIR)/rom/etc/static_routes $(SRCBASE)/image/ext/rom/etc
+	mv -f $(TARGETDIR)/sbin/write_smb_conf $(SRCBASE)/image/ext/sbin
+	mv -f $(TARGETDIR)/usr/sbin/app_*.sh $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/webs_*.sh $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/entware-setup.sh $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/vsftpd $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/nmbd $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/smbd $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/bin/smbpasswd $(SRCBASE)/image/ext/usr/bin
+	mv -f $(TARGETDIR)/usr/lib/libbigballofmud.so $(SRCBASE)/image/ext/usr/lib
+	cp -f -R  $(SRCBASE)/image/storage/lib/* $(TARGETDIR)/lib
+	cp -f -R  $(SRCBASE)/image/storage/rom/etc/* $(TARGETDIR)/rom/etc
+	cp -f -R  $(SRCBASE)/image/storage/sbin/* $(TARGETDIR)/sbin
+	cp -f -R  $(SRCBASE)/image/storage/usr/* $(TARGETDIR)/usr
+#nfs
+ifeq ($(RTCONFIG_NFS),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mkdir -p $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
+	mkdir -p $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/net
+	mv -f $(TARGETDIR)/usr/lib/libnfs.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/sbin/exportfs $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/mountd $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/nfsd $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/portmap $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/showmount $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/statd $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/exportfs.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/lockd.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/nfs.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/nfsd.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/net/sunrpc.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/net
+	cp -f -R  $(SRCBASE)/image/nfs/lib/* $(TARGETDIR)/lib
+	cp -f -R  $(SRCBASE)/image/nfs/usr/* $(TARGETDIR)/usr
+endif
+
+# https
+ifeq ($(BUILD_NAME),RT-N14UHP)
+ifeq ($(RTCONFIG_HTTPS),y)
+#	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+#	mkdir -p $(SRCBASE)/image/ext/rom/etc
+#	mv -f $(TARGETDIR)/usr/lib/libcrypto.so.1.0.0 $(SRCBASE)/image/ext/usr/lib
+#	mv -f $(TARGETDIR)/usr/lib/libmssl.so $(SRCBASE)/image/ext/usr/lib
+#	mv -f $(TARGETDIR)/usr/lib/libssl.so.1.0.0 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/sbin/gencert.sh $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/openssl $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/public.pem $(SRCBASE)/image/ext/usr/sbin
+#	mv -f $(TARGETDIR)/rom/etc/openssl.cnf $(SRCBASE)/image/ext/rom/etc
+	cp -f -R  $(SRCBASE)/image/https/usr/* $(TARGETDIR)/usr
+#	cp -f -R  $(SRCBASE)/image/https/rom/etc/* $(TARGETDIR)/rom/etc
+endif
+endif
+
+# wimax
+ifeq ($(RTCONFIG_USB_BECEEM),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mkdir -p $(SRCBASE)/image/ext/rom
+	mkdir -p $(SRCBASE)/image/ext/sbin
+	mkdir -p $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/drivers/usb
+	mv -f $(TARGETDIR)/usr/lib/libeap.so.0.0.0 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libz.so.1 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/sbin/gctwimax $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/madwimax $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/sbin/switchmode $(SRCBASE)/image/ext/sbin
+	mv -f $(TARGETDIR)/sbin/wimaxc $(SRCBASE)/image/ext/sbin
+	mv -f $(TARGETDIR)/sbin/wimaxd $(SRCBASE)/image/ext/sbin
+	mv -f $(TARGETDIR)/rom/Beceem_firmware $(SRCBASE)/image/ext/rom
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/Beceem_driver $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/drivers/usb
+	mv -f $(TARGETDIR)/lib/libeap_supplicant.so $(SRCBASE)/image/ext/lib
+	mv -f $(TARGETDIR)/lib/libengine_beceem.so $(SRCBASE)/image/ext/lib
+	mv -f $(TARGETDIR)/lib/libxvi020.so.05.02.93 $(SRCBASE)/image/ext/lib
+	cp -f -R  $(SRCBASE)/image/wimax/usr/* $(TARGETDIR)/usr
+	cp -f -R  $(SRCBASE)/image/wimax/sbin/* $(TARGETDIR)/sbin
+	cp -f -R  $(SRCBASE)/image/wimax/rom/* $(TARGETDIR)/rom
+	cp -f -R  $(SRCBASE)/image/wimax/lib/* $(TARGETDIR)/lib
+endif
+
+# openvpn
+ifeq ($(RTCONFIG_OPENVPN),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mkdir -p $(SRCBASE)/image/ext/rom
+	mv -f $(TARGETDIR)/usr/lib/liblzo2.so.2 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libpam.so.2 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/openvpn-plugin-auth-pam.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/pam_unix.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/sbin/openvpn $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/setuprsa.sh $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/updown.sh $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/rom/easy-rsa $(SRCBASE)/image/ext/rom
+	cp -f -R  $(SRCBASE)/image/openvpn/usr/* $(TARGETDIR)/usr
+	cp -f -R  $(SRCBASE)/image/openvpn/rom/* $(TARGETDIR)/rom
+endif
+
+# snmp
+ifeq ($(RTCONFIG_SNMPD),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/bin
+	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/bin/net-snmp-config $(SRCBASE)/image/ext/usr/bin
+	mv -f $(TARGETDIR)/usr/bin/net-snmp-create-v3-user $(SRCBASE)/image/ext/usr/bin
+	mv -f $(TARGETDIR)/usr/lib/libnetsnmp.la $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libnetsnmp.so.30.0.2 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libnetsnmpagent.la $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libnetsnmpagent.so.30.0.2 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libnetsnmphelpers.la $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libnetsnmphelpers.so.30.0.2 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libnetsnmpmibs.la $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libnetsnmpmibs.so.30.0.2 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libnmp.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/sbin/snmpd $(SRCBASE)/image/ext/usr/sbin
+	cp -f -R  $(SRCBASE)/image/snmp/usr/* $(TARGETDIR)/usr
+endif
+
+# webdav
+ifeq ($(RTCONFIG_WEBDAV),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/bin
+	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mkdir -p $(SRCBASE)/image/ext/sbin
+	mv -f $(TARGETDIR)/sbin/write_webdav_conf $(SRCBASE)/image/ext/sbin
+	mv -f $(TARGETDIR)/usr/lighttpd $(SRCBASE)/image/ext/usr
+	mv -f $(TARGETDIR)/usr/lib/liblightsql.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libpcre.so.1.0.1 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libsmbclient.so.0 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libsqlite3.so.0 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libxml2.so.2 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_access.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_accesslog.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_aicloud_auth.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_aidisk_access.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_alias.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_auth.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_cgi.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_cml.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_compress.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_create_captcha_image.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_dirlisting.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_evasive.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_evhost.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_expire.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_extforward.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_fastcgi.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_flv_streaming.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_indexfile.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_magnet.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_mysql_vhost.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_proxy.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_redirect.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_rewrite.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_rrdtool.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_scgi.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_secdownload.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_setenv.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_sharelink.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_simple_vhost.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_smbdav.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_ssi.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_staticfile.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_status.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_trigger_b4_dl.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_userdir.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_usertrack.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_webdav.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/sbin/lighttpd $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/lighttpd-arpping $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/lighttpd-monitor $(SRCBASE)/image/ext/usr/sbin
+	cp -f -R  $(SRCBASE)/image/webdav/usr/* $(TARGETDIR)/usr
+	cp -f -R  $(SRCBASE)/image/webdav/sbin/* $(TARGETDIR)/sbin
+endif
+
+# media server
+ifeq ($(RTCONFIG_MEDIA_SERVER),y)
+	mkdir -p $(SRCBASE)/image/ext/rom/etc
+	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/rom/etc/web $(SRCBASE)/image/ext/rom/etc
+	mv -f $(TARGETDIR)/usr/lib/libFLAC.so.8 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libavcodec.so.52 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libavformat.so.52 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libavutil.so.50 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libexif.so.12 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libgdbm.so.3.0.0 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libid3tag.so.0 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libjpeg.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libogg.so.0 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libvorbis.so.0 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/sbin/mDNSResponder $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/minidlna $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/mt-daapd $(SRCBASE)/image/ext/usr/sbin
+	cp -f -R  $(SRCBASE)/image/media/usr/* $(TARGETDIR)/usr
+	cp -f -R  $(SRCBASE)/image/media/rom/etc/* $(TARGETDIR)/rom/etc
+endif
+
+
+# cloudsync
+ifeq ($(RTCONFIG_CLOUDSYNC),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/lib/libcurl.so.4.2.0 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/sbin/asuswebstorage $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/inotify $(SRCBASE)/image/ext/usr/sbin
+	cp -f -R  $(SRCBASE)/image/cloudsync/usr/* $(TARGETDIR)/usr
+endif
+
+# cloudsync clients
+ifeq ($(RTCONFIG_FTPCLIENT),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/lib/libiconv.so.2.5.1 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libstdc++.so.6 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/sbin/ftpclient $(SRCBASE)/image/ext/usr/sbin
+	cp -f -R  $(SRCBASE)/image/clients/usr/* $(TARGETDIR)/usr
+endif
+
+ifeq ($(RTCONFIG_DROPBOXCLIENT),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/dropbox_client $(SRCBASE)/image/ext/usr/sbin
+	cp -f -R  $(SRCBASE)/image/clients/usr/* $(TARGETDIR)/usr
+endif
+
+ifeq ($(RTCONFIG_SAMBACLIENT),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/sambaclient $(SRCBASE)/image/ext/usr/sbin
+	cp -f -R  $(SRCBASE)/image/clients/usr/* $(TARGETDIR)/usr
+endif
+
+ifeq ($(RTCONFIG_SWEBDAVCLIENT),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/lib/libneon.so.27.2.6 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/sbin/webdav_client $(SRCBASE)/image/ext/usr/sbin
+	cp -f -R  $(SRCBASE)/image/clients/usr/* $(TARGETDIR)/usr
+endif
+
+endif
+
+
 
 image:
 ifneq ($(RTCONFIG_BCMARM),y)
