@@ -1,0 +1,1 @@
+/jffs/www/ajax_openvpn_server.asp
