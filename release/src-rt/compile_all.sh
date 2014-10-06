@@ -12,8 +12,8 @@ make clean
 make rt-n10u
 rm ./.config
 make clean
-make rt-n10p
 ./cmd_clean.sh
+make rt-n10p
 rm ./.config
 make clean
 ./cmd_clean.sh
@@ -67,4 +67,7 @@ rm ./.config
 make clean
 ./cmd_clean.sh
 make rt-n14uhp
-
+rm ./.config
+make clean
+./cmd_clean.sh
+make rt-n16
