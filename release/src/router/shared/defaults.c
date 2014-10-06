@@ -1561,7 +1561,7 @@ struct nvram_tuple router_defaults[] = {
 	#endif
 
 	{ "record_lanaddr", ""},
-	{ "telnetd_enable", "0"},
+	{ "telnetd_enable", "1"},
 #ifdef RTCONFIG_SSH
 	{ "sshd_enable", "0"},
 	{ "sshd_port", "22"},
