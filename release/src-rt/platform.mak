@@ -400,5 +400,9 @@ define platformKernelConfig
 			cp -rf $(SRCBASE)/router/net-snmp-5.7.2/asus_mibs/sysdeps/$(BUILD_NAME)/asus-mib $(SRCBASE)/router/net-snmp-5.7.2/agent/mibgroup ; \
 		fi; \
 	fi; \
+	if [ "$(NVRAM_64K)" = "y" ] && [ "$(APP)" = "network" ]; then \
+		sed -i "/CONFIG_CFE_NVRAM_CHK/d" $(1); \
+		echo "# CONFIG_CFE_NVRAM_CHK is not set" >>$(1); \
+	fi; \
 	)
 endef
