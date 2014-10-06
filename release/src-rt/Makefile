@@ -276,6 +276,7 @@ else
 endif
 	ctools/trx_asus -i image/linux-lzma.trx -r $(BUILD_NAME),$(KERNEL_VER).$(FS_VER),image/$(IMGNAME).trx
 	@rm -f image/linux-lzma.trx
+	@if [ -d "image/ext" ]; then cd image; tar -czf $(IMGNAME)-ext.tgz ext; cd ..; rm -rf image/ext; fi
 endif
 
 ifeq ($(DSL_TCLINUX),y)
