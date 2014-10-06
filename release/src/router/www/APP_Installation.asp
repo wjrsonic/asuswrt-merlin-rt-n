@@ -469,18 +469,19 @@ function show_apps(){
 	
 	if(apps_array == "" && (appnet_support || appbase_support)){
 		apps_array = [["downloadmaster", "", "", "no", "no", "", "", "PC-free download manager.", "downloadmaster_png", "", "", ""],
-									["mediaserver", "", "", "no", "no", "", "", "", "mediaserver_png", "", "", ""]];
+									["mediaserver", "", "", "no", "no", "", "", "", "mediaserver_png", "", "", ""],
+["aicloud", "", "", "no", "no", "", "", "AiCloud 2.0 utilities", "aicloud_png", "", "", ""]]; //add aicloud
 		if(nodm_support)
 			apps_array[1][0] = "mediaserver2";
 
-		if(aicloudipk_support)
+		/*if(aicloudipk_support)
 			apps_array.push(["aicloud", "", "", "no", "no", "", "", "AiCloud 2.0 utilities", "aicloud_png", "", "", ""]);
 	}
 
 	if(!aicloudipk_support){
 		var aicloud_idx = apps_array.getIndexByValue2D("aicloud");
 		if(aicloud_idx[1] != -1 && aicloud_idx != -1)
-			apps_array.splice(aicloud_idx[0], 1);
+			apps_array.splice(aicloud_idx[0], 1); */
 	}
 
 	if(nodm_support){
@@ -972,7 +973,7 @@ function reloadAPP(){
 								<a id="faq2" href="" target="_blank" style="text-decoration:underline;font-size:14px;font-weight:bolder;color:#FFF">Download Master Tool FAQ</a>
 							</li>
 							<li style="margin-top:10px;">
-								<a id="DMUtilityLink" href="http://dlcdnet.asus.com/pub/ASUS/wireless/ASUSWRT/DM2_2037.zip" style="text-decoration:underline;font-size:14px;font-weight:bolder;color:#FFF"><#DM_Download_Tool#></a>
+								<a id="DMUtilityLink" href="http://dlcdnet.asus.com/pub/ASUS/wireless/ASUSWRT/DM2_2049.zip" style="text-decoration:underline;font-size:14px;font-weight:bolder;color:#FFF"><#DM_Download_Tool#></a>
 							</li>
 							<li style="margin-top:10px;">
 								<a target="_blank" style="font-weight: bolder; cursor:pointer;text-decoration: underline;" href="http://www.youtube.com/v/Em6Hddyytlw"><#Video_Link1#></a>
