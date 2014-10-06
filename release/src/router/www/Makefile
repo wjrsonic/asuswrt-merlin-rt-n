@@ -91,8 +91,9 @@ ifneq ($(RTCONFIG_DNSFILTER),y)
 	rm -rf $(INSTALLDIR)/www/DNSFilter.asp
 	rm -rf $(INSTALLDIR)/www/Home_Security.asp
 endif
-ifneq ($(RTCONFIG_OPENVPN),y)
-	rm -rf $(INSTALLDIR)/www/images/cloudsync/invite_model.jpg
+#ifneq ($(RTCONFIG_OPENVPN),y)
+ifneq ($(RTCONFIG_BCMWL6),y)
+#	rm -rf $(INSTALLDIR)/www/images/cloudsync/invite_model.jpg
 #	rm -rf $(INSTALLDIR)/www/images/New_ui/network_config.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/TimeLimits.png
 #	rm -rf $(INSTALLDIR)/www/images/New_ui/QoS.png
@@ -103,12 +104,28 @@ ifneq ($(RTCONFIG_OPENVPN),y)
 	rm -rf $(INSTALLDIR)/www/images/New_ui/mb.jpg
 #Andrey
 	rm -rf $(INSTALLDIR)/www/AiStream*
+ifeq ($(RTCONFIG_NFS),y)
+ifeq ($(RTCONFIG_APP_NETINSTALLED),y)
+	mkdir -p $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/Advanced_AiDisk_NFS.asp $(SRCBASE)/image/ext/www
+	cp -f -R  $(SRCBASE)/image/nfs/www/* $(INSTALLDIR)/www
+endif
+else
 	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_NFS.asp
-	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_webdav.asp
+endif
 	rm -rf $(INSTALLDIR)/www/DNSFilter.asp
 	rm -rf $(INSTALLDIR)/www/Home_Security.asp
+ifeq ($(RTCONFIG_OPENVPN),y)
+ifeq ($(RTCONFIG_APP_NETINSTALLED),y)
+	mkdir -p $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/Advanced_OpenVPNClient_Content.asp $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/ajax_openvpn_server.asp $(SRCBASE)/image/ext/www
+	cp -f -R  $(SRCBASE)/image/openvpn/www/* $(INSTALLDIR)/www
+endif
+else
 	rm -rf $(INSTALLDIR)/www/Advanced_OpenVPNClient_Content.asp
 	rm -rf $(INSTALLDIR)/www/ajax_openvpn_server.asp
+endif
 	rm -rf $(INSTALLDIR)/www/Advanced_PerformanceTuning_Content.asp
 	rm -rf $(INSTALLDIR)/www/images/New_ui/app_icons
 #Tools
@@ -238,7 +255,7 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -rf $(INSTALLDIR)/www/images/modem_plug.png
 	rm -rf $(INSTALLDIR)/www/images/modem_unplug.png
 	rm -rf $(INSTALLDIR)/www/images/survey/radio_status.png
-	-rm -f $(INSTALLDIR)/www/qis/QIS_modem.htm
+	rm -f $(INSTALLDIR)/www/qis/QIS_modem.htm
 	rm -rf $(INSTALLDIR)/www/qis/QIS_resetModem.htm
 	rm -rf $(INSTALLDIR)/www/qis/QIS_resetModem2.htm
 	rm -rf $(INSTALLDIR)/www/MobileQIS_Login.asp
@@ -307,17 +324,50 @@ ifneq ($(BUILD_NAME),DSL-N55U)
 ifneq ($(BUILD_NAME),DSL-N55U-B)
 ifneq ($(BUILD_NAME),RT-N56U)
 ifneq ($(RTCONFIG_CLOUDSYNC),y)
+ifeq ($(RTCONFIG_APP_NETINSTALLED),y)
+	mkdir -p $(SRCBASE)/image/ext/www
+	mkdir -p $(SRCBASE)/image/ext/www/images/New_ui/USBExt
+	mv -f $(INSTALLDIR)/www/images/cloudsync $(SRCBASE)/image/ext/www/images
+	mv -f $(INSTALLDIR)/www/images/aicloud_logo.png $(SRCBASE)/image/ext/www/images
+#	mv -f $(INSTALLDIR)/www/images/New_ui/USBExt/*cloud*.png $(SRCBASE)/image/www
+	mv -f $(INSTALLDIR)/www/update_cloudstatus.asp $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/get_webdavInfo.asp $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/*cloud*.asp $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/dropbox_callback.htm $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/Advanced_AiDisk_webdav.asp $(SRCBASE)/image/ext/www
+	cp -f -R  $(SRCBASE)/image/cloud/* $(INSTALLDIR)/www/
+else
 	rm -rf $(INSTALLDIR)/www/images/cloudsync
 	rm -rf $(INSTALLDIR)/www/images/aicloud_logo.png
-	rm -rf $(INSTALLDIR)/www/images/New_ui/USBExt/*cloud*.png
+#	rm -rf $(INSTALLDIR)/www/images/New_ui/USBExt/*cloud*.png
 	rm -rf $(INSTALLDIR)/www/update_cloudstatus.asp
 	rm -rf $(INSTALLDIR)/www/get_webdavInfo.asp
 	rm -rf $(INSTALLDIR)/www/*cloud*.asp
 	rm -rf $(INSTALLDIR)/www/dropbox_callback.htm
+	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_webdav.asp
 endif
 endif
 endif
 endif
+endif
+
+ifeq ($(RTCONFIG_CLOUDSYNC),y)
+ifeq ($(RTCONFIG_APP_NETINSTALLED),y)
+	mkdir -p $(SRCBASE)/image/ext/www
+	mkdir -p $(SRCBASE)/image/ext/www/images/New_ui/USBExt
+	mv -f $(INSTALLDIR)/www/images/cloudsync $(SRCBASE)/image/ext/www/images
+	mv -f $(INSTALLDIR)/www/images/aicloud_logo.png $(SRCBASE)/image/ext/www/images
+#	mv -f $(INSTALLDIR)/www/images/New_ui/USBExt/*cloud*.png $(SRCBASE)/image/www
+	mv -f $(INSTALLDIR)/www/update_cloudstatus.asp $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/get_webdavInfo.asp $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/*cloud*.asp $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/dropbox_callback.htm $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/Advanced_AiDisk_webdav.asp $(SRCBASE)/image/ext/www
+	cp -f -R  $(SRCBASE)/image/cloud/* $(INSTALLDIR)/www/
+endif
+endif
+
+
 
 ifneq ($(RTCONFIG_IPV6),y)
 	rm -rf $(INSTALLDIR)/www/Main_IPV6Status_Content.asp
@@ -325,6 +375,22 @@ ifneq ($(RTCONFIG_IPV6),y)
 	rm -rf $(INSTALLDIR)/www/update_IPv6state.asp
 	rm -rf $(INSTALLDIR)/www/Advanced_Firewall_IPv6_Content.asp
 endif
+
+ifeq ($(RTCONFIG_APP_NETINSTALLED),y)
+	mkdir -p $(SRCBASE)/image/ext/www
+	mkdir -p $(SRCBASE)/image/ext/www/images/New_ui
+	mv -f $(INSTALLDIR)/www/images/New_ui/aidisk $(SRCBASE)/image/ext/www/images/New_ui
+	mv -f $(INSTALLDIR)/www/images/New_ui/advancesetting $(SRCBASE)/image/ext/www/images/New_ui
+	mv -f $(INSTALLDIR)/www/aidisk $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/aidisk.asp $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/Advanced_AiDisk_ftp.asp $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/Advanced_AiDisk_samba.asp $(SRCBASE)/image/ext/www
+#	mv -f $(INSTALLDIR)/www/Advanced_AiDisk_NFS.asp $(SRCBASE)/image/ext/www
+#	mv -f $(INSTALLDIR)/www/Advanced_AiDisk_webdav.asp $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/Advanced_APPList_Content.asp $(SRCBASE)/image/ext/www
+	cp -f -R  $(SRCBASE)/image/storage/www/* $(INSTALLDIR)/www
+endif
+
 
 ifeq ($(RTCONFIG_NO_USBSTORAGE),y)
 	rm -rf $(INSTALLDIR)/www/images/New_ui/USBExt
@@ -357,11 +423,12 @@ ifneq ($(RTCONFIG_USB),y)
 	rm -rf $(INSTALLDIR)/www/images/New_ui/usbstatus.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/printstatus.png
 	rm -rf $(INSTALLDIR)/www/aidisk
-#	rm -rf $(INSTALLDIR)/www/mediaserver.asp
+	rm -rf $(INSTALLDIR)/www/mediaserver.asp
 	rm -rf $(INSTALLDIR)/www/ajax_dms_status.asp
 	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_ftp.asp
 	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_samba.asp
 	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_others.asp
+	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_NFS.asp
 	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_webdav.asp
 	rm -rf $(INSTALLDIR)/www/Advanced_APPList_Content.asp
 	rm -rf $(INSTALLDIR)/www/Advanced_Modem_Content.asp
@@ -428,6 +495,18 @@ endif
 ifneq ($(RTCONFIG_VPNC), y)	
 	rm -rf $(INSTALLDIR)/www/Advanced_VPNClient_Content.asp
 endif	
+ifneq ($(RTCONFIG_MEDIA_SERVER), y)	
+	rm -rf $(INSTALLDIR)/www/mediaserver.asp
+endif	
+
+ifeq ($(RTCONFIG_MEDIA_SERVER), y)	
+ifeq ($(RTCONFIG_APP_NETINSTALLED),y)
+	mkdir -p $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/mediaserver.asp $(SRCBASE)/image/ext/www
+	cp -f -R  $(SRCBASE)/image/media/www/* $(INSTALLDIR)/www
+endif
+endif
+
 ifneq ($(RTCONFIG_TIMEMACHINE),y)
 	rm -rf $(INSTALLDIR)/www/Advanced_TimeMachine.asp
 	rm -rf $(INSTALLDIR)/www/images/New_ui/USBExt/time_machine_banner.png
@@ -513,6 +592,14 @@ endif
 
 ifneq ($(RTCONFIG_SNMPD), y)	
 	rm -rf $(INSTALLDIR)/www/Advanced_SNMP_Content.asp
+endif
+
+ifeq ($(RTCONFIG_SNMPD), y)	
+ifeq ($(RTCONFIG_APP_NETINSTALLED),y)
+	mkdir -p $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/Advanced_SNMP_Content.asp $(SRCBASE)/image/ext/www
+	cp -f -R  $(SRCBASE)/image/snmp/www/* $(INSTALLDIR)/www
+endif
 endif
 
 ifneq ($(RTCONFIG_OLD_PARENTALCTRL), y)	
