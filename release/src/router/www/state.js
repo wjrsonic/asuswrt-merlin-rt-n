@@ -1,3 +1,5 @@
+document.write('<script type="text/javascript" src="/require/require.min.js"></script>');
+
 /* Internet Explorer lacks this array method */
 if (!('indexOf' in Array.prototype)) {
 	Array.prototype.indexOf= function(find, i /*opt*/) {
@@ -766,7 +768,7 @@ function remove_url(){
 	}
 	else if(pptpd_support && !openvpnd_support){
 		if(!vpnc_support){
-			remove_menu_item("Advanced_OpenVPNClient_Content.asp");
+			remove_menu_item("Advanced_VPNClient_Content.asp");
 		}
 		remove_menu_item("Advanced_OpenVPNClient_Content.asp");
 	}
