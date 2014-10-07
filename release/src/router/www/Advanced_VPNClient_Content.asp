@@ -491,7 +491,6 @@ function edit_auto_conn(idx, obj){
 				temp_value = temp_value.substr(1,temp_value.length);
 		
 		document.form.vpnc_appendix.value = temp_value;
-
 }
 
 function edit_defgw(idx, obj){	
@@ -522,10 +521,7 @@ function edit_defgw(idx, obj){
 				temp_value = temp_value.substr(1,temp_value.length);
 		
 		document.form.vpnc_defgw.value = temp_value;
-
 }
-
-
 
 var duplicateCheck = {
 	tmpIdx: "-1",
