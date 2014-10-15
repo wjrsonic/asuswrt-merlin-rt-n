@@ -51,11 +51,14 @@ static void safe_leave(int signo){
 #endif
 
 #ifdef RTCONFIG_WIRELESSREPEATER
+// no dnsmq for 4MB
+#ifndef RTCONFIG_4M_SFP
 	if(sw_mode == SW_MODE_REPEATER){
 		eval("ebtables", "-t", "broute", "-F");
 		eval("ebtables", "-t", "filter", "-F");
 		f_write_string("/proc/net/dnsmqctrl", "", 0, 0);
 	}
+#endif
 #endif
 
 	if(rule_setup == 1){
@@ -2114,6 +2117,8 @@ int wanduck_main(int argc, char *argv[]){
 		else
 #endif
 #ifdef RTCONFIG_WIRELESSREPEATER
+// no dnsmq for 4MB
+#ifndef RTCONFIG_4M_SFP
 		if(sw_mode == SW_MODE_REPEATER){
 			if(!got_notify)
 				; // do nothing.
@@ -2156,6 +2161,7 @@ int wanduck_main(int argc, char *argv[]){
 			}
 		}
 		else
+#endif
 #endif
 		if(sw_mode == SW_MODE_AP){
 			; // do nothing.
