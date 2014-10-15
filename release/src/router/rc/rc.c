@@ -735,6 +735,8 @@ int main(int argc, char **argv)
 #endif
 #endif
 #ifdef RTCONFIG_WIRELESSREPEATER
+// no dnsmq for 4MB
+#ifndef RTCONFIG_4M_SFP
 	else if (!strcmp(base, "wlcconnect")) {
 		return wlcconnect_main();
 	}
@@ -744,6 +746,7 @@ int main(int argc, char **argv)
 
 		return setup_dnsmq(atoi(argv[1]));
 	}
+#endif
 #endif
 	else if (!strcmp(base, "add_multi_routes")) {
 		return add_multi_routes();
