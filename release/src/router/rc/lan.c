@@ -2059,6 +2059,8 @@ gmac3_no_swbr:
 	free(lan_ifname);
 
 #ifdef RTCONFIG_WIRELESSREPEATER
+// no dnsmq for 4MB
+#ifndef RTCONFIG_4M_SFP
 	if(get_model() == MODEL_APN12HP &&
 		nvram_get_int("sw_mode") == SW_MODE_AP) {
 		// When CONNECTED, need to redirect 10.0.0.1
@@ -2071,6 +2073,7 @@ gmac3_no_swbr:
 		f_write_string("/proc/net/dnsmqctrl", domain_mapping, 0, 0);
 		start_nat_rules();
 	}
+#endif
 #endif
 
 #ifdef RTCONFIG_QTN
@@ -3321,6 +3324,8 @@ lan_up(char *lan_ifname)
 #endif
 
 #ifdef RTCONFIG_WIRELESSREPEATER
+// no dnsmq for 4MB
+#ifndef RTCONFIG_4M_SFP
 	if(get_model() == MODEL_APN12HP &&
 		nvram_get_int("sw_mode") == SW_MODE_AP) {
 		repeater_nat_setting();
@@ -3331,6 +3336,7 @@ lan_up(char *lan_ifname)
 		f_write_string("/proc/net/dnsmqctrl", domain_mapping, 0, 0);
 		start_nat_rules();
 	}
+#endif
 #endif
 
 #ifdef RTCONFIG_USB
@@ -4027,6 +4033,8 @@ void restart_wireless(void)
 #endif
 
 #ifdef RTCONFIG_WIRELESSREPEATER
+// no dnsmq for 4MB
+#ifndef RTCONFIG_4M_SFP
 	// when wlc_mode = 0 & wlc_state = WLC_STATE_CONNECTED, don't notify wanduck yet.
 	// when wlc_mode = 1 & wlc_state = WLC_STATE_CONNECTED, need to notify wanduck.
 	// When wlc_mode = 1 & lan_up, need to set wlc_state be WLC_STATE_CONNECTED always.
@@ -4051,6 +4059,7 @@ void restart_wireless(void)
 		f_write_string("/proc/net/dnsmqctrl", domain_mapping, 0, 0);
 		start_nat_rules();
 	}
+#endif
 #endif
 
 #ifdef RTCONFIG_QCA
@@ -4153,6 +4162,8 @@ void restart_wireless_wps(void)
 #endif
 
 #ifdef RTCONFIG_WIRELESSREPEATER
+// no dnsmq for 4MB
+#ifndef RTCONFIG_4M_SFP
 	// when wlc_mode = 0 & wlc_state = WLC_STATE_CONNECTED, don't notify wanduck yet.
 	// when wlc_mode = 1 & wlc_state = WLC_STATE_CONNECTED, need to notify wanduck.
 	// When wlc_mode = 1 & lan_up, need to set wlc_state be WLC_STATE_CONNECTED always.
@@ -4177,6 +4188,7 @@ void restart_wireless_wps(void)
 		f_write_string("/proc/net/dnsmqctrl", domain_mapping, 0, 0);
 		start_nat_rules();
 	}
+#endif
 #endif
 
 	nvram_set_int("wlready", 1);

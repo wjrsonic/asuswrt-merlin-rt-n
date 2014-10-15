@@ -439,7 +439,10 @@ endif
 ifeq ($(RTAC66U), y)
 #	@cd $(INSTALLDIR)/sbin && ln -sf rc acsd_restart_wl
 endif
+# no dnsmq for 4MB
+ifneq ($(RTCONFIG_4M_SFP),y)
 	@cd $(INSTALLDIR)/sbin && ln -sf rc setup_dnsmq
+endif
 	@cd $(INSTALLDIR)/sbin && ln -sf rc add_multi_routes
 
 	@cd $(INSTALLDIR)/sbin && ln -sf rc free_caches
