@@ -1,0 +1,1 @@
+/jffs/www/Advanced_AiDisk_samba.asp
