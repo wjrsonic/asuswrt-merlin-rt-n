@@ -1354,6 +1354,7 @@ endif
 
 	rm -f $(TARGETDIR)/usr/sbin/webs_*
 	rm -f $(TARGETDIR)/usr/sbin/check_spectrum.sh
+endif
 	rm -f $(TARGETDIR)/www/wds_aplist_5g.asp
 	rm -f $(TARGETDIR)/www/wds_aplist_5g_2.asp
 	rm -f $(TARGETDIR)/www/QIS_wizard_m.htm
@@ -1384,6 +1385,17 @@ endif
 endif
 endif
 
+ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N15U RT-N10U ))
+	rm -f $(TARGETDIR)/www/mediaserver.asp
+#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb/asix.ko
+#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb/zaurus.ko
+#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb/ipheth.ko
+#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/usbserial.ko
+#	rm -f -r $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/usbmon
+endif
+	rm -f $(TARGETDIR)/usr/sbin/webs_*
+
+endif
 
 
 ifeq ($(BUILD_NAME),RT-N53)
@@ -1505,7 +1517,6 @@ ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10P RT-N12B1 RT-N12C1 RT-N12D1 
 	rm -f $(TARGETDIR)/usr/lib/libcom*
 	rm -f $(TARGETDIR)/usr/lib/libe2p*
 endif
-
 
 
 image:
