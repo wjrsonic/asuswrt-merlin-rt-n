@@ -3978,7 +3978,6 @@ int init_nvram(void)
 		nvram_set("wl_country_code", "#a");
 		nvram_set("wl0_country_code", "#a");
 		nvram_set("wl1_country_code", "#a");
-=======
 		break;
 
 	case MODEL_RTN10U:
