@@ -728,11 +728,6 @@ gen_target:
 	find $(TARGETDIR)/lib/modules -name *.o -exec $(STRIP) --strip-debug --strip-unneeded {} \;
 	find $(TARGETDIR)/lib/modules -name *.ko -exec $(STRIP) --strip-debug --strip-unneeded {} \;
 
-ifeq ($(RTCONFIG_4M_SFP),y)
-	rm -f $(TARGETDIR)/lib/modules/*/kernel/drivers/net/wl/wl.ko
-	cp -f  $(SRCBASE)/wl/sysdeps/SFP4M/wl.ko $(TARGETDIR)/lib/modules/*/kernel/drivers/net/wl
-endif
-
 #	-cd $(TARGETDIR)/lib/modules/*/kernel/drivers/net && mv diag/* . && rm -rf diag
 
 # nice and clean
@@ -1383,7 +1378,6 @@ endif
 endif
 
 
-
 ifeq ($(BUILD_NAME),RT-N53)
 	rm -f -r $(TARGETDIR)/www/aidisk
 	rm -f -r $(TARGETDIR)/www/images/Tree
@@ -1503,7 +1497,6 @@ ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10P RT-N12B1 RT-N12C1 RT-N12D1 
 	rm -f $(TARGETDIR)/usr/lib/libcom*
 	rm -f $(TARGETDIR)/usr/lib/libe2p*
 endif
-
 
 
 image:
