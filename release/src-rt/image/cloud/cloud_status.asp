@@ -1,0 +1,1 @@
+/jffs/www/cloud_status.asp
