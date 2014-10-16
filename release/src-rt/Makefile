@@ -147,7 +147,6 @@ endif
 export IMGNAME := $(BUILD_NAME)_$(KERNEL_VER).$(FS_VER)_$(SERIALNO)_$(SWPJVER)$(EXTENDNO)
 export PBDIR   := ../../../asuswrt.prebuilt/$(BUILD_NAME).$(KERNEL_VER).$(FS_VER).$(SERIALNO).$(EXTENDNO)
 
-
 default:
 	@if [ -f .config -a "$(BUILD_NAME)" != "" ] ; then \
 		$(MAKE) bin ; \
@@ -276,6 +275,9 @@ else
 endif
 	ctools/trx_asus -i image/linux-lzma.trx -r $(BUILD_NAME),$(KERNEL_VER).$(FS_VER),image/$(IMGNAME).trx
 	@rm -f image/linux-lzma.trx
+ifeq ($(APP),network)
+	@if [ -d "image/ext" ]; then cd image; tar -czf $(IMGNAME)-ext.tgz ext; cd ..; rm -rf image/ext; fi
+endif
 endif
 
 ifeq ($(DSL_TCLINUX),y)

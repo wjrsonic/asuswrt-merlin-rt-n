@@ -715,18 +715,10 @@ gen_target:
 	else \
 		rm -rf $(TARGETDIR)/iNIC_RT3352/ ; \
 	fi
-# experimental: driver from 376.2048 wl.ko
-#	rm -f $(TARGETDIR)/lib/modules/*/kernel/drivers/net/wl/wl.ko
-#	cp -f  $(SRCBASE)/wl/sysdeps/376.2048/wl.ko $(TARGETDIR)/lib/modules/*/kernel/drivers/net/wl
 
 ##!!TB	find $(TARGETDIR)/lib/modules -name *.o -exec mipsel-linux-strip --strip-unneeded {} \;
 	find $(TARGETDIR)/lib/modules -name *.o -exec $(STRIP) --strip-debug --strip-unneeded {} \;
 	find $(TARGETDIR)/lib/modules -name *.ko -exec $(STRIP) --strip-debug --strip-unneeded {} \;
-
-ifeq ($(RTCONFIG_4M_SFP),y)
-	rm -f $(TARGETDIR)/lib/modules/*/kernel/drivers/net/wl/wl.ko
-	cp -f  $(SRCBASE)/wl/sysdeps/SFP4M/wl.ko $(TARGETDIR)/lib/modules/*/kernel/drivers/net/wl
-endif
 
 #	-cd $(TARGETDIR)/lib/modules/*/kernel/drivers/net && mv diag/* . && rm -rf diag
 
@@ -851,7 +843,7 @@ endif
 	@mkdir $(PLATFORM)/extras/bluetooth/drivers
 	@mv $(TARGETDIR)/lib/modules/*/kernel/net/ipv4/ip_gre.*o $(PLATFORMDIR)/extras/ || true
 
-	$(if $(RTCONFIG_OPENVPN),@cp -f,$(if $(RTCONFIG_USB_MODEM),@cp -f,@mv)) $(TARGETDIR)/lib/modules/*/kernel/drivers/net/tun.*o $(PLATFORMDIR)/extras/ || true
+	$(if $(RTCONFIG_OPENVPN),@cp -f,$(if $(RTCONFIG_USB),@cp -f,@mv)) $(TARGETDIR)/lib/modules/*/kernel/drivers/net/tun.*o $(PLATFORMDIR)/extras/ || true
 	$(if $(RTCONFIG_EBTABLES),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/net/bridge/netfilter/ebt*.*o $(PLATFORMDIR)/extras/ || true
 
 #	@cp -f $(TARGETDIR)/lib/modules/*/kernel/net/ipv4/netfilter/ip_set*o $(PLATFORMDIR)/extras/ || true
@@ -875,18 +867,18 @@ endif
 	@mv $(TARGETDIR)/lib/modules/*/kernel/drivers/bluetooth $(PLATFORMDIR)/extras/bluetooth/drivers/ || true
 	@mv $(TARGETDIR)/lib/modules/*/kernel/net/bluetooth $(PLATFORMDIR)/extras/bluetooth/net/ || true
 
-	$(if $(RTCONFIG_USB_MODEM),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/usb/usbserial.*o $(PLATFORMDIR)/extras/ || true
-	$(if $(RTCONFIG_USB_MODEM),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/usb/option.*o $(PLATFORMDIR)/extras/ || true
-	$(if $(RTCONFIG_USB_MODEM),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/usb/*acm.*o $(PLATFORMDIR)/extras/ || true
-	$(if $(RTCONFIG_USB_MODEM),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/net/usb/usbnet.*o $(PLATFORMDIR)/extras/ || true
-	$(if $(RTCONFIG_USB_MODEM),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/net/usb/asix.*o $(PLATFORMDIR)/extras/ || true
-	$(if $(RTCONFIG_USB_MODEM),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/net/usb/cdc_ether.*o $(PLATFORMDIR)/extras/ || true
-	$(if $(RTCONFIG_USB_MODEM),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/net/usb/rndis_host.*o $(PLATFORMDIR)/extras/ || true
-	$(if $(RTCONFIG_USB_MODEM),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/net/usb/cdc_ncm.*o $(PLATFORMDIR)/extras/ || true
-	$(if $(RTCONFIG_USB_MODEM),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/net/usb/cdc_wdm.*o $(PLATFORMDIR)/extras/ || true
-	$(if $(RTCONFIG_USB_MODEM),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/net/usb/qmi_wwan.*o $(PLATFORMDIR)/extras/ || true
-	$(if $(RTCONFIG_USB_MODEM),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/net/usb/cdc_mbim.*o $(PLATFORMDIR)/extras/ || true
-	$(if $(RTCONFIG_USB_MODEM),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/usb/sierra.*o $(PLATFORMDIR)/extras/ || true
+	$(if $(RTCONFIG_USB),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/usb/usbserial.*o $(PLATFORMDIR)/extras/ || true
+	$(if $(RTCONFIG_USB),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/usb/option.*o $(PLATFORMDIR)/extras/ || true
+	$(if $(RTCONFIG_USB),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/usb/*acm.*o $(PLATFORMDIR)/extras/ || true
+	$(if $(RTCONFIG_USB),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/net/usb/usbnet.*o $(PLATFORMDIR)/extras/ || true
+	$(if $(RTCONFIG_USB),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/net/usb/asix.*o $(PLATFORMDIR)/extras/ || true
+	$(if $(RTCONFIG_USB),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/net/usb/cdc_ether.*o $(PLATFORMDIR)/extras/ || true
+	$(if $(RTCONFIG_USB),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/net/usb/rndis_host.*o $(PLATFORMDIR)/extras/ || true
+	$(if $(RTCONFIG_USB),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/net/usb/cdc_ncm.*o $(PLATFORMDIR)/extras/ || true
+	$(if $(RTCONFIG_USB),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/net/usb/cdc_wdm.*o $(PLATFORMDIR)/extras/ || true
+	$(if $(RTCONFIG_USB),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/net/usb/qmi_wwan.*o $(PLATFORMDIR)/extras/ || true
+	$(if $(RTCONFIG_USB),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/net/usb/cdc_mbim.*o $(PLATFORMDIR)/extras/ || true
+	$(if $(RTCONFIG_USB),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/drivers/usb/sierra.*o $(PLATFORMDIR)/extras/ || true
 
 	@mv $(TARGETDIR)/lib/modules/*/kernel/drivers/usb/usbkbd.*o $(PLATFORMDIR)/extras/ || true
 	@mv $(TARGETDIR)/lib/modules/*/kernel/drivers/usb/usbmouse.*o $(PLATFORMDIR)/extras/ || true
@@ -1009,6 +1001,109 @@ endif
 	@echo ---
 
 	@rm -f $(TARGETDIR)/lib/modules/*/build
+
+ifeq ($(RTCONFIG_4M_SFP),y)
+	rm -r -f $(TARGETDIR)/www/images
+	rm -f $(TARGETDIR)/www/Advanced_QOSUserPrio_Content.asp
+	rm -f $(TARGETDIR)/www/Advanced_QOSUserRules_Content.asp
+	rm -f $(TARGETDIR)/www/Advanced_SwitchCtrl_Content.asp
+	rm -f $(TARGETDIR)/www/Advanced_QOSUserPrio_Content.asp
+	rm -f $(TARGETDIR)/www/QIS_wizard_m.htm
+	rm -f $(TARGETDIR)/www/QoS_EZQoS.asp
+	rm -f $(TARGETDIR)/www/Advanced_QOSUserPrio_Content.asp
+	rm -f $(TARGETDIR)/www/apps_test.asp
+	rm -f $(TARGETDIR)/www/update_applist.asp
+	rm -f $(TARGETDIR)/www/ajax_qos_default.asp
+	rm -f $(TARGETDIR)/www/Advanced_QOSUserPrio_Content.asp
+	rm -f $(TARGETDIR)/www/wds_aplist_5g.asp
+	rm -f $(TARGETDIR)/www/wds_aplist_5g_2.asp
+	rm -f $(TARGETDIR)/www/getsharelink.asp
+	rm -f $(TARGETDIR)/www/PIE.htc
+	rm -f $(TARGETDIR)/www/Lang_Hdr
+	rm -f $(TARGETDIR)/usr/sbin/helper.sh
+	rm -f $(TARGETDIR)/usr/sbin/webs_update.sh
+	rm -f $(TARGETDIR)/usr/sbin/webs_upgrade.sh
+endif
+
+#external kit
+ifeq ($(RTCONFIG_APP_NETINSTALLED),y)
+#nfs
+ifeq ($(RTCONFIG_NFS),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mkdir -p $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
+	mkdir -p $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/net
+	mv -f $(TARGETDIR)/usr/lib/libnfs.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/sbin/exportfs $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/mountd $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/nfsd $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/portmap $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/showmount $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/statd $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/exportfs.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/lockd.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/nfs.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/nfsd.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/net/sunrpc.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/net
+	cp -f -R  $(SRCBASE)/image/nfs/lib/* $(TARGETDIR)/lib
+	cp -f -R  $(SRCBASE)/image/nfs/usr/* $(TARGETDIR)/usr
+endif
+	rm -f $(TARGETDIR)/www/wds_aplist_5g.asp
+	rm -f $(TARGETDIR)/www/wds_aplist_5g_2.asp
+	rm -f $(TARGETDIR)/www/QIS_wizard_m.htm
+	rm -f $(TARGETDIR)/www/Lang_Hdr
+	rm -f $(TARGETDIR)/www/Advanced_APPList_Content.asp
+	rm -f $(TARGETDIR)/www/switch_AiDisk_app.asp
+ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N15U RT-N10U ))
+	rm -f $(TARGETDIR)/www/mediaserver.asp
+#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb/asix.ko
+#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb/zaurus.ko
+#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb/ipheth.ko
+#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/usbserial.ko
+#	rm -f -r $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/usbmon
+endif
+	rm -f $(TARGETDIR)/usr/sbin/webs_*
+
+endif
+
+
+ifeq ($(BUILD_NAME),RT-N53)
+	rm -f -r $(TARGETDIR)/www/aidisk
+	rm -f -r $(TARGETDIR)/www/images/Tree
+	rm -f -r $(TARGETDIR)/www/images/New_ui/USBExt
+	rm -f -r $(TARGETDIR)/www/images/New_ui/aidisk
+	rm -f -r $(TARGETDIR)/www/images/New_ui/advancesettings
+	rm -f $(TARGETDIR)/www/images/New_ui/networkmap/USB*
+	rm -f $(TARGETDIR)/www/images/New_ui/networkmap/*Printer*
+	rm -f $(TARGETDIR)/www/images/New_ui/networkmap/*modem*
+	rm -f $(TARGETDIR)/www/*disk*
+	rm -f $(TARGETDIR)/www/*Disk*
+	rm -f $(TARGETDIR)/www/Advanced_APPList_Content.asp
+	rm -f $(TARGETDIR)/www/APP_Installation.asp
+	rm -f $(TARGETDIR)/www/Advanced_Modem_Content.asp
+	rm -f $(TARGETDIR)/sbin/write_smb_conf
+	rm -f $(TARGETDIR)/sbin/test_disk1
+	rm -f $(TARGETDIR)/sbin/test_disk2
+	rm -f $(TARGETDIR)/usr/sbin/3g*
+	rm -f $(TARGETDIR)/usr/sbin/app_*
+	rm -f $(TARGETDIR)/usr/sbin/badblocks
+	rm -f $(TARGETDIR)/usr/sbin/e2fsck
+	rm -f $(TARGETDIR)/usr/sbin/find_*
+	rm -f $(TARGETDIR)/usr/sbin/modem_*
+	rm -f $(TARGETDIR)/usr/sbin/webs_*
+	rm -f $(TARGETDIR)/usr/sbin/tune2fs
+	rm -f $(TARGETDIR)/usr/sbin/mke2fs
+	rm -f $(TARGETDIR)/usr/sbin/*.ext2
+	rm -f $(TARGETDIR)/usr/sbin/*.ext3
+	rm -f $(TARGETDIR)/usr/sbin/scsi*
+	rm -f $(TARGETDIR)/usr/sbin/sd*
+#	rm -f $(TARGETDIR)/usr/lib/libext2fs*
+#	rm -f $(TARGETDIR)/usr/lib/libuuid*
+#	rm -f $(TARGETDIR)/usr/lib/libblkid*
+#	rm -f $(TARGETDIR)/usr/lib/libcom*
+#	rm -f $(TARGETDIR)/usr/lib/libe2p*
+endif
+
 
 image:
 ifneq ($(RTCONFIG_BCMARM),y)
