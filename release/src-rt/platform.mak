@@ -72,23 +72,15 @@ define platformRouterOptions
 		rm -r ./router/miniupnpd/*; \
 		cp -r ./router/miniupnpd-asus/* ./router/miniupnpd/; \
 	fi; \
+	if [ "$(BUILD_NAME)" != "RT-N53" ]; then \
+		sed -i "/RTCONFIG_HAS_5G/d" $(1); \
+		echo "# RTCONFIG_HAS_5G is not set" >>$(1); \
+	fi; \
 )
 endef
 
 define platformBusyboxOptions
 @( \
-	if [ "$(BECEEM)" = "y" ]; then \
-		sed -i "/CONFIG_E2FSCK/d" $(1); \
-		echo "# CONFIG_E2FSCK is not set" >>$(1); \
-		sed -i "/CONFIG_MKE2FS/d" $(1); \
-		echo "# CONFIG_MKE2FS is not set" >>$(1); \
-		sed -i "/CONFIG_TUNE2FS/d" $(1); \
-		echo "# CONFIG_TUNE2FS is not set" >>$(1); \
-		sed -i "/CONFIG_MKFS_EXT2/d" $(1); \
-		echo "# CONFIG_MKFS_EXT2 is not set" >>$(1); \
-		sed -i "/CONFIG_MKFS_VFAT/d" $(1); \
-		echo "# CONFIG_MKFS_VFAT is not set" >>$(1); \
-	fi; \
 	if [ "$(USB)" = "n" ]; then \
 		sed -i "/CONFIG_E2FSCK/d" $(1); \
 		echo "# CONFIG_E2FSCK is not set" >>$(1); \
@@ -391,6 +383,15 @@ define platformKernelConfig
 		echo "# CONFIG_IP_NF_TARGET_SET is not set" >>$(1); \
 		sed -i "/CONFIG_IP_NF_MATCH_ACCOUNT/d" $(1); \
 		echo "# CONFIG_IP_NF_MATCH_ACCOUNT is not set" >>$(1); \
+	fi; \
+	if [ "$(BUILD_NAME)" = "RT-N53" ]; then \
+		sed -i "/CONFIG_USB_NET_QMI_WWAN/d" $(1); \
+		echo "# CONFIG_USB_NET_QMI_WWAN is not set" >>$(1); \
+		rm -f ./linux/linux-2.6/include/linux/mod_devicetable.h; \
+		cp -f ./linux/linux-2.6/include/linux/mod_devicetable.h_n53 ./linux/linux-2.6/include/linux/mod_devicetable.h; \
+	else \
+		rm -f ./linux/linux-2.6/include/linux/mod_devicetable.h; \
+		cp -f ./linux/linux-2.6/include/linux/mod_devicetable.h_all ./linux/linux-2.6/include/linux/mod_devicetable.h; \
 	fi; \
 	if [ "$(ARM)" = "y" ]; then \
                 if [ "$(BWDPI)" = "y" ] && [ -d $(SRCBASE)/router/wl_arm/dpi/$(BUILD_NAME) ]; then \
