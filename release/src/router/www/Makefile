@@ -91,8 +91,9 @@ ifneq ($(RTCONFIG_DNSFILTER),y)
 	rm -rf $(INSTALLDIR)/www/DNSFilter.asp
 	rm -rf $(INSTALLDIR)/www/Home_Security.asp
 endif
-ifneq ($(RTCONFIG_OPENVPN),y)
-	rm -rf $(INSTALLDIR)/www/images/cloudsync/invite_model.jpg
+#ifneq ($(RTCONFIG_OPENVPN),y)
+ifneq ($(RTCONFIG_BCMWL6),y)
+#	rm -rf $(INSTALLDIR)/www/images/cloudsync/invite_model.jpg
 #	rm -rf $(INSTALLDIR)/www/images/New_ui/network_config.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/TimeLimits.png
 #	rm -rf $(INSTALLDIR)/www/images/New_ui/QoS.png
@@ -111,8 +112,15 @@ ifneq ($(RTCONFIG_OPENVPN),y)
 	cd $(INSTALLDIR)/www/images/New_ui/networkmap && ln -sf client-list.png client-listover.png && cd $(TOP)/www
 #Andrey
 	rm -rf $(INSTALLDIR)/www/AiStream*
+ifeq ($(RTCONFIG_NFS),y)
+ifeq ($(RTCONFIG_APP_NETINSTALLED),y)
+	mkdir -p $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/Advanced_AiDisk_NFS.asp $(SRCBASE)/image/ext/www
+	cp -f -R  $(SRCBASE)/image/nfs/www/* $(INSTALLDIR)/www
+endif
+else
 	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_NFS.asp
-	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_webdav.asp
+endif
 	rm -rf $(INSTALLDIR)/www/DNSFilter.asp
 	rm -rf $(INSTALLDIR)/www/Home_Security.asp
 	rm -rf $(INSTALLDIR)/www/Advanced_OpenVPNClient_Content.asp
@@ -308,13 +316,28 @@ ifneq ($(BUILD_NAME),DSL-N55U)
 ifneq ($(BUILD_NAME),DSL-N55U-B)
 ifneq ($(BUILD_NAME),RT-N56U)
 ifneq ($(RTCONFIG_CLOUDSYNC),y)
+ifeq ($(RTCONFIG_APP_NETINSTALLED),y)
+	mkdir -p $(SRCBASE)/image/ext/www
+	mkdir -p $(SRCBASE)/image/ext/www/images/New_ui/USBExt
+	mv -f $(INSTALLDIR)/www/images/cloudsync $(SRCBASE)/image/ext/www/images
+	mv -f $(INSTALLDIR)/www/images/aicloud_logo.png $(SRCBASE)/image/ext/www/images
+#	mv -f $(INSTALLDIR)/www/images/New_ui/USBExt/*cloud*.png $(SRCBASE)/image/www
+	mv -f $(INSTALLDIR)/www/update_cloudstatus.asp $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/get_webdavInfo.asp $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/*cloud*.asp $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/dropbox_callback.htm $(SRCBASE)/image/ext/www
+	mv -f $(INSTALLDIR)/www/Advanced_AiDisk_webdav.asp $(SRCBASE)/image/ext/www
+	cp -f -R  $(SRCBASE)/image/cloud/* $(INSTALLDIR)/www/
+else
 	rm -rf $(INSTALLDIR)/www/images/cloudsync
 	rm -rf $(INSTALLDIR)/www/images/aicloud_logo.png
-	rm -rf $(INSTALLDIR)/www/images/New_ui/USBExt/*cloud*.png
+#	rm -rf $(INSTALLDIR)/www/images/New_ui/USBExt/*cloud*.png
 	rm -rf $(INSTALLDIR)/www/update_cloudstatus.asp
 	rm -rf $(INSTALLDIR)/www/get_webdavInfo.asp
 	rm -rf $(INSTALLDIR)/www/*cloud*.asp
 	rm -rf $(INSTALLDIR)/www/dropbox_callback.htm
+	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_webdav.asp
+endif
 endif
 endif
 endif
@@ -410,9 +433,9 @@ ifneq ($(MODEM),y)
 endif
 endif
 
-#ifeq ($(BUILD_NAME), RT-N12)
-#	cd $(INSTALLDIR)/www && find . -name "*.dict"|xargs -n 1 -I @ sed -i "s/RT-N12/ZVDYNMODELVZ/g" @
-#endif
+ifeq ($(BUILD_NAME), RT-N12)
+	cd $(INSTALLDIR)/www && find . -name "*.dict"|xargs -n 1 -I @ sed -i "s/RT-N12/ZVDYNMODELVZ/g" @
+endif
 
 ifeq ($(RTCONFIG_OPENVPN), y)
 	cd $(INSTALLDIR)/www && ln -sf ../etc/openvpn/server1/client.ovpn client1.ovpn && cd $(TOP)/www
