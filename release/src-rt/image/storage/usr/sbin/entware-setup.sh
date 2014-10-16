@@ -1,0 +1,1 @@
+/jffs/usr/sbin/entware-setup.sh
