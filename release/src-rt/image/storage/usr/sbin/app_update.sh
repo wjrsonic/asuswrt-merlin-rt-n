@@ -1,0 +1,1 @@
+/jffs/usr/sbin/app_update.sh
