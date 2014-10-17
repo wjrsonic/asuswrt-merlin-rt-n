@@ -922,14 +922,14 @@ function check_sshd_enable(obj_value){
 }
 
 function check_apps_swap_enable(obj_value){
-	var state;
+	var state_s;
 
 	if (obj_value == 1)
-		state = "";
+		state_s = "";
 	else
-		state = "none";
+		state_s = "none";
 
-	$("apps_swap_size_tr").style.display = state;
+	$("apps_swap_size_tr").style.display = state_s;
 }
 
 /*function sshd_remote_access(obj_value){
@@ -1135,7 +1135,7 @@ function display_spec_IP(flag){
 <table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
                 <thead>
                 <tr>
-          <td colspan="2">Swap file</td>
+          <td colspan="2">Swap file for USB installed applications</td>
         </tr>
         </thead>
 
