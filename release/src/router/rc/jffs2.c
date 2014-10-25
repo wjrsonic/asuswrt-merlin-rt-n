@@ -348,8 +348,31 @@ void start_jffs2(void)
 	}
 	run_userfile("/jffs", ".asusrouter", "/jffs", 3);
 
-	if (!check_if_dir_exist("/jffs/scripts/")) mkdir("/jffs/scripts/", 0755);
+	if (!check_if_dir_exist("/jffs/scripts/")) {
+		mkdir("/jffs/scripts/", 0755);
+		f_write_string("/jffs/scripts/dhcp-event", "#!/bin/sh", 0, 0777);
+		f_write_string("/jffs/scripts/openvpn-event", "#!/bin/sh", 0, 0777);
+		f_write_string("/jffs/scripts/firewall-start", "#!/bin/sh", 0, 0777);
+		f_write_string("/jffs/scripts/init-start", "#!/bin/sh", 0, 0777);
+		f_write_string("/jffs/scripts/nat-start", "#!/bin/sh", 0, 0777);
+		f_write_string("/jffs/scripts/wan-start", "#!/bin/sh", 0, 0777);
+		f_write_string("/jffs/scripts/qos-start", "#!/bin/sh", 0, 0777);
+		f_write_string("/jffs/scripts/services-start", "#!/bin/sh", 0, 0777);
+		f_write_string("/jffs/scripts/services-stop", "#!/bin/sh", 0, 0777);
+		f_write_string("/jffs/scripts/post-mount", "#!/bin/sh", 0, 0777);
+		f_write_string("/jffs/scripts/pre-mount", "#!/bin/sh", 0, 0777);
+		f_write_string("/jffs/scripts/unmount", "#!/bin/sh", 0, 0777);
+		}
 	if (!check_if_dir_exist("/jffs/configs/")) mkdir("/jffs/configs/", 0755);
+	if (!check_if_dir_exist("/jffs/dropbear/")) mkdir("/jffs/dropbear/", 0755);
+	if (!check_if_dir_exist("/jffs/openvpn/")) mkdir("/jffs/openvpn/", 0755);
+	if (!check_if_dir_exist("/jffs/crontab/")) mkdir("/jffs/crontab/", 0755);
+	if (!check_if_dir_exist("/jffs/bin/")) symlink("/opt/ext/bin","/jffs/bin");
+	if (!check_if_dir_exist("/jffs/lib/")) symlink("/opt/ext/lib","/jffs/lib");
+	if (!check_if_dir_exist("/jffs/rom/")) symlink("/opt/ext/rom","/jffs/rom");
+	if (!check_if_dir_exist("/jffs/sbin/")) symlink("/opt/ext/sbin","/jffs/sbin");
+	if (!check_if_dir_exist("/jffs/usr/")) symlink("/opt/ext/usr","/jffs/usr");
+	if (!check_if_dir_exist("/jffs/www/")) symlink("/opt/ext/www","/jffs/www");
 }
 
 void stop_jffs2(int stop)
