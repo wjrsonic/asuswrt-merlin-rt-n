@@ -1,0 +1,1 @@
+/jffs/usr/sbin/3ginfo.sh
