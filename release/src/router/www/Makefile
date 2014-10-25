@@ -113,7 +113,7 @@ ifneq ($(RTCONFIG_BCMWL6),y)
 #Andrey
 	rm -rf $(INSTALLDIR)/www/AiStream*
 ifeq ($(RTCONFIG_NFS),y)
-ifeq ($(RTCONFIG_APP_NETINSTALLED),y)
+ifeq ($(EXT_WEB_KIT),y)
 	mkdir -p $(SRCBASE)/image/ext/www
 	mv -f $(INSTALLDIR)/www/Advanced_AiDisk_NFS.asp $(SRCBASE)/image/ext/www
 	cp -f -R  $(SRCBASE)/image/nfs/www/* $(INSTALLDIR)/www
@@ -121,10 +121,12 @@ endif
 else
 	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_NFS.asp
 endif
-	rm -rf $(INSTALLDIR)/www/DNSFilter.asp
-	rm -rf $(INSTALLDIR)/www/Home_Security.asp
+#	rm -rf $(INSTALLDIR)/www/DNSFilter.asp
+#	rm -rf $(INSTALLDIR)/www/Home_Security.asp
+ifneq ($(RTCONFIG_OPENVPN),y)
 	rm -rf $(INSTALLDIR)/www/Advanced_OpenVPNClient_Content.asp
 	rm -rf $(INSTALLDIR)/www/ajax_openvpn_server.asp
+endif
 	rm -rf $(INSTALLDIR)/www/Advanced_PerformanceTuning_Content.asp
 	rm -rf $(INSTALLDIR)/www/images/New_ui/app_icons
 #Tools
@@ -317,7 +319,7 @@ ifneq ($(BUILD_NAME),DSL-N55U)
 ifneq ($(BUILD_NAME),DSL-N55U-B)
 ifneq ($(BUILD_NAME),RT-N56U)
 ifneq ($(RTCONFIG_CLOUDSYNC),y)
-ifeq ($(RTCONFIG_APP_NETINSTALLED),y)
+ifeq ($(EXT_WEB_KIT),y)
 	mkdir -p $(SRCBASE)/image/ext/www
 	mkdir -p $(SRCBASE)/image/ext/www/images/New_ui/USBExt
 	mv -f $(INSTALLDIR)/www/images/cloudsync $(SRCBASE)/image/ext/www/images
