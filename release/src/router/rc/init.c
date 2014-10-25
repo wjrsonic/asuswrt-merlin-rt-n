@@ -2229,7 +2229,6 @@ int init_nvram(void)
 		nvram_set_int("sb/1/ledbh5", 7);
 		nvram_set("sb/1/maxp2ga0", "0x114");
 		nvram_set("sb/1/maxp2ga1", "0x114");
-		nvram_set("sb/1/maxp2ga2", "0x114");
 		nvram_set("sb/1/cck2gpo", "0x0");
 		nvram_set("sb/1/ofdm2gpo0", "0x2000");
 		nvram_set("sb/1/ofdm2gpo1", "0x6442");
@@ -2275,7 +2274,6 @@ int init_nvram(void)
 		add_rc_support("pwrctrl"); // wl power adjust
 		nvram_set("sb/1/maxp2ga0", "0x114");
 		nvram_set("sb/1/maxp2ga1", "0x114");
-		nvram_set("sb/1/maxp2ga2", "0x114");
 		nvram_set("sb/1/cck2gpo", "0x0");
 		nvram_set("sb/1/ofdm2gpo0", "0x2000");
 		nvram_set("sb/1/ofdm2gpo1", "0x6442");
@@ -2316,7 +2314,6 @@ int init_nvram(void)
 		add_rc_support("pwrctrl"); // wl power adjust
 		nvram_set("sb/1/maxp2ga0", "0x114");
 		nvram_set("sb/1/maxp2ga1", "0x114");
-		nvram_set("sb/1/maxp2ga2", "0x114");
 		nvram_set("sb/1/cck2gpo", "0x0");
 		nvram_set("sb/1/ofdm2gpo0", "0x2000");
 		nvram_set("sb/1/ofdm2gpo1", "0x6442");
@@ -2492,12 +2489,13 @@ int init_nvram(void)
 		add_rc_support("2.4G update mssid usbX1");
 		add_rc_support("switchctrl"); // broadcom: for jumbo frame only
 		add_rc_support("manual_stb");
+#ifndef RTCONFIG_CLOUDSYNC
 		add_rc_support("aicloudipk"); // 
+#endif
 		add_rc_support("rrsut");	//syn server
 		add_rc_support("pwrctrl"); // wl power adjust
 		nvram_set("sb/1/maxp2ga0", "0x114");
 		nvram_set("sb/1/maxp2ga1", "0x114");
-		nvram_set("sb/1/maxp2ga2", "0x114");
 		nvram_set("sb/1/cck2gpo", "0x0");
 		nvram_set("sb/1/ofdm2gpo0", "0x2000");
 		nvram_set("sb/1/ofdm2gpo1", "0x6442");
@@ -2600,7 +2598,6 @@ int init_nvram(void)
 		add_rc_support("pwrctrl"); // wl power adjust
 		nvram_set("sb/1/maxp2ga0", "0x114");
 		nvram_set("sb/1/maxp2ga1", "0x114");
-		nvram_set("sb/1/maxp2ga2", "0x114");
 		nvram_set("sb/1/cck2gpo", "0x0");
 		nvram_set("sb/1/ofdm2gpo0", "0x2000");
 		nvram_set("sb/1/ofdm2gpo1", "0x6442");
@@ -2650,7 +2647,6 @@ int init_nvram(void)
 		add_rc_support("pwrctrl"); // wl power adjust
 		nvram_set("sb/1/maxp2ga0", "0x114");
 		nvram_set("sb/1/maxp2ga1", "0x114");
-		nvram_set("sb/1/maxp2ga2", "0x114");
 		nvram_set("sb/1/cck2gpo", "0x0");
 		nvram_set("sb/1/ofdm2gpo0", "0x2000");
 		nvram_set("sb/1/ofdm2gpo1", "0x6442");
@@ -3610,18 +3606,19 @@ int init_nvram(void)
 		if (!nvram_get("ct_max") || nvram_get("ct_max") < 16384 )
 			nvram_set("ct_max", "16384"); //force
 		add_rc_support("2.4G mssid media usbX1 update");
+#ifndef RTCONFIG_CLOUDSYNC
 		add_rc_support("aicloudipk"); // 
+#endif
 		add_rc_support("rrsut");	//syn server
 		 // wl power adjust
 		nvram_set("sb/1/maxp2ga0", "0x114");
 		nvram_set("sb/1/maxp2ga1", "0x114");
-		nvram_set("sb/1/maxp2ga2", "0x114");
 		nvram_set("sb/1/cck2gpo", "0x0");
 		nvram_set("sb/1/ofdm2gpo0", "0x2000");
 		nvram_set("sb/1/ofdm2gpo1", "0x6442");
 		nvram_set("sb/1/ofdm2gpo", "0x64422000");
 		nvram_set("sb/1/mcs2gpo0", "0x2200");
-		nvram_set("sb/1/mcs2gpo1", "0x6644");
+		nvram_set("sb/1/mcs2gpo1", "0x6444");
 		nvram_set("sb/1/mcs2gpo2", "0x2200");
 		nvram_set("sb/1/mcs2gpo3", "0x6644");
 		nvram_set("sb/1/mcs2gpo4", "0x4422");
@@ -3704,12 +3701,13 @@ int init_nvram(void)
 		if (!nvram_get("ct_max") || nvram_get("ct_max") < 32768 )
 			nvram_set("ct_max", "32768"); //force
 		add_rc_support("2.4G mssid usbX1 update");
+#ifndef RTCONFIG_CLOUDSYNC
 		add_rc_support("aicloudipk"); // 
+#endif
 		add_rc_support("rrsut");	//syn server
 		add_rc_support("pwrctrl"); // wl power adjust
 		nvram_set("sb/1/maxp2ga0", "0x114");
 		nvram_set("sb/1/maxp2ga1", "0x114");
-		nvram_set("sb/1/maxp2ga2", "0x114");
 		nvram_set("sb/1/cck2gpo", "0x0");
 		nvram_set("sb/1/ofdm2gpo0", "0x2000");
 		nvram_set("sb/1/ofdm2gpo1", "0x6442");
@@ -3797,7 +3795,6 @@ int init_nvram(void)
 		add_rc_support("pwrctrl"); // wl power adjust
 		nvram_set("sb/1/maxp2ga0", "0x114");
 		nvram_set("sb/1/maxp2ga1", "0x114");
-		nvram_set("sb/1/maxp2ga2", "0x114");
 		nvram_set("sb/1/cck2gpo", "0x0");
 		nvram_set("sb/1/ofdm2gpo0", "0x2000");
 		nvram_set("sb/1/ofdm2gpo1", "0x6442");
