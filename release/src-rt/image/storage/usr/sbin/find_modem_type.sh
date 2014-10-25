@@ -1,0 +1,1 @@
+/jffs/usr/sbin/find_modem_type.sh

@@ -1,1 +1,0 @@
-/jffs/usr/sbin/app_switch.sh

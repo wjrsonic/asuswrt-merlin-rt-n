@@ -1,1 +1,0 @@
-/jffs/usr/sbin/webs_update.sh
