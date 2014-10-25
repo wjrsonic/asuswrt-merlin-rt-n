@@ -3965,7 +3965,7 @@ int init_nvram(void)
 		nvram_set("sb/1/ofdm2gpo1", "0x6442");
 		nvram_set("sb/1/ofdm2gpo", "0x64422000");
 		nvram_set("sb/1/mcs2gpo0", "0x2200");
-		nvram_set("sb/1/mcs2gpo1", "0x6644");
+		nvram_set("sb/1/mcs2gpo1", "0x6444");
 		nvram_set("sb/1/mcs2gpo2", "0x2200");
 		nvram_set("sb/1/mcs2gpo3", "0x6644");
 		nvram_set("sb/1/mcs2gpo4", "0x4422");
