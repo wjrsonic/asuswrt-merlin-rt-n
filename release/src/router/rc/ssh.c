@@ -33,6 +33,27 @@ void start_sshd(void)
 	mkdir("/etc/dropbear", 0700);
 	mkdir("/root/.ssh", 0700);
 
+// check ssh keys in jffs
+	if (check_if_dir_exist("/jffs/dropbear/")) {
+		if (!check_if_file_exist("/jffs/dropbear/dropbear_rsa_host_key")) {
+		eval("dropbearkey", "-t", "rsa", "-f", "/jffs/dropbear/dropbear_rsa_host_key");
+		nvram_unset("sshd_hostkey");
+		}
+		if (!check_if_file_exist("/jffs/dropbear/dropbear_dss_host_key")) {
+		eval("dropbearkey", "-t", "dss", "-f", "/jffs/dropbear/dropbear_dss_host_key");
+		nvram_unset("sshd_dsskey");
+		}
+		if (!check_if_file_exist("/jffs/dropbear/dropbear_ecdsa_host_key")) {
+		eval("dropbearkey", "-t", "ecdsa", "-f", "/jffs/dropbear/dropbear_ecdsa_host_key");
+		nvram_unset("sshd_ecdsakey");
+		}
+	symlink("/jffs/dropbear/dropbear_rsa_host_key", "/etc/dropbear/dropbear_rsa_host_key");
+	symlink("/jffs/dropbear/dropbear_rsa_host_key", "/etc/dropbear/dropbear_dss_host_key");
+	symlink("/jffs/dropbear/dropbear_rsa_host_key", "/etc/dropbear/dropbear_ecdsa_host_key");
+	symlink("/jffs/dropbear/authorized_keys", "/root/.ssh/authorized_keys");
+		nvram_commit_x();
+	}
+	else {
 	f_write_string("/root/.ssh/authorized_keys", get_parsed_crt("sshd_authkeys", buf), 0, 0700);
 
 	dirty |= check_host_key("rsa", "sshd_hostkey", "/etc/dropbear/dropbear_rsa_host_key");
@@ -40,6 +61,7 @@ void start_sshd(void)
 	dirty |= check_host_key("ecdsa", "sshd_ecdsakey",  "/etc/dropbear/dropbear_ecdsa_host_key");
 	if (dirty)
 		nvram_commit_x();
+	}
 
 /*
 	xstart("dropbear", "-a", "-p", nvram_safe_get("sshd_port"), nvram_get_int("sshd_pass") ? "" : "-s");
