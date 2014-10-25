@@ -1,1 +1,0 @@
-/jffs/usr/sbin/app_base_link.sh

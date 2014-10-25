@@ -1,0 +1,1 @@
+/jffs/usr/sbin/modem_enable.sh
