@@ -326,11 +326,9 @@ obj-y += sd-idle
 obj-y += libusb10
 obj-y += libusb
 obj-y += libusb-0.1.12
-ifeq ($(RTCONFIG_USB),y)
 #ifneq ($(RTCONFIG_8M_SFP),y)
 obj-y += hub-ctrl
 #endif
-endif
 obj-$(RTCONFIG_USB_PRINTER) += u2ec
 obj-$(RTCONFIG_USB_PRINTER) += LPRng
 
@@ -1266,45 +1264,6 @@ ifeq ($(RTCONFIG_SNMPD),y)
 endif
 # snmp end
 
-# media server
-ifeq ($(RTCONFIG_MEDIA_SERVER),y)
-	mkdir -p $(SRCBASE)/image/ext/rom/etc
-	mkdir -p $(SRCBASE)/image/ext/usr/lib
-	mkdir -p $(SRCBASE)/image/ext/usr/sbin
-	mkdir -p $(SRCBASE)/image/ext/www
-	mv -f $(TARGETDIR)/rom/etc/web $(SRCBASE)/image/ext/rom/etc
-	mv -f $(TARGETDIR)/usr/lib/libFLAC.so.8 $(SRCBASE)/image/ext/usr/lib
-	mv -f $(TARGETDIR)/usr/lib/libavcodec.so.52 $(SRCBASE)/image/ext/usr/lib
-	mv -f $(TARGETDIR)/usr/lib/libavformat.so.52 $(SRCBASE)/image/ext/usr/lib
-	mv -f $(TARGETDIR)/usr/lib/libavutil.so.50 $(SRCBASE)/image/ext/usr/lib
-	mv -f $(TARGETDIR)/usr/lib/libexif.so.12 $(SRCBASE)/image/ext/usr/lib
-	mv -f $(TARGETDIR)/usr/lib/libgdbm.so.3.0.0 $(SRCBASE)/image/ext/usr/lib
-	mv -f $(TARGETDIR)/usr/lib/libid3tag.so.0 $(SRCBASE)/image/ext/usr/lib
-	mv -f $(TARGETDIR)/usr/lib/libjpeg.so $(SRCBASE)/image/ext/usr/lib
-	mv -f $(TARGETDIR)/usr/lib/libogg.so.0 $(SRCBASE)/image/ext/usr/lib
-	mv -f $(TARGETDIR)/usr/lib/libvorbis.so.0 $(SRCBASE)/image/ext/usr/lib
-	mv -f $(TARGETDIR)/usr/sbin/mDNSResponder $(SRCBASE)/image/ext/usr/sbin
-	mv -f $(TARGETDIR)/usr/sbin/minidlna $(SRCBASE)/image/ext/usr/sbin
-	mv -f $(TARGETDIR)/usr/sbin/mt-daapd $(SRCBASE)/image/ext/usr/sbin
-	mv -f $(TARGETDIR)/www/mediaserver.asp $(SRCBASE)/image/ext/www
-	cp -f -R  $(SRCBASE)/image/media/usr/* $(TARGETDIR)/usr
-	cp -f -R  $(SRCBASE)/image/media/rom/etc/* $(TARGETDIR)/rom/etc
-	cp -f -R  $(SRCBASE)/image/media/www/* $(TARGETDIR)/www
-endif
-# media server end
-
-# dnsfilter
-ifeq ($(RTCONFIG_DNSFILTER),y)
-	mkdir -p $(SRCBASE)/image/ext/www
-	mv -f $(TARGETDIR)/www/DNSFilter.asp $(SRCBASE)/image/ext/www
-	mv -f $(TARGETDIR)/www/Home_Security.asp $(SRCBASE)/image/ext/www
-	cp -f -R  $(SRCBASE)/image/dns/* $(TARGETDIR)/www/
-endif
-# dns filter end
-
-endif # RT-N15U RT-N10U
-
-
 # webdav
 ifeq ($(RTCONFIG_WEBDAV),y)
 	mkdir -p $(SRCBASE)/image/ext/usr/bin
@@ -1366,6 +1325,44 @@ ifeq ($(RTCONFIG_WEBDAV),y)
 endif
 # webdav end
 
+# media server
+ifeq ($(RTCONFIG_MEDIA_SERVER),y)
+	mkdir -p $(SRCBASE)/image/ext/rom/etc
+	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mkdir -p $(SRCBASE)/image/ext/www
+	mv -f $(TARGETDIR)/rom/etc/web $(SRCBASE)/image/ext/rom/etc
+	mv -f $(TARGETDIR)/usr/lib/libFLAC.so.8 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libavcodec.so.52 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libavformat.so.52 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libavutil.so.50 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libexif.so.12 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libgdbm.so.3.0.0 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libid3tag.so.0 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libjpeg.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libogg.so.0 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libvorbis.so.0 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/sbin/mDNSResponder $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/minidlna $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/mt-daapd $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/www/mediaserver.asp $(SRCBASE)/image/ext/www
+	cp -f -R  $(SRCBASE)/image/media/usr/* $(TARGETDIR)/usr
+	cp -f -R  $(SRCBASE)/image/media/rom/etc/* $(TARGETDIR)/rom/etc
+	cp -f -R  $(SRCBASE)/image/media/www/* $(TARGETDIR)/www
+endif
+# media server end
+
+# dnsfilter
+ifeq ($(RTCONFIG_DNSFILTER),y)
+	mkdir -p $(SRCBASE)/image/ext/www
+	mv -f $(TARGETDIR)/www/DNSFilter.asp $(SRCBASE)/image/ext/www
+	mv -f $(TARGETDIR)/www/Home_Security.asp $(SRCBASE)/image/ext/www
+	cp -f -R  $(SRCBASE)/image/dns/* $(TARGETDIR)/www/
+endif
+# dns filter end
+
+endif # RT-N15U RT-N10U
+
 # cloudsync
 ifeq ($(RTCONFIG_CLOUDSYNC),y)
 	mkdir -p $(SRCBASE)/image/ext/usr/lib
@@ -1422,14 +1419,12 @@ endif
 
 	rm -f $(TARGETDIR)/usr/sbin/webs_*
 	rm -f $(TARGETDIR)/usr/sbin/check_spectrum.sh
-endif
 	rm -f $(TARGETDIR)/www/wds_aplist_5g.asp
 	rm -f $(TARGETDIR)/www/wds_aplist_5g_2.asp
 	rm -f $(TARGETDIR)/www/QIS_wizard_m.htm
 	rm -f $(TARGETDIR)/www/Lang_Hdr
 	rm -f $(TARGETDIR)/www/Advanced_APPList_Content.asp
 	rm -f $(TARGETDIR)/www/switch_AiDisk_app.asp
-
 endif
 # APP NET Installed
 
@@ -1443,27 +1438,9 @@ ifeq ($(EXT_WEB_KIT),n)
 	rm -f $(TARGETDIR)/www/Lang_Hdr
 	rm -f $(TARGETDIR)/www/Advanced_APPList_Content.asp
 	rm -f $(TARGETDIR)/www/switch_AiDisk_app.asp
-ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10U RT-N15U ))
-	rm -f $(TARGETDIR)/www/mediaserver.asp
-endif
-ifeq ($(BUILD_NAME),RT-N10U)
-	rm -f $(TARGETDIR)/www/Advanced_SwitchCtrl_Content.asp
-endif
-
 endif
 endif
 
-ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N15U RT-N10U ))
-	rm -f $(TARGETDIR)/www/mediaserver.asp
-#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb/asix.ko
-#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb/zaurus.ko
-#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb/ipheth.ko
-#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/usbserial.ko
-#	rm -f -r $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/usbmon
-endif
-	rm -f $(TARGETDIR)/usr/sbin/webs_*
-
-endif
 
 
 ifeq ($(BUILD_NAME),RT-N53)
@@ -1534,27 +1511,18 @@ ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10P RT-N12B1 RT-N12C1 RT-N12D1 
 	rm -f $(TARGETDIR)/sbin/sigmon
 	rm -r -f $(TARGETDIR)/rom/Beceem_firmware
 	rm -r -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb
-	rm -f -r $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb
+	rm -r -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb
 	rm -r -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/scsi
-	rm -r -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/block
-	rm -r -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/connector
 	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/ext*.ko
 	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/*fat*.ko
 	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/fuse.ko
 	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/nls*.ko
-	rm -f $(TARGETDIR)/lib/libengine_beceem.so
-	rm -f $(TARGETDIR)/lib/libeap_supplicant.so
+	rm -f $(TARGETDIR)/lib/libengine_beceem.so 
 	rm -f $(TARGETDIR)/lib/libxvi020*
 	rm -r -f $(TARGETDIR)/lib/firmware
 	rm -f $(TARGETDIR)/sbin/write_smb_conf
-	rm -f $(TARGETDIR)/sbin/write_3g_ppp_conf
 	rm -f $(TARGETDIR)/sbin/test_disk1
 	rm -f $(TARGETDIR)/sbin/test_disk2
-	rm -f $(TARGETDIR)/sbin/usbled
-	rm -f $(TARGETDIR)/sbin/usb_notify
-	rm -f $(TARGETDIR)/sbin/ejusb
-	rm -f $(TARGETDIR)/sbin/asus_usbbcm
-	rm -f $(TARGETDIR)/sbin/asus_usb_interface
 	rm -f $(TARGETDIR)/usr/sbin/3g*
 	rm -f $(TARGETDIR)/usr/sbin/app_*
 	rm -f $(TARGETDIR)/usr/sbin/badblocks
@@ -1573,7 +1541,6 @@ ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10P RT-N12B1 RT-N12C1 RT-N12D1 
 	rm -f $(TARGETDIR)/rom/etc/usb_modeswitch.conf
 	rm -f $(TARGETDIR)/usr/sbin/uqmi
 	rm -f $(TARGETDIR)/usr/sbin/hub-ctrl
-	rm -f $(TARGETDIR)/usr/sbin/chat
 	rm -f $(TARGETDIR)/www/wds_aplist_5g.asp
 	rm -f $(TARGETDIR)/www/wds_aplist_5g_2.asp
 	rm -f $(TARGETDIR)/www/QIS_wizard_m.htm
