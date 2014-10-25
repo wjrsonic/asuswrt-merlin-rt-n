@@ -283,11 +283,9 @@ obj-y += sd-idle
 obj-y += libusb10
 obj-y += libusb
 obj-y += libusb-0.1.12
-ifeq ($(RTCONFIG_USB),y)
 #ifneq ($(RTCONFIG_8M_SFP),y)
 obj-y += hub-ctrl
 #endif
-endif
 obj-$(RTCONFIG_USB_PRINTER) += u2ec
 obj-$(RTCONFIG_USB_PRINTER) += LPRng
 
@@ -1026,7 +1024,8 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 endif
 
 #external kit
-ifeq ($(RTCONFIG_APP_NETINSTALLED),y)
+#ifeq ($(RTCONFIG_APP_NETINSTALLED),y)
+ifeq ($(EXT_WEB_KIT),y)
 #nfs
 ifeq ($(RTCONFIG_NFS),y)
 	mkdir -p $(SRCBASE)/image/ext/usr/lib
@@ -1047,24 +1046,319 @@ ifeq ($(RTCONFIG_NFS),y)
 	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/net/sunrpc.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/net
 	cp -f -R  $(SRCBASE)/image/nfs/lib/* $(TARGETDIR)/lib
 	cp -f -R  $(SRCBASE)/image/nfs/usr/* $(TARGETDIR)/usr
+endif # nfs end
+
+ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N15U RT-N10U ))
+
+ifneq ($(RTCONFIG_MEDIA_SERVER),y)
+	rm -f $(TARGETDIR)/www/mediaserver.asp
 endif
+
+
+ifeq ($(BUILD_NAME),RT-N10U)
+	mkdir -p $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/nls_*.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/cifs.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
+	cp -f -R  $(SRCBASE)/image/rtn10u/lib/* $(TARGETDIR)/lib
+endif
+
+#	rm -f -r $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb
+#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb/zaurus.ko
+#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb/ipheth.ko
+#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/usbserial.ko
+#	rm -f -r $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/usblp.ko
+#	rm -f -r $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/sierra.ko
+#	rm -f -r $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/option.ko
+#	rm -f -r $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/cdc*.ko
+#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/nls_*.ko
+#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/cifs.ko
+	mkdir -p $(SRCBASE)/image/ext/bin
+	mv -f $(TARGETDIR)/bin/comgt $(SRCBASE)/image/ext/bin
+	mkdir -p $(SRCBASE)/image/ext/rom/etc/ppp
+	mv -f $(TARGETDIR)/rom/etc/ppp/3g $(SRCBASE)/image/ext/rom/etc/ppp
+	mv -f $(TARGETDIR)/rom/etc/static_routes $(SRCBASE)/image/ext/rom/etc
+	mv -f $(TARGETDIR)/rom/etc/usb_modeswitch.conf $(SRCBASE)/image/ext/rom/etc
+	mkdir -p $(SRCBASE)/image/ext/sbin
+	mv -f $(TARGETDIR)/sbin/write_smb_conf $(SRCBASE)/image/ext/sbin
+	mv -f $(TARGETDIR)/sbin/read_sms $(SRCBASE)/image/ext/sbin
+	mv -f $(TARGETDIR)/sbin/send_sms $(SRCBASE)/image/ext/sbin
+	mv -f $(TARGETDIR)/sbin/sigmon $(SRCBASE)/image/ext/sbin
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mkdir -p $(SRCBASE)/image/ext/usr/bin
+	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/bin/smbpasswd $(SRCBASE)/image/ext/usr/bin
+	mv -f $(TARGETDIR)/usr/sbin/3g*.sh $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/*modem*.sh $(SRCBASE)/image/ext/usr/sbin
+#	mv -f $(TARGETDIR)/usr/sbin/app_*.sh $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/entware-setup.sh $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/vsftpd $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/nmbd $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/smbd $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/uqmi $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/lpd $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/usb_modeswitch $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/chat $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/lib/libbigballofmud.so $(SRCBASE)/image/ext/usr/lib
+	mkdir -p $(SRCBASE)/image/ext/www/images/New_ui
+	mv -f $(TARGETDIR)/www/Advanced_AiDisk_samba.asp $(SRCBASE)/image/ext/www
+	mv -f $(TARGETDIR)/www/Advanced_AiDisk_ftp.asp $(SRCBASE)/image/ext/www
+	mv -f $(TARGETDIR)/www/images/New_ui/advancesetting $(SRCBASE)/image/ext/www/images/New_ui
+	cp -f -R  $(SRCBASE)/image/storage/bin/* $(TARGETDIR)/bin
+	cp -f -R  $(SRCBASE)/image/storage/rom/* $(TARGETDIR)/rom
+	cp -f -R  $(SRCBASE)/image/storage/sbin/* $(TARGETDIR)/sbin
+	cp -f -R  $(SRCBASE)/image/storage/usr/* $(TARGETDIR)/usr
+	cp -f -R  $(SRCBASE)/image/storage/www/* $(TARGETDIR)/www
+
+# wimax
+ifeq ($(RTCONFIG_USB_BECEEM),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mkdir -p $(SRCBASE)/image/ext/rom
+	mkdir -p $(SRCBASE)/image/ext/sbin
+	mkdir -p $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/drivers/usb
+	mv -f $(TARGETDIR)/usr/lib/libeap.so.0.0.0 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libz.so.1 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/sbin/gctwimax $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/madwimax $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/sbin/switchmode $(SRCBASE)/image/ext/sbin
+	mv -f $(TARGETDIR)/sbin/wimaxc $(SRCBASE)/image/ext/sbin
+	mv -f $(TARGETDIR)/sbin/wimaxd $(SRCBASE)/image/ext/sbin
+	mv -f $(TARGETDIR)/rom/Beceem_firmware $(SRCBASE)/image/ext/rom
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/Beceem_driver $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/drivers/usb
+	mv -f $(TARGETDIR)/lib/libeap_supplicant.so $(SRCBASE)/image/ext/lib
+	mv -f $(TARGETDIR)/lib/libengine_beceem.so $(SRCBASE)/image/ext/lib
+	mv -f $(TARGETDIR)/lib/libxvi020.so.05.02.93 $(SRCBASE)/image/ext/lib
+	cp -f -R  $(SRCBASE)/image/wimax/usr/* $(TARGETDIR)/usr
+	cp -f -R  $(SRCBASE)/image/wimax/sbin/* $(TARGETDIR)/sbin
+	cp -f -R  $(SRCBASE)/image/wimax/rom/* $(TARGETDIR)/rom
+	cp -f -R  $(SRCBASE)/image/wimax/lib/* $(TARGETDIR)/lib
+endif
+# wimax end
+
+# openvpn
+ifeq ($(RTCONFIG_OPENVPN),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mkdir -p $(SRCBASE)/image/ext/rom
+	mkdir -p $(SRCBASE)/image/ext/www
+	mv -f $(TARGETDIR)/usr/lib/liblzo2.so.2 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libpam.so.2 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/openvpn-plugin-auth-pam.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/pam_unix.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/sbin/openvpn $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/setuprsa.sh $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/updown.sh $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/rom/easy-rsa $(SRCBASE)/image/ext/rom
+	mv -f $(TARGETDIR)/www/Advanced_OpenVPNClient_Content.asp $(SRCBASE)/image/ext/www
+	mv -f $(TARGETDIR)/www/ajax_openvpn_server.asp $(SRCBASE)/image/ext/www
+	cp -f -R  $(SRCBASE)/image/openvpn/usr/* $(TARGETDIR)/usr
+	cp -f -R  $(SRCBASE)/image/openvpn/rom/* $(TARGETDIR)/rom
+	cp -f -R  $(SRCBASE)/image/openvpn/www/* $(TARGETDIR)/www
+endif
+# openvpn end
+
+# snmp
+ifeq ($(RTCONFIG_SNMPD),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/bin
+	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mkdir -p $(SRCBASE)/image/ext/www
+	mv -f $(TARGETDIR)/usr/bin/net-snmp-config $(SRCBASE)/image/ext/usr/bin
+	mv -f $(TARGETDIR)/usr/bin/net-snmp-create-v3-user $(SRCBASE)/image/ext/usr/bin
+	mv -f $(TARGETDIR)/usr/lib/libnetsnmp.la $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libnetsnmp.so.30.0.2 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libnetsnmpagent.la $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libnetsnmpagent.so.30.0.2 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libnetsnmphelpers.la $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libnetsnmphelpers.so.30.0.2 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libnetsnmpmibs.la $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libnetsnmpmibs.so.30.0.2 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libnmp.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/sbin/snmpd $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/www/Advanced_SNMP_Content.asp $(SRCBASE)/image/ext/www
+	cp -f -R  $(SRCBASE)/image/snmp/usr/* $(TARGETDIR)/usr
+	cp -f -R  $(SRCBASE)/image/snmp/www/* $(TARGETDIR)/www
+endif
+# snmp end
+
+# webdav
+ifeq ($(RTCONFIG_WEBDAV),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/bin
+	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mkdir -p $(SRCBASE)/image/ext/sbin
+	mkdir -p $(SRCBASE)/image/ext/www
+	mv -f $(TARGETDIR)/sbin/write_webdav_conf $(SRCBASE)/image/ext/sbin
+	mv -f $(TARGETDIR)/usr/lighttpd $(SRCBASE)/image/ext/usr
+	mv -f $(TARGETDIR)/usr/lib/liblightsql.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libpcre.so.1.0.1 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libsmbclient.so.0 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libsqlite3.so.0 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libxml2.so.2 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_access.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_accesslog.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_aicloud_auth.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_aidisk_access.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_alias.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_auth.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_cgi.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_cml.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_compress.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_create_captcha_image.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_dirlisting.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_evasive.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_evhost.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_expire.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_extforward.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_fastcgi.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_flv_streaming.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_indexfile.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_magnet.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_mysql_vhost.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_proxy.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_redirect.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_rewrite.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_rrdtool.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_scgi.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_secdownload.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_setenv.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_sharelink.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_simple_vhost.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_smbdav.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_ssi.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_staticfile.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_status.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_trigger_b4_dl.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_userdir.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_usertrack.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/mod_webdav.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/sbin/lighttpd $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/lighttpd-arpping $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/lighttpd-monitor $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/www/Advanced_AiDisk_webdav.asp $(SRCBASE)/image/ext/www
+	cp -f -R  $(SRCBASE)/image/webdav/usr/* $(TARGETDIR)/usr
+	cp -f -R  $(SRCBASE)/image/webdav/sbin/* $(TARGETDIR)/sbin
+	cp -f -R  $(SRCBASE)/image/webdav/www/* $(TARGETDIR)/www
+endif
+# webdav end
+
+# media server
+ifeq ($(RTCONFIG_MEDIA_SERVER),y)
+	mkdir -p $(SRCBASE)/image/ext/rom/etc
+	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mkdir -p $(SRCBASE)/image/ext/www
+	mv -f $(TARGETDIR)/rom/etc/web $(SRCBASE)/image/ext/rom/etc
+	mv -f $(TARGETDIR)/usr/lib/libFLAC.so.8 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libavcodec.so.52 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libavformat.so.52 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libavutil.so.50 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libexif.so.12 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libgdbm.so.3.0.0 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libid3tag.so.0 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libjpeg.so $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libogg.so.0 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libvorbis.so.0 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/sbin/mDNSResponder $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/minidlna $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/mt-daapd $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/www/mediaserver.asp $(SRCBASE)/image/ext/www
+	cp -f -R  $(SRCBASE)/image/media/usr/* $(TARGETDIR)/usr
+	cp -f -R  $(SRCBASE)/image/media/rom/etc/* $(TARGETDIR)/rom/etc
+	cp -f -R  $(SRCBASE)/image/media/www/* $(TARGETDIR)/www
+endif
+# media server end
+
+# dnsfilter
+ifeq ($(RTCONFIG_DNSFILTER),y)
+	mkdir -p $(SRCBASE)/image/ext/www
+	mv -f $(TARGETDIR)/www/DNSFilter.asp $(SRCBASE)/image/ext/www
+	mv -f $(TARGETDIR)/www/Home_Security.asp $(SRCBASE)/image/ext/www
+	cp -f -R  $(SRCBASE)/image/dns/* $(TARGETDIR)/www/
+endif
+# dns filter end
+
+endif # RT-N15U RT-N10U
+
+# cloudsync
+ifeq ($(RTCONFIG_CLOUDSYNC),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mkdir -p $(SRCBASE)/image/ext/www
+	mkdir -p $(SRCBASE)/image/ext/www/images/New_ui/USBExt
+	mv -f $(TARGETDIR)/usr/lib/libcurl.so.4.2.0 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/sbin/asuswebstorage $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/inotify $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/www/images/cloudsync $(SRCBASE)/image/ext/www/images
+	mv -f $(TARGETDIR)/www/images/aicloud_logo.png $(SRCBASE)/image/ext/www/images
+	mv -f $(TARGETDIR)/www/update_cloudstatus.asp $(SRCBASE)/image/ext/www
+	mv -f $(TARGETDIR)/www/get_webdavInfo.asp $(SRCBASE)/image/ext/www
+	mv -f $(TARGETDIR)/www/*cloud*.asp $(SRCBASE)/image/ext/www
+	mv -f $(TARGETDIR)/www/dropbox_callback.htm $(SRCBASE)/image/ext/www
+	cp -f -R  $(SRCBASE)/image/cloudsync/usr/* $(TARGETDIR)/usr
+	cp -f -R  $(SRCBASE)/image/cloud/* $(TARGETDIR)/www/
+endif
+# cloudsync end
+
+# cloudsync clients
+ifeq ($(RTCONFIG_FTPCLIENT),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/lib/libiconv.so.2.5.1 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/lib/libstdc++.so.6 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/sbin/ftpclient $(SRCBASE)/image/ext/usr/sbin
+	cp -f -R  $(SRCBASE)/image/clients/usr/lib/libiconv.so.2.5.1 $(TARGETDIR)/usr/lib
+	cp -f -R  $(SRCBASE)/image/clients/usr/lib/libstdc++.so.6 $(TARGETDIR)/usr/lib
+	cp -f -R  $(SRCBASE)/image/clients/usr/sbin/ftpclient $(TARGETDIR)/usr/sbin
+endif
+
+ifeq ($(RTCONFIG_DROPBOXCLIENT),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/dropbox_client $(SRCBASE)/image/ext/usr/sbin
+	cp -f -R  $(SRCBASE)/image/clients/usr/sbin/dropbox_client $(TARGETDIR)/usr/sbin
+endif
+
+ifeq ($(RTCONFIG_SAMBACLIENT),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/sambaclient $(SRCBASE)/image/ext/usr/sbin
+	cp -f -R  $(SRCBASE)/image/clients/usr/sbin/sambaclient $(TARGETDIR)/usr/sbin
+endif
+
+ifeq ($(RTCONFIG_SWEBDAVCLIENT),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/lib
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/lib/libneon.so.27.2.6 $(SRCBASE)/image/ext/usr/lib
+	mv -f $(TARGETDIR)/usr/sbin/webdav_client $(SRCBASE)/image/ext/usr/sbin
+	cp -f -R  $(SRCBASE)/image/clients/usr/lib/libneon.so.27.2.6 $(TARGETDIR)/usr/lib
+	cp -f -R  $(SRCBASE)/image/clients/usr/sbin/webdav_client $(TARGETDIR)/usr/sbin
+endif
+# cloudsync clients end
+
+	rm -f $(TARGETDIR)/usr/sbin/webs_*
+	rm -f $(TARGETDIR)/usr/sbin/check_spectrum.sh
 	rm -f $(TARGETDIR)/www/wds_aplist_5g.asp
 	rm -f $(TARGETDIR)/www/wds_aplist_5g_2.asp
 	rm -f $(TARGETDIR)/www/QIS_wizard_m.htm
 	rm -f $(TARGETDIR)/www/Lang_Hdr
 	rm -f $(TARGETDIR)/www/Advanced_APPList_Content.asp
 	rm -f $(TARGETDIR)/www/switch_AiDisk_app.asp
-ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N15U RT-N10U ))
-	rm -f $(TARGETDIR)/www/mediaserver.asp
-#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb/asix.ko
-#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb/zaurus.ko
-#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb/ipheth.ko
-#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/usbserial.ko
-#	rm -f -r $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/usbmon
-endif
-	rm -f $(TARGETDIR)/usr/sbin/webs_*
 
 endif
+# APP NET Installed
+
+ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10U RT-N15U RT-N14UHP ))
+ifeq ($(EXT_WEB_KIT),n)
+	rm -f $(TARGETDIR)/usr/sbin/webs_*
+	rm -f $(TARGETDIR)/usr/sbin/check_spectrum.sh
+	rm -f $(TARGETDIR)/www/wds_aplist_5g.asp
+	rm -f $(TARGETDIR)/www/wds_aplist_5g_2.asp
+	rm -f $(TARGETDIR)/www/QIS_wizard_m.htm
+	rm -f $(TARGETDIR)/www/Lang_Hdr
+	rm -f $(TARGETDIR)/www/Advanced_APPList_Content.asp
+	rm -f $(TARGETDIR)/www/switch_AiDisk_app.asp
+endif
+endif
+
 
 
 ifeq ($(BUILD_NAME),RT-N53)
@@ -1072,7 +1366,7 @@ ifeq ($(BUILD_NAME),RT-N53)
 	rm -f -r $(TARGETDIR)/www/images/Tree
 	rm -f -r $(TARGETDIR)/www/images/New_ui/USBExt
 	rm -f -r $(TARGETDIR)/www/images/New_ui/aidisk
-	rm -f -r $(TARGETDIR)/www/images/New_ui/advancesettings
+	rm -f -r $(TARGETDIR)/www/images/New_ui/advancesetting
 	rm -f $(TARGETDIR)/www/images/New_ui/networkmap/USB*
 	rm -f $(TARGETDIR)/www/images/New_ui/networkmap/*Printer*
 	rm -f $(TARGETDIR)/www/images/New_ui/networkmap/*modem*
@@ -1103,6 +1397,80 @@ ifeq ($(BUILD_NAME),RT-N53)
 #	rm -f $(TARGETDIR)/usr/lib/libcom*
 #	rm -f $(TARGETDIR)/usr/lib/libe2p*
 endif
+
+ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10P RT-N12B1 RT-N12C1 RT-N12D1 RT-N12HP RT-N12HP_B1 RT-N12VP ))
+	rm -f -r $(TARGETDIR)/www/aidisk
+	rm -f -r $(TARGETDIR)/www/images/Tree
+	rm -f -r $(TARGETDIR)/www/images/New_ui/USBExt
+	rm -f -r $(TARGETDIR)/www/images/New_ui/aidisk
+	rm -f -r $(TARGETDIR)/www/images/New_ui/advancesetting
+	rm -f $(TARGETDIR)/www/images/New_ui/networkmap/USB*
+	rm -f $(TARGETDIR)/www/images/New_ui/networkmap/*Printer*
+	rm -f $(TARGETDIR)/www/images/New_ui/networkmap/*modem*
+	rm -f $(TARGETDIR)/www/*disk*
+	rm -f $(TARGETDIR)/www/*Disk*
+	rm -f $(TARGETDIR)/www/Advanced_APPList_Content.asp
+	rm -f $(TARGETDIR)/www/APP_Installation.asp
+	rm -f $(TARGETDIR)/www/Advanced_Modem_Content.asp
+	rm -f $(TARGETDIR)/www/Advanced_SwitchCtrl_Content.asp
+	rm -f $(TARGETDIR)/www/mediaserver.asp
+	rm -f $(TARGETDIR)/www/PrinterServer.asp
+	rm -f $(TARGETDIR)/www/qis/QISMobilePlugin.js
+	rm -f $(TARGETDIR)/www/qis/*modem*
+	rm -f $(TARGETDIR)/bin/comgt
+	rm -f $(TARGETDIR)/bin/sdparm
+	rm -f $(TARGETDIR)/usr/sbin/gctwimax
+	rm -f $(TARGETDIR)/usr/sbin/madwimax
+	rm -f $(TARGETDIR)/sbin/switchmode
+	rm -f $(TARGETDIR)/sbin/wimaxc
+	rm -f $(TARGETDIR)/sbin/wimaxd
+	rm -f $(TARGETDIR)/sbin/read_sms
+	rm -f $(TARGETDIR)/sbin/send_sms
+	rm -f $(TARGETDIR)/sbin/sigmon
+	rm -r -f $(TARGETDIR)/rom/Beceem_firmware
+	rm -r -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb
+	rm -r -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb
+	rm -r -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/scsi
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/ext*.ko
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/*fat*.ko
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/fuse.ko
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/nls*.ko
+	rm -f $(TARGETDIR)/lib/libengine_beceem.so 
+	rm -f $(TARGETDIR)/lib/libxvi020*
+	rm -r -f $(TARGETDIR)/lib/firmware
+	rm -f $(TARGETDIR)/sbin/write_smb_conf
+	rm -f $(TARGETDIR)/sbin/test_disk1
+	rm -f $(TARGETDIR)/sbin/test_disk2
+	rm -f $(TARGETDIR)/usr/sbin/3g*
+	rm -f $(TARGETDIR)/usr/sbin/app_*
+	rm -f $(TARGETDIR)/usr/sbin/badblocks
+	rm -f $(TARGETDIR)/usr/sbin/e2fsck
+	rm -f $(TARGETDIR)/usr/sbin/find_*
+	rm -f $(TARGETDIR)/usr/sbin/modem_*
+	rm -f $(TARGETDIR)/usr/sbin/webs_*
+	rm -f $(TARGETDIR)/usr/sbin/tune2fs
+	rm -f $(TARGETDIR)/usr/sbin/mke2fs
+	rm -f $(TARGETDIR)/usr/sbin/*.ext2
+	rm -f $(TARGETDIR)/usr/sbin/*.ext3
+	rm -f $(TARGETDIR)/usr/sbin/scsi*
+	rm -f $(TARGETDIR)/usr/sbin/sd*
+	rm -f $(TARGETDIR)/usr/sbin/check_spectrum.sh
+	rm -f $(TARGETDIR)/usr/sbin/usb_modeswitch
+	rm -f $(TARGETDIR)/rom/etc/usb_modeswitch.conf
+	rm -f $(TARGETDIR)/usr/sbin/uqmi
+	rm -f $(TARGETDIR)/usr/sbin/hub-ctrl
+	rm -f $(TARGETDIR)/www/wds_aplist_5g.asp
+	rm -f $(TARGETDIR)/www/wds_aplist_5g_2.asp
+	rm -f $(TARGETDIR)/www/QIS_wizard_m.htm
+	rm -f $(TARGETDIR)/www/Lang_Hdr
+	rm -f $(TARGETDIR)/www/switch_AiDisk_app.asp
+	rm -f $(TARGETDIR)/usr/lib/libext2fs*
+	rm -f $(TARGETDIR)/usr/lib/libuuid*
+	rm -f $(TARGETDIR)/usr/lib/libblkid*
+	rm -f $(TARGETDIR)/usr/lib/libcom*
+	rm -f $(TARGETDIR)/usr/lib/libe2p*
+endif
+
 
 
 image:
