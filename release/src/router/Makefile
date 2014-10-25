@@ -286,7 +286,6 @@ obj-y += libusb-0.1.12
 #ifneq ($(RTCONFIG_8M_SFP),y)
 obj-y += hub-ctrl
 #endif
-endif
 obj-$(RTCONFIG_USB_PRINTER) += u2ec
 obj-$(RTCONFIG_USB_PRINTER) += LPRng
 
@@ -1373,9 +1372,9 @@ endif
 ifeq ($(BUILD_NAME),RT-N10U)
 	rm -f $(TARGETDIR)/www/Advanced_SwitchCtrl_Content.asp
 endif
+endif
+endif
 
-endif
-endif
 
 
 ifeq ($(BUILD_NAME),RT-N53)
@@ -1497,7 +1496,6 @@ ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10P RT-N12B1 RT-N12C1 RT-N12D1 
 	rm -f $(TARGETDIR)/usr/lib/libcom*
 	rm -f $(TARGETDIR)/usr/lib/libe2p*
 endif
-
 
 image:
 ifneq ($(RTCONFIG_BCMARM),y)
