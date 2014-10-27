@@ -1059,12 +1059,12 @@ restore_defaults(void)
 	nvram_set_int("auto_upgrade", 0);
 #endif
 
-/*
+
 	if (restore_defaults)
 	{
-		nvram_set("jffs2_clean_fs", "1");
+		nvram_set("jffs2_clean_fs", "0");
 	}
-*/
+
 }
 
 /* Set terminal settings to reasonable defaults */
@@ -2227,8 +2227,8 @@ int init_nvram(void)
 		nvram_set_int("led_pwr_gpio", 18|GPIO_ACTIVE_LOW);
 		nvram_set_int("led_wps_gpio", 18|GPIO_ACTIVE_LOW);
 		nvram_set_int("sb/1/ledbh5", 7);
-		nvram_set("sb/1/maxp2ga0", "0x52");
-		nvram_set("sb/1/maxp2ga1", "0x52");
+		nvram_set("sb/1/maxp2ga0", "0x114");
+		nvram_set("sb/1/maxp2ga1", "0x114");
 		nvram_set("sb/1/cck2gpo", "0x0");
 		nvram_set("sb/1/ofdm2gpo0", "0x2000");
 		nvram_set("sb/1/ofdm2gpo1", "0x6442");
@@ -2241,6 +2241,13 @@ int init_nvram(void)
 		nvram_set("sb/1/mcs2gpo5", "0x8866");
 		nvram_set("sb/1/mcs2gpo6", "0x4422");
 		nvram_set("sb/1/mcs2gpo7", "0x8866");
+		nvram_set("sb/1/regrev", "0");
+		nvram_set("sb/1/ccode", "#a");
+		nvram_set("regulation_domain", "#a");
+		nvram_set("wl_country_code", "#a");
+		nvram_set("wl0_country_code", "#a");
+		nvram_set("wl1_country_code", "#a");
+		add_rc_support("pwrctrl"); // wl power adjust
 		if (model == MODEL_RTN12VP)
 			add_rc_support("update");
 		if (model == MODEL_RTN12D1) {
@@ -2264,6 +2271,27 @@ int init_nvram(void)
 		nvram_set_int("sb/1/ledbh4", 2);
 		nvram_set_int("sb/1/ledbh5", 11);
 		nvram_set_int("sb/1/ledbh6", 11);
+		add_rc_support("pwrctrl"); // wl power adjust
+		nvram_set("sb/1/maxp2ga0", "0x114");
+		nvram_set("sb/1/maxp2ga1", "0x114");
+		nvram_set("sb/1/cck2gpo", "0x0");
+		nvram_set("sb/1/ofdm2gpo0", "0x2000");
+		nvram_set("sb/1/ofdm2gpo1", "0x6442");
+		nvram_set("sb/1/ofdm2gpo", "0x64422000");
+		nvram_set("sb/1/mcs2gpo0", "0x2200");
+		nvram_set("sb/1/mcs2gpo1", "0x6644");
+		nvram_set("sb/1/mcs2gpo2", "0x2200");
+		nvram_set("sb/1/mcs2gpo3", "0x6644");
+		nvram_set("sb/1/mcs2gpo4", "0x4422");
+		nvram_set("sb/1/mcs2gpo5", "0x8866");
+		nvram_set("sb/1/mcs2gpo6", "0x4422");
+		nvram_set("sb/1/mcs2gpo7", "0x8866");
+		nvram_set("sb/1/regrev", "0");
+		nvram_set("sb/1/ccode", "#a");
+		nvram_set("regulation_domain", "#a");
+		nvram_set("wl_country_code", "#a");
+		nvram_set("wl0_country_code", "#a");
+		nvram_set("wl1_country_code", "#a");
 #ifdef RTCONFIG_SWMODE_SWITCH
 		nvram_set_int("btn_swmode1_gpio", 6|GPIO_ACTIVE_LOW);
 		nvram_set_int("btn_swmode2_gpio", 7|GPIO_ACTIVE_LOW);
@@ -2283,6 +2311,27 @@ int init_nvram(void)
 		nvram_set_int("led_wps_gpio", 18|GPIO_ACTIVE_LOW);
 		nvram_set_int("led_wan_gpio", 4|GPIO_ACTIVE_LOW);
 		nvram_set_int("sb/1/ledbh5", 2);
+		add_rc_support("pwrctrl"); // wl power adjust
+		nvram_set("sb/1/maxp2ga0", "0x114");
+		nvram_set("sb/1/maxp2ga1", "0x114");
+		nvram_set("sb/1/cck2gpo", "0x0");
+		nvram_set("sb/1/ofdm2gpo0", "0x2000");
+		nvram_set("sb/1/ofdm2gpo1", "0x6442");
+		nvram_set("sb/1/ofdm2gpo", "0x64422000");
+		nvram_set("sb/1/mcs2gpo0", "0x2200");
+		nvram_set("sb/1/mcs2gpo1", "0x6644");
+		nvram_set("sb/1/mcs2gpo2", "0x2200");
+		nvram_set("sb/1/mcs2gpo3", "0x6644");
+		nvram_set("sb/1/mcs2gpo4", "0x4422");
+		nvram_set("sb/1/mcs2gpo5", "0x8866");
+		nvram_set("sb/1/mcs2gpo6", "0x4422");
+		nvram_set("sb/1/mcs2gpo7", "0x8866");
+		nvram_set("sb/1/regrev", "0");
+		nvram_set("sb/1/ccode", "#a");
+		nvram_set("regulation_domain", "#a");
+		nvram_set("wl_country_code", "#a");
+		nvram_set("wl0_country_code", "#a");
+		nvram_set("wl1_country_code", "#a");
 #ifdef RTCONFIG_SWMODE_SWITCH
 		nvram_set_int("btn_swmode1_gpio", 6|GPIO_ACTIVE_LOW);
 		nvram_set_int("btn_swmode2_gpio", 7|GPIO_ACTIVE_LOW);
@@ -2306,6 +2355,8 @@ int init_nvram(void)
 		//nvram_set("wan_ifnames", "eth0");
 		//nvram_set("wandevs", "et0");
 		nvram_set("wl_ifnames", "eth1");
+		if(!nvram_get("ct_max") || nvram_get("ct_max") < 32768 )
+			nvram_set("ct_max", "32768"); //force
 
 	if (model == MODEL_RTN12D1 || model == MODEL_RTN12HP || model == MODEL_RTN12HP_B1)
 	{
@@ -2433,11 +2484,36 @@ int init_nvram(void)
 		nvram_set_int("sb/1/ledbh0", 0x82);
 		nvram_set("ehci_ports", "1-1");
 		nvram_set("ohci_ports", "2-1");
-		if (!nvram_get("ct_max"))
-			nvram_set("ct_max", "15000");
-		add_rc_support("2.4G update mssid usbX1 nomedia");
+		if (!nvram_get("ct_max") || nvram_get("ct_max") < 65535)
+			nvram_set("ct_max", "65535"); //force
+		add_rc_support("2.4G update mssid usbX1");
 		add_rc_support("switchctrl"); // broadcom: for jumbo frame only
 		add_rc_support("manual_stb");
+#ifndef RTCONFIG_CLOUDSYNC
+		add_rc_support("aicloudipk"); // 
+#endif
+		add_rc_support("rrsut");	//syn server
+		add_rc_support("pwrctrl"); // wl power adjust
+		nvram_set("sb/1/maxp2ga0", "0x114");
+		nvram_set("sb/1/maxp2ga1", "0x114");
+		nvram_set("sb/1/cck2gpo", "0x0");
+		nvram_set("sb/1/ofdm2gpo0", "0x2000");
+		nvram_set("sb/1/ofdm2gpo1", "0x6442");
+		nvram_set("sb/1/ofdm2gpo", "0x64422000");
+		nvram_set("sb/1/mcs2gpo0", "0x2200");
+		nvram_set("sb/1/mcs2gpo1", "0x6644");
+		nvram_set("sb/1/mcs2gpo2", "0x2200");
+		nvram_set("sb/1/mcs2gpo3", "0x6644");
+		nvram_set("sb/1/mcs2gpo4", "0x4422");
+		nvram_set("sb/1/mcs2gpo5", "0x8866");
+		nvram_set("sb/1/mcs2gpo6", "0x4422");
+		nvram_set("sb/1/mcs2gpo7", "0x8866");
+		nvram_set("sb/1/regrev", "0");
+		nvram_set("sb/1/ccode", "#a");
+		nvram_set("regulation_domain", "#a");
+		nvram_set("wl_country_code", "#a");
+		nvram_set("wl0_country_code", "#a");
+		nvram_set("wl1_country_code", "#a");
 		break;
 
 	case MODEL_RTN16:
@@ -2519,6 +2595,28 @@ int init_nvram(void)
 		add_rc_support("2.4G update usbX2 mssid");
 		add_rc_support("switchctrl"); // broadcom: for jumbo frame only
 		add_rc_support("manual_stb");
+		add_rc_support("pwrctrl"); // wl power adjust
+		nvram_set("sb/1/maxp2ga0", "0x114");
+		nvram_set("sb/1/maxp2ga1", "0x114");
+		nvram_set("sb/1/cck2gpo", "0x0");
+		nvram_set("sb/1/ofdm2gpo0", "0x2000");
+		nvram_set("sb/1/ofdm2gpo1", "0x6442");
+		nvram_set("sb/1/ofdm2gpo", "0x64422000");
+		nvram_set("sb/1/mcs2gpo0", "0x2200");
+		nvram_set("sb/1/mcs2gpo1", "0x6644");
+		nvram_set("sb/1/mcs2gpo2", "0x2200");
+		nvram_set("sb/1/mcs2gpo3", "0x6644");
+		nvram_set("sb/1/mcs2gpo4", "0x4422");
+		nvram_set("sb/1/mcs2gpo5", "0x8866");
+		nvram_set("sb/1/mcs2gpo6", "0x4422");
+		nvram_set("sb/1/mcs2gpo7", "0x8866");
+		nvram_set("sb/1/regrev", "0");
+		nvram_set("sb/1/ccode", "#a");
+		nvram_set("regulation_domain", "#a");
+		nvram_set("wl_country_code", "#a");
+		nvram_set("wl0_country_code", "#a");
+		nvram_set("wl1_country_code", "#a");
+
 		break;
 
 	case MODEL_RTN53:
@@ -2542,10 +2640,33 @@ int init_nvram(void)
 		nvram_unset("vlan2ports");
 		nvram_unset("vlan2hwname");
 		/* end */
-		if (!nvram_get("ct_max"))
-			nvram_set("ct_max", "2048");
+		if (!nvram_get("ct_max") || nvram_get("ct_max") < 16384 )
+			nvram_set("ct_max", "16384"); //force
 
 		add_rc_support("2.4G 5G update mssid no5gmssid");
+		add_rc_support("pwrctrl"); // wl power adjust
+		nvram_set("sb/1/maxp2ga0", "0x114");
+		nvram_set("sb/1/maxp2ga1", "0x114");
+		nvram_set("sb/1/cck2gpo", "0x0");
+		nvram_set("sb/1/ofdm2gpo0", "0x2000");
+		nvram_set("sb/1/ofdm2gpo1", "0x6442");
+		nvram_set("sb/1/ofdm2gpo", "0x64422000");
+		nvram_set("sb/1/mcs2gpo0", "0x2200");
+		nvram_set("sb/1/mcs2gpo1", "0x6644");
+		nvram_set("sb/1/mcs2gpo2", "0x2200");
+		nvram_set("sb/1/mcs2gpo3", "0x6644");
+		nvram_set("sb/1/mcs2gpo4", "0x4422");
+		nvram_set("sb/1/mcs2gpo5", "0x8866");
+		nvram_set("sb/1/mcs2gpo6", "0x4422");
+		nvram_set("sb/1/mcs2gpo7", "0x8866");
+		nvram_set("sb/1/regrev", "0");
+		nvram_set("sb/1/ccode", "#a");
+		nvram_set("regulation_domain", "#a");
+		nvram_set("wl_country_code", "#a");
+		nvram_set("wl0_country_code", "#a");
+		nvram_set("wl1_country_code", "#a");
+
+
 #ifdef RTCONFIG_WLAN_LED
 		add_rc_support("led_2g");
 		nvram_set("led_5g", "1");
@@ -3482,9 +3603,34 @@ int init_nvram(void)
 #endif
 		nvram_set("ehci_ports", "1-1");
 		nvram_set("ohci_ports", "2-1");
-		if (!nvram_get("ct_max"))
-			nvram_set("ct_max", "2048");
+		if (!nvram_get("ct_max") || nvram_get("ct_max") < 16384 )
+			nvram_set("ct_max", "16384"); //force
 		add_rc_support("2.4G mssid media usbX1 update");
+#ifndef RTCONFIG_CLOUDSYNC
+		add_rc_support("aicloudipk"); // 
+#endif
+		add_rc_support("rrsut");	//syn server
+		 // wl power adjust
+		nvram_set("sb/1/maxp2ga0", "0x114");
+		nvram_set("sb/1/maxp2ga1", "0x114");
+		nvram_set("sb/1/cck2gpo", "0x0");
+		nvram_set("sb/1/ofdm2gpo0", "0x2000");
+		nvram_set("sb/1/ofdm2gpo1", "0x6442");
+		nvram_set("sb/1/ofdm2gpo", "0x64422000");
+		nvram_set("sb/1/mcs2gpo0", "0x2200");
+		nvram_set("sb/1/mcs2gpo1", "0x6444");
+		nvram_set("sb/1/mcs2gpo2", "0x2200");
+		nvram_set("sb/1/mcs2gpo3", "0x6644");
+		nvram_set("sb/1/mcs2gpo4", "0x4422");
+		nvram_set("sb/1/mcs2gpo5", "0x8866");
+		nvram_set("sb/1/mcs2gpo6", "0x4422");
+		nvram_set("sb/1/mcs2gpo7", "0x8866");
+		nvram_set("sb/1/regrev", "0");
+		nvram_set("sb/1/ccode", "#a");
+		nvram_set("regulation_domain", "#a");
+		nvram_set("wl_country_code", "#a");
+		nvram_set("wl0_country_code", "#a");
+		nvram_set("wl1_country_code", "#a");
 		break;
 
 	case MODEL_RTN10U:
@@ -3552,9 +3698,34 @@ int init_nvram(void)
 		nvram_set_int("led_usb_gpio", 8);
 		nvram_set("ehci_ports", "1-1");
 		nvram_set("ohci_ports", "2-1");
-		if (!nvram_get("ct_max"))
-			nvram_set("ct_max", "2048");
-		add_rc_support("2.4G mssid usbX1 update nomedia");
+		if (!nvram_get("ct_max") || nvram_get("ct_max") < 32768 )
+			nvram_set("ct_max", "32768"); //force
+		add_rc_support("2.4G mssid usbX1 update");
+#ifndef RTCONFIG_CLOUDSYNC
+		add_rc_support("aicloudipk"); // 
+#endif
+		add_rc_support("rrsut");	//syn server
+		add_rc_support("pwrctrl"); // wl power adjust
+		nvram_set("sb/1/maxp2ga0", "0x114");
+		nvram_set("sb/1/maxp2ga1", "0x114");
+		nvram_set("sb/1/cck2gpo", "0x0");
+		nvram_set("sb/1/ofdm2gpo0", "0x2000");
+		nvram_set("sb/1/ofdm2gpo1", "0x6442");
+		nvram_set("sb/1/ofdm2gpo", "0x64422000");
+		nvram_set("sb/1/mcs2gpo0", "0x2200");
+		nvram_set("sb/1/mcs2gpo1", "0x6644");
+		nvram_set("sb/1/mcs2gpo2", "0x2200");
+		nvram_set("sb/1/mcs2gpo3", "0x6644");
+		nvram_set("sb/1/mcs2gpo4", "0x4422");
+		nvram_set("sb/1/mcs2gpo5", "0x8866");
+		nvram_set("sb/1/mcs2gpo6", "0x4422");
+		nvram_set("sb/1/mcs2gpo7", "0x8866");
+		nvram_set("sb/1/regrev", "0");
+		nvram_set("sb/1/ccode", "#a");
+		nvram_set("regulation_domain", "#a");
+		nvram_set("wl_country_code", "#a");
+		nvram_set("wl0_country_code", "#a");
+		nvram_set("wl1_country_code", "#a");
 		break;
 
 	case MODEL_RTN10P:
@@ -3621,12 +3792,34 @@ int init_nvram(void)
 		nvram_set_int("btn_wps_gpio", 20|GPIO_ACTIVE_LOW);
 		nvram_set_int("led_pwr_gpio", 6|GPIO_ACTIVE_LOW);
 		nvram_set_int("led_wps_gpio", 7);
-		nvram_set("sb/1/maxp2ga0", "0x52");
-		nvram_set("sb/1/maxp2ga1", "0x52");
-		if (!nvram_get("ct_max")) {
-			if (model == MODEL_RTN10D1)
-				nvram_set_int("ct_max", 1024);
-		}
+		add_rc_support("pwrctrl"); // wl power adjust
+		nvram_set("sb/1/maxp2ga0", "0x114");
+		nvram_set("sb/1/maxp2ga1", "0x114");
+		nvram_set("sb/1/cck2gpo", "0x0");
+		nvram_set("sb/1/ofdm2gpo0", "0x2000");
+		nvram_set("sb/1/ofdm2gpo1", "0x6442");
+		nvram_set("sb/1/ofdm2gpo", "0x64422000");
+		nvram_set("sb/1/mcs2gpo0", "0x2200");
+		nvram_set("sb/1/mcs2gpo1", "0x6644");
+		nvram_set("sb/1/mcs2gpo2", "0x2200");
+		nvram_set("sb/1/mcs2gpo3", "0x6644");
+		nvram_set("sb/1/mcs2gpo4", "0x4422");
+		nvram_set("sb/1/mcs2gpo5", "0x8866");
+		nvram_set("sb/1/mcs2gpo6", "0x4422");
+		nvram_set("sb/1/mcs2gpo7", "0x8866");
+		nvram_set("sb/1/regrev", "0");
+		nvram_set("sb/1/ccode", "#a");
+		nvram_set("regulation_domain", "#a");
+		nvram_set("wl_country_code", "#a");
+		nvram_set("wl0_country_code", "#a");
+		nvram_set("wl1_country_code", "#a");
+
+		if (!nvram_get("ct_max") || nvram_get("ct_max") < 8192 ) {
+			if (model == MODEL_RTN10D1 || model == MODEL_RTN10PV2)
+				nvram_set("ct_max", "8192");
+			else 
+				nvram_set("ct_max", "16384");
+		 }
 		add_rc_support("2.4G mssid");
 #ifdef RTCONFIG_KYIVSTAR
 		add_rc_support("kyivstar");
@@ -3789,18 +3982,37 @@ int init_nvram(void)
 	add_rc_support("pptpd");
 #endif
 
+#ifdef RTCONFIG_SSH
+	add_rc_support("ssh");
+#endif
+
+#ifdef RTCONFIG_CIFS
+	add_rc_support("cifs");
+#endif
+
+#ifdef RTCONFIG_JFFS2
+	add_rc_support("jffs");
+#endif
+
 #ifdef RTCONFIG_USB
 #ifdef RTCONFIG_USB_PRINTER
 	add_rc_support("printer");
 #endif
 
+
 #ifdef RTCONFIG_USB_MODEM
 	// TODO: hide USB Modem UI in 3.0.0.1
-	if (strcmp(nvram_safe_get("firmver"), "3.0.0.1")!=0)
+	if (strcmp(nvram_safe_get("firmver"), "3.0.0.1")!=0) {
+	if (model != MODEL_RTN10P || model != MODEL_RTN12B1 || model != MODEL_RTN12C1 || model != MODEL_RTN12D1
+	 || model != MODEL_RTN12HP || model != MODEL_RTN12HP_B1 || model != MODEL_RTN12VP) 
 		add_rc_support("modem");
+				}
 
 #ifdef RTCONFIG_USB_BECEEM
+	if (model != MODEL_RTN10P || model != MODEL_RTN12B1 || model != MODEL_RTN12C1 || model != MODEL_RTN12D1
+	 || model != MODEL_RTN12HP || model != MODEL_RTN12HP_B1 || model != MODEL_RTN12VP) {
 	add_rc_support("wimax");
+			}
 #endif
 #endif
 
@@ -3811,10 +4023,6 @@ int init_nvram(void)
 
 #ifdef RTCONFIG_PUSH_EMAIL
 	add_rc_support("email");
-#endif
-
-#ifdef RTCONFIG_SSH
-	add_rc_support("ssh");
 #endif
 
 #ifdef RTCONFIG_WEBDAV
@@ -3950,7 +4158,7 @@ int init_nvram(void)
 #ifdef RTCONFIG_8M_SFP
 	add_rc_support("sfp8m");
 #endif
-	//add_rc_support("ruisp");
+	add_rc_support("ruisp");
 
 #ifdef RTCONFIG_WIFI_TOG_BTN
 	add_rc_support("wifi_tog_btn");
