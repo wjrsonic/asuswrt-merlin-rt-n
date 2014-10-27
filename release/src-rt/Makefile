@@ -63,33 +63,31 @@ endif
 
 export BRANCH := $(shell git branch)
 
-#ifneq ($(BRANCH),) 
-#include ./router/extendno.conf
-#else
-#export EXTENDNO := $(shell git log --pretty=oneline asuswrt_$(KERNEL_VER).$(FS_VER).$(SERIALNO)..HEAD | wc -l)-g$(shell git log --pretty=format:'%h' -n 1)
-#endif
+ifneq ($(BRANCH),) 
+include ./router/extendno.conf
+else
+export EXTENDNO := $(shell git log --pretty=oneline asuswrt_$(KERNEL_VER).$(FS_VER).$(SERIALNO)..HEAD | wc -l)-g$(shell git log --pretty=format:'%h' -n 1)
+endif
 
-#ifeq ($(EXTENDNO),)
-#export EXTENDNO := 0-g$(shell git log --pretty=format:'%h' -n 1)
-#endif
+ifeq ($(EXTENDNO),)
+export EXTENDNO := 0-g$(shell git log --pretty=format:'%h' -n 1)
+endif
 
 export SWPJNAME := $(shell git branch | grep "*" | grep "swpj-" | sed 's/.*swpj-//g')
 
 ifneq ($(SWPJNAME),)
 export SWPJVERNO := $(shell cat $(SRCBASE)/router/APP-IPK/$(SWPJNAME)/CONTROL/control | grep "Version:" | sed 's/Version: //g')
-export SWPJEXTENDNO := $(shell git describe --match swpj_$(SWPJNAME)_$(SWPJVERNO) | sed 's/swpj_$(SWPJNAME)_$(SWPJVERNO)-//g')
 ifneq ($(SWPJVERNO),)
 export SWPJVER := $(SWPJNAME)_$(SWPJVERNO)_
-export SWPJEXTENDNO := $(shell git describe --match swpj_$(SWPJNAME)_$(SWPJVER) | sed 's/swpj_$(SWPJNAME)_$(SWPJVER)-//g')
 endif
 
 export SWPJEXTENDNO := $(shell git describe --match swpj_$(SWPJNAME)_$(SWPJVERNO) | sed 's/swpj_$(SWPJNAME)_$(SWPJVERNO)-//g')
 
-ifneq ($(SWPJEXTENDNO),)
-export EXTENDNO := $(SWPJEXTENDNO)
-else
-export EXTENDNO := 0-g$(shell git log --pretty=format:'%h' -n 1)
-endif
+#ifneq ($(SWPJEXTENDNO),)
+#export EXTENDNO := $(SWPJEXTENDNO)
+#else
+#export EXTENDNO := 0-g$(shell git log --pretty=format:'%h' -n 1)
+#endif
 endif
 
 include ./platform.mak
@@ -130,7 +128,7 @@ BUILD_INFO := $(shell git log --pretty="%h" -n 1)
 
 ifeq ($(CONFIG_LINUX26),y)
 mips_rev = $(if $(filter $(MIPS32),r2),MIPSR2,MIPSR1)
-KERN_SIZE_OPT ?= n
+KERN_SIZE_OPT ?= y
 else
 mips_rev =
 KERN_SIZE_OPT ?= y
@@ -148,7 +146,6 @@ endif
 
 export IMGNAME := $(BUILD_NAME)_$(KERNEL_VER).$(FS_VER)_$(SERIALNO)_$(SWPJVER)$(EXTENDNO)
 export PBDIR   := ../../../asuswrt.prebuilt/$(BUILD_NAME).$(KERNEL_VER).$(FS_VER).$(SERIALNO).$(EXTENDNO)
-
 
 default:
 	@if [ -f .config -a "$(BUILD_NAME)" != "" ] ; then \
@@ -278,6 +275,9 @@ else
 endif
 	ctools/trx_asus -i image/linux-lzma.trx -r $(BUILD_NAME),$(KERNEL_VER).$(FS_VER),image/$(IMGNAME).trx
 	@rm -f image/linux-lzma.trx
+ifeq ($(EXT_WEB_KIT),y)
+	@if [ -d "image/ext" ]; then cd image; tar -czf $(IMGNAME)-ext.tgz ext; cd ..; rm -rf image/ext; fi
+endif
 endif
 
 ifeq ($(DSL_TCLINUX),y)
@@ -671,6 +671,10 @@ define RouterOptions
 		sed -i "/RTCONFIG_USER_LOW_RSSI/d" $(1); \
 		echo "RTCONFIG_USER_LOW_RSSI=y" >>$(1); \
 	fi; \
+	if [ "$(HTTPS)" = "y" ]; then \
+		sed -i "/RTCONFIG_HTTPS/d" $(1); \
+		echo "RTCONFIG_HTTPS=y" >>$(1); \
+	fi; \
 	if [ "$(USB)" = "USB" ]; then \
 		sed -i "/RTCONFIG_USB is not set/d" $(1); \
 		echo "RTCONFIG_USB=y" >>$(1); \
@@ -838,8 +842,6 @@ define RouterOptions
 	if [ "$(CIFS)" = "y" ]; then \
 		sed -i "/RTCONFIG_CIFS/d" $(1); \
 		echo "RTCONFIG_CIFS=y" >>$(1); \
-		sed -i "/RTCONFIG_AUTODICT/d" $(1); \
-		echo "RTCONFIG_AUTODICT=n" >>$(1); \
 	fi; \
 	if [ "$(SSH)" = "y" ] && [ "$(TMOBILE)" != "y" ]; then \
 		sed -i "/RTCONFIG_SSH/d" $(1); \
@@ -1032,8 +1034,6 @@ define RouterOptions
 		echo "RTCONFIG_UIDEBUG=y" >>$(1); \
 		sed -i "/RTCONFIG_CIFS/d" $(1); \
 		echo "RTCONFIG_CIFS=y" >>$(1); \
-		sed -i "/RTCONFIG_AUTODICT/d" $(1); \
-		echo "# RTCONFIG_AUTODICT is not set" >>$(1); \
 		sed -i "/RTCONFIG_TIMEMACHINE/d" $(1); \
 		echo "# RTCONFIG_TIMEMACHINE is not set" >>$(1); \
 		sed -i "/RTCONFIG_MDNS/d" $(1); \
@@ -1342,8 +1342,6 @@ define BusyboxOptions
 				echo "# CONFIG_SORT is not set" >>$(1); \
 				sed -i "/CONFIG_DMESG/d" $(1); \
 				echo "# CONFIG_DMESG is not set" >>$(1); \
-				sed -i "/CONFIG_CROND/d" $(1); \
-				echo "# CONFIG_CROND is not set" >>$(1); \
 				sed -i "/CONFIG_EXPR_MATH_SUPPORT_64/d" $(1); \
 				echo "# CONFIG_EXPR_MATH_SUPPORT_64 is not set" >>$(1); \
 				sed -i "/CONFIG_HEAD/d" $(1); \
