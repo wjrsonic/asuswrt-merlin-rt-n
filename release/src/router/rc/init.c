@@ -4000,16 +4000,18 @@ int init_nvram(void)
 #ifdef RTCONFIG_USB_MODEM
 	// TODO: hide USB Modem UI in 3.0.0.1
 	if (strcmp(nvram_safe_get("firmver"), "3.0.0.1")!=0) {
-	if (model != MODEL_RTN10P || model != MODEL_RTN12B1 || model != MODEL_RTN12C1 || model != MODEL_RTN12D1
-	 || model != MODEL_RTN12HP || model != MODEL_RTN12HP_B1 || model != MODEL_RTN12VP) 
-		add_rc_support("modem");
+		if (model==MODEL_RTN10P||model==MODEL_RTN12B1||model==MODEL_RTN12C1||model==MODEL_RTN12D1
+		 ||model==MODEL_RTN12HP||model==MODEL_RTN12HP_B1||model==MODEL_RTN12VP) ;
+		else 
+			add_rc_support("modem");
 				}
 
 #ifdef RTCONFIG_USB_BECEEM
-	if (model != MODEL_RTN10P || model != MODEL_RTN12B1 || model != MODEL_RTN12C1 || model != MODEL_RTN12D1
-	 || model != MODEL_RTN12HP || model != MODEL_RTN12HP_B1 || model != MODEL_RTN12VP) {
-	add_rc_support("wimax");
-			}
+	if (model==MODEL_RTN10P||model==MODEL_RTN12B1||model==MODEL_RTN12C1||model==MODEL_RTN12D1
+		 ||model==MODEL_RTN12HP||model==MODEL_RTN12HP_B1||model==MODEL_RTN12VP) ;
+		else 
+			add_rc_support("wimax");
+			
 #endif
 #endif
 
