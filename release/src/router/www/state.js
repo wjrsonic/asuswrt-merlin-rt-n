@@ -207,11 +207,12 @@ var manualstb_support = isSupport("manual_stb");
 var wps_multiband_support = isSupport("wps_multiband");
 
 //MODELDEP : DSL-N55U、DSL-N55U-B、RT-N56U
+if (!cloudsync_support) {
 if(based_modelid == "DSL-N55U" || based_modelid == "DSL-N55U-B" || based_modelid == "RT-N56U" || based_modelid == "RT-N10U" || based_modelid == "RT-N15U" || based_modelid == "RT-N14UHP")
 	var aicloudipk_support = true;
 else
 	var aicloudipk_support = false;
-
+}
 var modem_support = isSupport("modem"); 
 var IPv6_support = isSupport("ipv6"); 
 var ParentalCtrl2_support = isSupport("PARENTAL2");
