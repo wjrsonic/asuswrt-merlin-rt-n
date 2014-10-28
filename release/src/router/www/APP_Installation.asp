@@ -460,19 +460,18 @@ function show_apps(){
 	
 	if(apps_array == "" && (appnet_support || appbase_support)){
 		apps_array = [["downloadmaster", "", "", "no", "no", "", "", "PC-free download manager.", "downloadmaster_png", "", "", ""],
-									["mediaserver", "", "", "no", "no", "", "", "", "mediaserver_png", "", "", ""],
-["aicloud", "", "", "no", "no", "", "", "AiCloud 2.0 utilities", "aicloud_png", "", "", ""]]; //add aicloud
+									["mediaserver", "", "", "no", "no", "", "", "", "mediaserver_png", "", "", ""]];
 		if(nodm_support)
 			apps_array[1][0] = "mediaserver2";
 
-		/*if(aicloudipk_support)
+		if(aicloudipk_support)
 			apps_array.push(["aicloud", "", "", "no", "no", "", "", "AiCloud 2.0 utilities", "aicloud_png", "", "", ""]);
 	}
 
 	if(!aicloudipk_support){
 		var aicloud_idx = apps_array.getIndexByValue2D("aicloud");
 		if(aicloud_idx[1] != -1 && aicloud_idx != -1)
-			apps_array.splice(aicloud_idx[0], 1); */
+			apps_array.splice(aicloud_idx[0], 1);
 	}
 
 	if(nodm_support){
