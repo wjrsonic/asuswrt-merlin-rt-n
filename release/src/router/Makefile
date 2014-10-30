@@ -1143,12 +1143,13 @@ ifneq ($(RTCONFIG_MEDIA_SERVER),y)
 	rm -f $(TARGETDIR)/www/mediaserver.asp
 endif
 
-
+ifneq ($(NTFS),tuxera)
 ifeq ($(BUILD_NAME),RT-N10U)
 	mkdir -p $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
 	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/nls_*.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
 	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/cifs.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
 	cp -f -R  $(SRCBASE)/image/rtn10u/lib/* $(TARGETDIR)/lib
+endif
 endif
 
 #	rm -f -r $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb
@@ -1185,6 +1186,7 @@ endif
 	mv -f $(TARGETDIR)/usr/sbin/smbd $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/usr/sbin/uqmi $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/usr/sbin/lpd $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/u2ec $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/usr/sbin/usb_modeswitch $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/usr/sbin/chat $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/usr/lib/libbigballofmud.so $(SRCBASE)/image/ext/usr/lib
@@ -1305,6 +1307,31 @@ ifeq ($(RTCONFIG_DNSFILTER),y)
 	cp -f -R  $(SRCBASE)/image/dns/* $(TARGETDIR)/www/
 endif
 # dns filter end
+
+
+# tuxera drivers
+ifeq ($(NTFS),tuxera)
+	mkdir -p $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/cifs.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/fuse.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
+#	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/nls*.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
+#	mv -f $(TARGETDIR)/usr/sbin/e2fsck $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/fsck_msdos $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/newfs_msdos $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/fsck_hfs $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/newfs_hfs $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/badblocks $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/mke2fs $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/mkntfs $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/ntfsck $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/sbin/tune2fs $(SRCBASE)/image/ext/usr/sbin
+	cp -f -R $(SRCBASE)/image/tuxera/lib/* $(TARGETDIR)/lib/
+	cp -f -R $(SRCBASE)/image/tuxera/usr/* $(TARGETDIR)/usr/
+endif
+# tuxera drivers end
+
+
 
 endif # RT-N15U RT-N10U
 
