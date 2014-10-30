@@ -44,6 +44,10 @@ ifneq ($(RTCONFIG_4M_SFP),y)
 endif
 endif
 
+ifeq ($(EXT_WEB_KIT),y)
+	install -m 0700 prep-ext-kit.sh $(INSTALLDIR)/usr/sbin
+endif
+
 # Postconf helper script
 	install -m 0755 helper.sh $(INSTALLDIR)/usr/sbin
 
