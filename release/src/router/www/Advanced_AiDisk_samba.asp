@@ -13,6 +13,7 @@
 <link rel="stylesheet" type="text/css" href="/form_style.css">
 <link rel="stylesheet" type="text/css" href="/aidisk/AiDisk_style.css">
 <script type="text/javascript" src="/state.js"></script>
+<script type="text/javascript" src="/general.js"></script>
 <script type="text/javascript" src="/help.js"></script>
 <script type="text/javascript" src="/popup.js"></script>
 <script type="text/javascript" src="/disk_functions.js"></script>
@@ -614,7 +615,13 @@ function applyRule(){
 }
 
 function validForm(){
-	
+
+	if(!validate_range(document.form.st_max_user, 1, 10)){
+			document.form.st_max_user.focus();
+			document.form.st_max_user.select();
+		return false;
+	}	
+
 	if(document.form.computer_name.value.length == 0){
 		showtext($("alert_msg1"), "<#JS_fieldblank#>");
 		document.form.computer_name.focus();
@@ -767,6 +774,14 @@ function validForm(){
 							</script>			
 							<span id="loginMethod" style="color:#FC0"></span>
 						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<a class="hintstyle" href="javascript:void(0);" onClick="openHint(17,1);"><#ShareNode_MaximumLoginUser_itemname#></a>
+					</th>
+					<td>
+						<input type="text" name="st_max_user" class="input_3_table" maxlength="1" value="<% nvram_get("st_max_user"); %>" onKeyPress="return is_number(this, event);">
 					</td>
 				</tr>
 				<tr>
