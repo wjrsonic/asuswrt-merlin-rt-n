@@ -1032,9 +1032,10 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -f $(TARGETDIR)/usr/sbin/webs_upgrade.sh
 endif
 
-#external kit
+# External Web Kit
 #ifeq ($(RTCONFIG_APP_NETINSTALLED),y)
 ifeq ($(EXT_WEB_KIT),y)
+ifneq ($(BUILD_NAME),RT-N16)
 #nfs
 ifeq ($(RTCONFIG_NFS),y)
 	mkdir -p $(SRCBASE)/image/ext/usr/lib
@@ -1061,6 +1062,10 @@ ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N15U RT-N10U ))
 
 ifneq ($(RTCONFIG_MEDIA_SERVER),y)
 	rm -f $(TARGETDIR)/www/mediaserver.asp
+endif
+
+ifeq ($(BUILD_NAME),RT-N10U)
+	rm -f $(TARGETDIR)/www/Advanced_SwitchCtrl_Content.asp
 endif
 
 ifneq ($(NTFS),tuxera)
@@ -1096,20 +1101,22 @@ endif
 	mkdir -p $(SRCBASE)/image/ext/usr/sbin
 	mkdir -p $(SRCBASE)/image/ext/usr/bin
 	mkdir -p $(SRCBASE)/image/ext/usr/lib
-	mv -f $(TARGETDIR)/usr/bin/smbpasswd $(SRCBASE)/image/ext/usr/bin
 	mv -f $(TARGETDIR)/usr/sbin/3g*.sh $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/usr/sbin/*modem*.sh $(SRCBASE)/image/ext/usr/sbin
 #	mv -f $(TARGETDIR)/usr/sbin/app_*.sh $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/usr/sbin/entware-setup.sh $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/usr/sbin/vsftpd $(SRCBASE)/image/ext/usr/sbin
+ifneq ($(SAMBA36),y)
 	mv -f $(TARGETDIR)/usr/sbin/nmbd $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/usr/sbin/smbd $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/usr/bin/smbpasswd $(SRCBASE)/image/ext/usr/bin
+	mv -f $(TARGETDIR)/usr/lib/libbigballofmud.so $(SRCBASE)/image/ext/usr/lib
+endif
 	mv -f $(TARGETDIR)/usr/sbin/uqmi $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/usr/sbin/lpd $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/usr/sbin/u2ec $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/usr/sbin/usb_modeswitch $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/usr/sbin/chat $(SRCBASE)/image/ext/usr/sbin
-	mv -f $(TARGETDIR)/usr/lib/libbigballofmud.so $(SRCBASE)/image/ext/usr/lib
 	mkdir -p $(SRCBASE)/image/ext/www/images/New_ui
 	mv -f $(TARGETDIR)/www/Advanced_AiDisk_samba.asp $(SRCBASE)/image/ext/www
 	mv -f $(TARGETDIR)/www/Advanced_AiDisk_ftp.asp $(SRCBASE)/image/ext/www
@@ -1251,6 +1258,17 @@ ifeq ($(NTFS),tuxera)
 endif
 # tuxera drivers end
 
+# Samba36
+ifeq ($(SAMBA36),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/bin
+	mv -f $(TARGETDIR)/usr/bin/samba_multicall $(SRCBASE)/image/ext/usr/bin
+	rm -f $(TARGETDIR)/usr/lib/libbigballofmud.so
+ifeq ($(BUILD_NAME),RT-N10U)
+#	rm -f $(TARGETDIR)/www/images/merlin-logo.png
+endif
+	cp -f -R  $(SRCBASE)/image/samba36/usr/* $(TARGETDIR)/usr/
+endif
+# Samba36 end
 
 
 endif # RT-N15U RT-N10U
@@ -1379,9 +1397,9 @@ endif
 	rm -f $(TARGETDIR)/www/Lang_Hdr
 	rm -f $(TARGETDIR)/www/Advanced_APPList_Content.asp
 	rm -f $(TARGETDIR)/www/switch_AiDisk_app.asp
-
 endif
-# APP NET Installed
+endif
+# External Web Kit end
 
 ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10U RT-N15U RT-N14UHP ))
 ifeq ($(EXT_WEB_KIT),n)
