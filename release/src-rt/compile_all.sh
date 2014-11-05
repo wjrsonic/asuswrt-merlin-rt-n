@@ -67,4 +67,7 @@ rm ./.config
 make clean
 ./cmd_clean.sh
 make rt-n14uhp
-
+rm ./.config
+make clean
+./cmd_clean.sh
+make rt-n16
