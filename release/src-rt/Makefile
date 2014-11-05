@@ -296,7 +296,11 @@ endif
 	ctools/trx_asus -i image/linux-lzma.trx -r $(BUILD_NAME),$(KERNEL_VER).$(FS_VER),image/$(IMGNAME).trx
 	@rm -f image/linux-lzma.trx
 ifeq ($(EXT_WEB_KIT),y)
-	@if [ -d "image/ext" ]; then cd image; tar -czf $(IMGNAME)-ext.tgz ext; cd ..; rm -rf image/ext; fi
+ifneq ($(BUILD_NAME),RT-N16)
+	@if [ -d "image/ext" ]; then cd image;cp -rf ./downloadmaster/* ./;tar -czf $(IMGNAME)-ext.tgz ext etc bin; cd ..;rm -rf image/ext;rm -rf image/etc;rm -rf image/bin; fi
+else
+	@cd image;cp -rf ./downloadmaster/* ./;tar -czf $(IMGNAME)-ext.tgz etc bin; cd ..;rm -rf image/etc;rm -rf image/bin
+endif
 endif
 endif
 	
