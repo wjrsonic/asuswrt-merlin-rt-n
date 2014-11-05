@@ -211,6 +211,7 @@ void start_jffs2(void)
 
 	int format = 0;
 	char s[256];
+	char s1[512];
 	int size;
 	int part;
 	const char *p;
@@ -360,7 +361,23 @@ void start_jffs2(void)
 	if (!check_if_dir_exist("/jffs/configs/")) mkdir("/jffs/configs/", 0755);
 	if (!check_if_dir_exist("/jffs/dropbear/")) mkdir("/jffs/dropbear/", 0755);
 	if (!check_if_dir_exist("/jffs/openvpn/")) mkdir("/jffs/openvpn/", 0755);
-	if (!check_if_dir_exist("/jffs/crontab/")) mkdir("/jffs/crontab/", 0755);
+	if (!check_if_dir_exist("/jffs/crontabs/")) {
+		mkdir("/jffs/crontabs/", 0755);
+		sprintf(s1,"*/5 * * * * logger -s \"test cron\"  #test#");
+		f_write_string("/jffs/crontabs/admin", s1, 0, 0644);
+		if(check_if_file_exist("/jffs/scripts/init-start")) {
+			sprintf(s1,"\n"
+				   "ln -s /jffs/crontabs/admin /var/spool/cron/crontabs/admin\n");
+			f_write_string("/tmp/crontabs_tmp",s1, 0, 0777);
+			fappend_file("/jffs/scripts/init-start", "/tmp/crontabs_tmp");
+		}
+		else 	{
+			sprintf(s1,"#!/bin/sh\n"
+				   "\n"
+                                   "ln -s /jffs/crontabs/admin /var/spool/cron/crontabs/admin\n");
+			f_write_string("/jffs/scripts/init-start",s1, 0, 0777);
+			}
+	}
 	if (!check_if_dir_exist("/jffs/bin/")) symlink("/opt/ext/bin","/jffs/bin");
 	if (!check_if_dir_exist("/jffs/lib/")) symlink("/opt/ext/lib","/jffs/lib");
 	if (!check_if_dir_exist("/jffs/rom/")) symlink("/opt/ext/rom","/jffs/rom");
