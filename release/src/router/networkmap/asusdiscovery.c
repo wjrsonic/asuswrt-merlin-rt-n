@@ -210,7 +210,12 @@ int asusdiscovery()
 		strcat(asus_device_list_buf, asus_device_buf); 
 	}
 	//printf("asus_device_list_buf = %s\n",asus_device_list_buf);
-	nvram_set("asus_device_list", asus_device_list_buf);
+		if (check_if_dir_exist("/jffs/client_lists/")) {
+				f_write_string("/jffs/client_lists/asus_device_list", asus_device_list_buf, 0, 0644);
+				nvram_unset("asus_device_list");
+			}
+		     else
+			nvram_set("asus_device_list", asus_device_list_buf);
 
 	return iRet;
 }
