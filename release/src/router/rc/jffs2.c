@@ -365,6 +365,7 @@ void start_jffs2(void)
 	if (!check_if_dir_exist("/jffs/configs/")) mkdir("/jffs/configs/", 0755);
 	if (!check_if_dir_exist("/jffs/dropbear/")) mkdir("/jffs/dropbear/", 0755);
 	if (!check_if_dir_exist("/jffs/openvpn/")) mkdir("/jffs/openvpn/", 0755);
+	if (!check_if_dir_exist("/jffs/client_lists/")) mkdir("/jffs/client_lists/", 0755);
 	if (!check_if_dir_exist("/jffs/crontabs/")) {
 		mkdir("/jffs/crontabs/", 0755);
 		sprintf(s1,"*/5 * * * * logger -s \"test cron\"  #test#");
