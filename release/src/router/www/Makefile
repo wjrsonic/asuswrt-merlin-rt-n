@@ -106,9 +106,11 @@ ifneq ($(RTCONFIG_BCMWL6),y)
 	rm -rf $(INSTALLDIR)/www/AiStream*
 ifeq ($(RTCONFIG_NFS),y)
 ifeq ($(EXT_WEB_KIT),y)
+ifeq ($(BUILD_NAME),RT-N16)
 	mkdir -p $(SRCBASE)/image/ext/www
 	mv -f $(INSTALLDIR)/www/Advanced_AiDisk_NFS.asp $(SRCBASE)/image/ext/www
 	cp -f -R  $(SRCBASE)/image/nfs/www/* $(INSTALLDIR)/www
+endif
 endif
 else
 	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_NFS.asp
