@@ -25,6 +25,7 @@ unsigned char refresh_ip_list[255][4];
 int networkmap_fullscan;
 int refresh_exist_table = 0, scan_count=0;
 char *nmp_client_list;
+char nmp_client_list1[4096]={0};
 
 /******** Build ARP Socket Function *********/
 struct sockaddr_ll src_sockll, dst_sockll;
@@ -288,7 +289,12 @@ NMP_DEBUG("DATA the same!\n");
 			free(dst_list);
 
 NMP_DEBUG_M("*** Update nmp_client_list:\n%s\n", nmp_client_list);
-		        nvram_set("nmp_client_list", nmp_client_list);
+		if (check_if_dir_exist("/jffs/client_lists/")) {
+				sprintf(nmp_client_list1, nmp_client_list);
+				f_write_string("/jffs/client_lists/nmp_client_list", nmp_client_list1, 0, 0644);
+				nvram_unset("nmp_client_list");
+			}
+		     else nvram_set("nmp_client_list", nmp_client_list);
 			break;
 		}
 	}
@@ -306,7 +312,13 @@ NMP_DEBUG_M("new client: %d-%s,%s,%d\n",p_client_tab->detail_info_num,
 		p_client_tab->printer[p_client_tab->detail_info_num],
 		p_client_tab->itune[p_client_tab->detail_info_num]
 		);
-		nvram_set("nmp_client_list", nmp_client_list);	
+		if (check_if_dir_exist("/jffs/client_lists/")) {
+				sprintf(nmp_client_list1, nmp_client_list);
+				f_write_string("/jffs/client_lists/nmp_client_list", nmp_client_list1, 0, 0644);
+				nvram_unset("nmp_client_list");
+			}
+		     else
+			nvram_set("nmp_client_list", nmp_client_list);	
 	}
 
 }
@@ -315,10 +327,21 @@ void
 reset_db() {
 NMP_DEBUG("RESET DB!!!\n");
 	commit_no = 0;
-	nvram_set("nmp_client_list", "");
+		if (check_if_dir_exist("/jffs/client_lists/")) {
+				sprintf(nmp_client_list1, "");
+				f_write_string("/jffs/client_lists/nmp_client_list", nmp_client_list1, 0, 0644);
+				nvram_unset("nmp_client_list");
+			}
+		     else
+			nvram_set("nmp_client_list", "");
 	nvram_commit();
 	*nmp_client_list = NULL;
-	nmp_client_list = strdup(nvram_get("nmp_client_list"));
+		if (check_if_dir_exist("/jffs/client_lists/")) {
+				f_read_string("/jffs/client_lists/nmp_client_list", nmp_client_list1, 4096);
+				nmp_client_list = strdup(nmp_client_list1);
+			}
+		     else
+			nmp_client_list = strdup(nvram_get("nmp_client_list"));
 	refresh_sig();
 }
 #endif
@@ -388,7 +411,12 @@ int main(int argc, char *argv[])
 	file_unlock(lock);
 
 	#ifdef NMP_DB
-		nmp_client_list = strdup(nvram_safe_get("nmp_client_list"));
+		if (check_if_dir_exist("/jffs/client_lists/")) {
+				f_read_string("/jffs/client_lists/nmp_client_list", nmp_client_list1, 4096);
+				nmp_client_list = strdup(nmp_client_list1);
+			}
+		     else
+			nmp_client_list = strdup(nvram_safe_get("nmp_client_list"));
 		NMP_DEBUG_M("NMP Client:\n%s\n", nmp_client_list);
 		signal(SIGUSR2, reset_db);
 	#endif
