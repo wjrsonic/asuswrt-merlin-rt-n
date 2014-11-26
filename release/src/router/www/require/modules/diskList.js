@@ -11,6 +11,22 @@
 	<% get_modem_info(); %>
 
 	function genUSBDevices(){
+		var decodeURIComponentSafe = function(_ascii){
+			try{
+				return decodeURIComponent(_ascii);
+			}
+			catch(err){
+				return _ascii;
+			}
+		}
+
+		String.prototype.toArray = function(){
+			var ret = eval(this.toString());
+			if(Object.prototype.toString.apply(ret) === '[object Array]')
+				return ret;
+			return [];
+		}
+
 		/*initial variable*/
 		var initialValue = {
 			"usbPortMax" :  '<% nvram_get("rc_support"); %>'.charAt('<% nvram_get("rc_support"); %>'.indexOf("usbX")+4),
@@ -19,7 +35,10 @@
 			"apps_fsck_ret" : '<% apps_fsck_ret(); %>'.toArray(),
 			"allUsbStatusArray" : '<% show_usb_path(); %>'.toArray()
 		};
-			
+
+		/* Add the internal SD card reader to the existing USB ports */
+		if (based_modelid == "RT-N66U") initialValue.usbPortMax++;			
+
 		/*usbDeviceList constructor*/
 		var newDisk = function(){
 			this.usbPath = "";
@@ -31,6 +50,7 @@
 			this.totalSize = "";
 			this.totalUsed = "";
 			this.mountNumber = "";
+			this.partNumber = "";
 			this.serialNum = "";
 			this.hasErrPart = false;
 			this.hasAppDev = false;
@@ -66,39 +86,37 @@
 			tmpDisk.node = foreign_disk_interface_names()[i];
 			tmpDisk.deviceName = decodeURIComponentSafe(foreign_disks()[i]);
 			tmpDisk.deviceType = "storage";
-			tmpDisk.mountNumber = foreign_disk_pool_number()[i];
+			tmpDisk.mountNumber = foreign_disk_total_mounted_number()[i];
+			tmpDisk.partNumber = foreign_disk_pool_number()[i];
 
-			var _mountedPart = 0;	
-			while (_mountedPart < tmpDisk.mountNumber && allPartIndex < pool_name.length){
-				/*if(pool_types()[allPartIndex] != "unknown" || pool_status()[allPartIndex] != "unmounted")*/{	
-					var tmpParts = new newPartition();
-					tmpParts.partName = pool_names()[allPartIndex];
-					tmpParts.mountPoint = pool_devices()[allPartIndex];
-					if(tmpParts.mountPoint == initialValue.apps_dev){
-						tmpParts.isAppDev = true;
-						tmpDisk.hasAppDev = true;
+			var _part = 0;
+			while (_part < tmpDisk.partNumber && allPartIndex < pool_name.length){
+				var tmpParts = new newPartition();
+				tmpParts.partName = pool_names()[allPartIndex];
+				tmpParts.mountPoint = pool_devices()[allPartIndex];
+				if(tmpParts.mountPoint == initialValue.apps_dev){
+					tmpParts.isAppDev = true;
+					tmpDisk.hasAppDev = true;
+				}
+				if(tmpParts.mountPoint == initialValue.tm_device_name){
+					tmpParts.isTM = true;
+					tmpDisk.hasTM = true;
+				}		
+				tmpParts.size = parseInt(pool_kilobytes()[allPartIndex]);
+				tmpParts.used = parseInt(pool_kilobytes_in_use()[allPartIndex]);
+				tmpParts.format = pool_types()[allPartIndex];
+				tmpParts.status = pool_status()[allPartIndex];
+				if(initialValue.apps_fsck_ret.length > 0) {
+					tmpParts.fsck = initialValue.apps_fsck_ret[allPartIndex][1];
+					if(initialValue.apps_fsck_ret[allPartIndex][1] == 1){
+						tmpDisk.hasErrPart = true;
 					}
-					if(tmpParts.mountPoint == initialValue.tm_device_name){
-						tmpParts.isTM = true;
-						tmpDisk.hasTM = true;
-					}		
-					tmpParts.size = parseInt(pool_kilobytes()[allPartIndex]);
-					tmpParts.used = parseInt(pool_kilobytes_in_use()[allPartIndex]);
-					tmpParts.format = pool_types()[allPartIndex];
-					tmpParts.status = pool_status()[allPartIndex];
-					if(initialValue.apps_fsck_ret.length > 0) {
-						tmpParts.fsck = initialValue.apps_fsck_ret[allPartIndex][1];
-						if(initialValue.apps_fsck_ret[allPartIndex][1] == 1){
-							tmpDisk.hasErrPart = true;
-						}
-					}
-
-					tmpDisk.partition.push(tmpParts);
-					tmpDisk.totalSize = parseInt(tmpDisk.totalSize + tmpParts.size);
-					tmpDisk.totalUsed = parseInt(tmpDisk.totalUsed + tmpParts.used);
-					_mountedPart++;
 				}
 
+				tmpDisk.partition.push(tmpParts);
+				tmpDisk.totalSize = parseInt(tmpDisk.totalSize + tmpParts.size);
+				tmpDisk.totalUsed = parseInt(tmpDisk.totalUsed + tmpParts.used);
+				_part++;
 				allPartIndex++;
 			}
 
@@ -143,27 +161,16 @@
 		return usbDevicesList;
 	};
 
-	var mounted_partition_old = 0;
 	diskList.prototype = {
 		update: function(callback){
-			var mounted_partition = 0;
-			
+			window.usbDevicesListUpdated = [];
+
 			$j.ajax({ 
 				url: '/update_diskinfo.asp',
 				dataType: 'script',
 
 				success: function(){
-					if(typeof window.usbDevicesListUpdated != "undefined"){
-						for(i=0; i<window.usbDevicesListUpdated.length; i++){
-							if(parseInt(window.usbDevicesListUpdated[i].mountNumber) > 0){
-								mounted_partition += parseInt(window.usbDevicesListUpdated[i].mountNumber);
-							}
-						}
-
-						if(mounted_partition != mounted_partition_old){
-							callback();
-						}
-					}
+					callback();
 				}
 			}); 
 		},

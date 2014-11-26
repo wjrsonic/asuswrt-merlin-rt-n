@@ -1,5 +1,5 @@
-Asuswrt-Merlin - build 376.48 Beta 3 (xx-xxx-2014)
-==================================================
+Asuswrt-Merlin - build 376.48_3 (20-Nov-2014)
+=============================================
 
 About
 -----
@@ -35,6 +35,7 @@ Supported devices are:
  * RT-AC66U
  * RT-AC56U
  * RT-AC68U
+ * RT-AC68P
  * RT-AC87U
 
 NOTE: all the "R" versions (for example RT-N66R) are the same as their 
@@ -571,9 +572,43 @@ https://github.com/RMerl/asuswrt-merlin
 
 History
 -------
-376.48 Beta 3 (xx-xxx-2014)
+376.48_3 (20-Nov-2014)
+   - FIXED: NAT loopback was broken on MIPS devices
+            (backported Asus fix from 376_3626)
+
+
+376.48_2 (8-Nov-2014)
+   - FIXED: Samba would fail to start on the RT-N16 due to a
+            missing library.
+
+
+376.48_1 (7-Nov-2014)
+   - FIXED: Max-lease calculation Asus introduced in 376_2769 is
+            broken - re-hardcode it to 253 like they used to do in
+            previous release.  Will be properly fixed once they
+            release a newer GPL with this issue resolved.
+            (Asus bug)
+
+376.48 (7-Nov-2014)
+   - NEW: Added the RT-AC68P to the list of supported devices
+   - CHANGED: Use sha256 checksums instead of MD5 for improved
+              security when validating your downloads.
+              (note: checksums are also posted on the support
+              forum at SmallNetBuilder)
+   - CHANGED: Switched my fix for unmounted/hidden partition
+              support with Asus's own fix from GPL 3561.
+   - FIXED: Samba would fail to start if the router admin username contained
+            upper case characters.  Samba was modified to have it try to
+            local the UNIX user as provided (it was previously only
+            trying upper and lower case versions) (Samba 3.6 bug)
+
+
+376.48 Beta 3 (02-Nov-2014)
+   - CHANGED: Updated miniupnpd to release 1.9 (plus upstream PCP fix)
    - FIXED: Couldn't edit share permissions for Samba if your disk
             contained an unmounted/hidden partition (Asus bug in 2769)
+   - FIXED: Couldn't edit share permissions for Samba for the RT-N66U
+            internal SDcard reader (Asus bug in 2769)
    - FIXED: Missing Max User field to Samba page (Asus bug)
 
 
@@ -599,12 +634,12 @@ History
           used by OpenWRT)
    - NEW: Added postconf and custom config support for snmpd.conf
    - NEW: Added HID support to ARM kernel (AC56,AC68,AC87)
-   - CHANGED: Reverted NAT loopback code to Asus', since our own
+   - CHANGED: Reverted NAT loopback code to Asus's, since our own
               code is currently broken by recent FW code changes.
    - CHANGED: Updated openssl to 1.0.0o, resolving a few security issues.
    - CHANGED: Disabled SSLv2 and SSLv3 support for https access to the
               router webui.  IE6 users, your time is up - upgrade.
-              TLS 1.0 is now the only supported method.
+              TLS 1.0 is now the only supported protocol.
    - CHANGED: upgraded main Samba server from 3.0.x to 3.6.24.  This might
               cause a slight drop in performance, but should improve
               both reliability and security.
