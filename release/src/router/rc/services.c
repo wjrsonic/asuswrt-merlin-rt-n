@@ -873,7 +873,7 @@ void start_dnsmasq(int force)
 	if (have_dhcp) {
 		/* Maximum leases */
 		if ((i = get_dhcpd_lmax()) > 0)
-			fprintf(fp, "dhcp-lease-max=%d\n", 253);
+			fprintf(fp, "dhcp-lease-max=%d\n", i);
 
 		/* Faster for moving clients, if authoritative */
 		if (nvram_get_int("dhcpd_auth") >= 0)
@@ -908,7 +908,7 @@ void start_dnsmasq(int force)
 
 #ifdef WEB_REDIRECT
 	/* Web redirection - all unresolvable will return the router's IP */
-	if((nvram_get_int("nat_state") == NAT_STATE_REDIRECT) && (nvram_get_int("web_redirect") > 0))
+	if(nvram_get_int("nat_state") == NAT_STATE_REDIRECT)
 		fprintf(fp, "address=/#/10.0.0.1\n");
 #endif
 
@@ -4582,7 +4582,7 @@ check_ddr_done:
 		}
 		if(action&RC_SERVICE_START) {
 			setup_passwd();
-			set_device_hostname();
+			set_hostname();
 			start_samba();
 			start_ftpd();
 		}
@@ -5608,7 +5608,7 @@ void stop_nat_rules(void)
 
 #ifdef WEB_REDIRECT
 	// dnsmasq will handle wildcard resolution
-	if (nvram_get_int("web_redirect") > 0) start_dnsmasq(1);
+	start_dnsmasq(1);
 #endif
 }
 
