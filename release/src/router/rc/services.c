@@ -1616,32 +1616,14 @@ int no_need_to_start_wps(void)
 #ifdef RTCONFIG_RALINK
 		if (nvram_match("wl_mssid", "1"))
 #endif
-<<<<<<< HEAD
 		for (j = 1; j < MAX_NO_MSSID; j++) {
-=======
-#ifndef RTCONFIG_TMOBILE
-		for (j = 1; j < MAX_NO_MSSID; j++) {
-#else
-		for (j = 1; j < MAX_NO_MSSID - 1; j++) {
-#endif
->>>>>>> caf1d2bf4f0f932b5f3ded5685d8a0e6a9b4a581
 			sprintf(prefix_mssid, "wl%d.%d_", wps_band, j);
 			if (!nvram_match(strcat_r(prefix_mssid, "bss_enabled", tmp), "1"))
 				continue;
 			++c;
-<<<<<<< HEAD
 			if (nvram_match(strcat_r(prefix_mssid, "auth_mode_x", tmp), "shared") ||
 			    strstr(nvram_safe_get(strcat_r(prefix_mssid, "auth_mode_x", tmp)), "wpa") ||
 			    nvram_match(strcat_r(prefix_mssid, "auth_mode_x", tmp), "radius"))
-=======
-			if ((nvram_match(strcat_r(prefix_mssid, "auth_mode_x", tmp), "shared") ||
-			     strstr(nvram_safe_get(strcat_r(prefix_mssid, "auth_mode_x", tmp)), "wpa") ||
-			     nvram_match(strcat_r(prefix_mssid, "auth_mode_x", tmp), "radius"))
-#ifdef RTCONFIG_TMOBILE
-			  && nvram_match(strcat_r(prefix_mssid, "hs2en", tmp), "0")
-#endif
-			)
->>>>>>> caf1d2bf4f0f932b5f3ded5685d8a0e6a9b4a581
 				ret++;
 		}
 		i++;
