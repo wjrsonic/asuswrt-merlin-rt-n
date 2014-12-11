@@ -1898,7 +1898,7 @@ int init_nvram(void)
 
 		if (nvram_get("wl_mssid") && nvram_match("wl_mssid", "1"))
 		add_rc_support("mssid");
-		add_rc_support("2.4G 5G update usbX2");
+		add_rc_support("2.4G 5G usbX2");
 		add_rc_support("rawifi");
 		add_rc_support("switchctrl");
 		add_rc_support("manual_stb");
@@ -2155,7 +2155,7 @@ int init_nvram(void)
 
 		if (nvram_get("wl_mssid") && nvram_match("wl_mssid", "1"))
 		add_rc_support("mssid");
-		add_rc_support("2.4G 5G update usbX2");
+		add_rc_support("2.4G 5G usbX2");
 		add_rc_support("rawifi");
 		add_rc_support("dsl");
 #if defined(RTCONFIG_WIRELESS_SWITCH) || defined(RTCONFIG_WIFI_TOG_BTN)
@@ -2524,7 +2524,7 @@ int init_nvram(void)
 		nvram_set("ohci_ports", "2-1");
 		if (!nvram_get("ct_max") || nvram_get("ct_max") < 65535)
 			nvram_set("ct_max", "65535"); //force
-		add_rc_support("2.4G update mssid usbX1");
+		add_rc_support("2.4G mssid usbX1");
 		add_rc_support("switchctrl"); // broadcom: for jumbo frame only
 		add_rc_support("manual_stb");
 #ifndef RTCONFIG_CLOUDSYNC
@@ -2681,7 +2681,7 @@ int init_nvram(void)
 		if (!nvram_get("ct_max") || nvram_get("ct_max") < 16384 )
 			nvram_set("ct_max", "16384"); //force
 
-		add_rc_support("2.4G 5G update mssid no5gmssid small_fw");
+		add_rc_support("2.4G 5G mssid no5gmssid small_fw");
 		add_rc_support("pwrctrl"); // wl power adjust
 		nvram_set("sb/1/maxp2ga0", "0x114");
 		nvram_set("sb/1/maxp2ga1", "0x114");
@@ -3732,7 +3732,7 @@ int init_nvram(void)
 		nvram_set("ohci_ports", "2-1");
 		if (!nvram_get("ct_max") || nvram_get("ct_max") < 32768 )
 			nvram_set("ct_max", "32768"); //force
-		add_rc_support("2.4G mssid usbX1 update small_fw");
+		add_rc_support("2.4G mssid usbX1 small_fw");
 #ifndef RTCONFIG_CLOUDSYNC
 		add_rc_support("aicloudipk"); // 
 #endif
@@ -3856,8 +3856,6 @@ int init_nvram(void)
 #ifdef RTCONFIG_KYIVSTAR
 		add_rc_support("kyivstar");
 #endif
-		if (model == MODEL_RTN10PV2)
-			add_rc_support("update");
 		break;
 	case MODEL_RTAC53U:
 		nvram_set("lan_ifname", "br0");
