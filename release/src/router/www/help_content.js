@@ -172,12 +172,7 @@ helpcontent[13] = new Array("",
 //UPnP
 helpcontent[14] = new Array("",
 							"<#UPnPMediaServer_Help#>",
-<<<<<<< HEAD
 							"<#vpnc_reconnection_desc#>");
-=======
-							"VPN client will reconnect automatically after router reboot.  								Internet reconnection if enable this function.",
-							"VPN client use remote gateway as default gateway");
->>>>>>> 431754e... add choose defaultroute for vpn client and support when non-default routing
 //AiDisk Wizard
 helpcontent[15] = new Array("",
 							"", /*<#AiDisk_moreconfig#>*/

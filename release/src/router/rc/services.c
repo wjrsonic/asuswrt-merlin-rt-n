@@ -1580,6 +1580,80 @@ int no_need_to_start_wps(void)
 }
 #endif /* !RTCONFIG_WIDEDHCP6 */
 
+#ifndef RTCONFIG_WIDEDHCP6
+int no_need_to_start_wps(void)
+{
+	int i, j, wps_band, multiband = get_wps_multiband();
+	char tmp[100], prefix[] = "wlXXXXXXXXXXXXXX", prefix_mssid[] = "wlXXXXXXXXXX_mssid_";
+	char word[256], *next, ifnames[128];
+	int c = 0, ret = 0;
+
+#ifdef RTCONFIG_DSL
+	if (nvram_match("asus_mfg", "1")) /* Paul add 2012/12/13 */
+		return 0;
+#endif
+	if ((nvram_get_int("sw_mode") != SW_MODE_ROUTER) &&
+		(nvram_get_int("sw_mode") != SW_MODE_AP))
+		return 1;
+
+	i = 0;
+	wps_band = nvram_get_int("wps_band");
+	strcpy(ifnames, nvram_safe_get("wl_ifnames"));
+	foreach (word, ifnames, next) {
+		if (i >= MAX_NR_WL_IF)
+			break;
+		if (!multiband && wps_band != i) {
+			++i;
+			continue;
+		}
+		++c;
+		snprintf(prefix, sizeof(prefix), "wl%d_", i);
+		if (nvram_match(strcat_r(prefix, "auth_mode_x", tmp), "shared") ||
+		    strstr(nvram_safe_get(strcat_r(prefix, "auth_mode_x", tmp)), "wpa") ||
+		    nvram_match(strcat_r(prefix, "auth_mode_x", tmp), "radius"))
+			ret++;
+
+#ifdef RTCONFIG_RALINK
+		if (nvram_match("wl_mssid", "1"))
+#endif
+<<<<<<< HEAD
+		for (j = 1; j < MAX_NO_MSSID; j++) {
+=======
+#ifndef RTCONFIG_TMOBILE
+		for (j = 1; j < MAX_NO_MSSID; j++) {
+#else
+		for (j = 1; j < MAX_NO_MSSID - 1; j++) {
+#endif
+>>>>>>> caf1d2bf4f0f932b5f3ded5685d8a0e6a9b4a581
+			sprintf(prefix_mssid, "wl%d.%d_", wps_band, j);
+			if (!nvram_match(strcat_r(prefix_mssid, "bss_enabled", tmp), "1"))
+				continue;
+			++c;
+<<<<<<< HEAD
+			if (nvram_match(strcat_r(prefix_mssid, "auth_mode_x", tmp), "shared") ||
+			    strstr(nvram_safe_get(strcat_r(prefix_mssid, "auth_mode_x", tmp)), "wpa") ||
+			    nvram_match(strcat_r(prefix_mssid, "auth_mode_x", tmp), "radius"))
+=======
+			if ((nvram_match(strcat_r(prefix_mssid, "auth_mode_x", tmp), "shared") ||
+			     strstr(nvram_safe_get(strcat_r(prefix_mssid, "auth_mode_x", tmp)), "wpa") ||
+			     nvram_match(strcat_r(prefix_mssid, "auth_mode_x", tmp), "radius"))
+#ifdef RTCONFIG_TMOBILE
+			  && nvram_match(strcat_r(prefix_mssid, "hs2en", tmp), "0")
+#endif
+			)
+>>>>>>> caf1d2bf4f0f932b5f3ded5685d8a0e6a9b4a581
+				ret++;
+		}
+		i++;
+	}
+
+	if (multiband && ret < c)
+		ret = 0;
+
+	return ret;
+}
+#endif /* !RTCONFIG_WIDEDHCP6 */
+
 /* @wps_band:	if wps_band < 0 and RTCONFIG_WPSMULTIBAND is defined, check radio of all band */
 int wps_band_radio_off(int wps_band)
 {
