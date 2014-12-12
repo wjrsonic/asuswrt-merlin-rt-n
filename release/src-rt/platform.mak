@@ -30,13 +30,6 @@ define platformRouterOptions
 		sed -i "/RTCONFIG_L7PAT/d" $(1); \
 		echo "# RTCONFIG_L7PAT is not set" >>$(1); \
 	fi; \
-	if [ "$(IPV6SUPP)" = "y" ]; then \
-		rm -r ./router/miniupnpd/*; \
-		cp -r ./router/miniupnpd-merlin/* ./router/miniupnpd/; \
-	else \
-		rm -r ./router/miniupnpd/*; \
-		cp -r ./router/miniupnpd-asus/* ./router/miniupnpd/; \
-	fi; \
 	if [ "$(BUILD_NAME)" != "RT-N53" ]; then \
 		sed -i "/RTCONFIG_HAS_5G/d" $(1); \
 		echo "# RTCONFIG_HAS_5G is not set" >>$(1); \
