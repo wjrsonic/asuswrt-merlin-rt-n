@@ -2159,11 +2159,7 @@ miniupnpd/config.h:
 miniupnpd: $(IPTABLES_TARGET) miniupnpd/config.h
 	@$(SEP)
 	cp -f ./shared/version.h miniupnpd/.
-ifeq ($(RTCONFIG_WIDEDHCP6),y)
 	$(MAKE) -C miniupnpd -f Makefile.merlin $(PARALLEL_BUILD)
-else
-	$(MAKE) -C miniupnpd -f Makefile.asus
-endif
 
 miniupnpd-clean:
 	-@$(MAKE) -C miniupnpd -f Makefile.merlin clean

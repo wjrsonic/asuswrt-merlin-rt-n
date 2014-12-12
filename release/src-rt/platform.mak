@@ -40,8 +40,8 @@ EXTRA_CFLAGS := -DLINUX26 -DCONFIG_BCMWL5 -DDEBUG_NOISY -DDEBUG_RCTEST -pipe -DT
 export CONFIG_LINUX26=y
 export CONFIG_BCMWL5=y
 
-#export PARALLEL_BUILD :=
-export PARALLEL_BUILD := -j`grep -c '^processor' /proc/cpuinfo`
+export PARALLEL_BUILD :=
+#export PARALLEL_BUILD := -j`grep -c '^processor' /proc/cpuinfo`
 
 define platformRouterOptions
 @( \
@@ -64,13 +64,6 @@ define platformRouterOptions
 		echo "# RTCONFIG_L7 is not set" >>$(1); \
 		sed -i "/RTCONFIG_L7PAT/d" $(1); \
 		echo "# RTCONFIG_L7PAT is not set" >>$(1); \
-	fi; \
-	if [ "$(IPV6SUPP)" = "y" ]; then \
-		rm -r ./router/miniupnpd/*; \
-		cp -r ./router/miniupnpd-merlin/* ./router/miniupnpd/; \
-	else \
-		rm -r ./router/miniupnpd/*; \
-		cp -r ./router/miniupnpd-asus/* ./router/miniupnpd/; \
 	fi; \
 	if [ "$(BUILD_NAME)" != "RT-N53" ]; then \
 		sed -i "/RTCONFIG_HAS_5G/d" $(1); \
