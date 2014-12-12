@@ -1423,7 +1423,6 @@ endif
 ifeq ($(BUILD_NAME),RT-N10U)
 	rm -f $(TARGETDIR)/www/Advanced_SwitchCtrl_Content.asp
 endif
-
 endif
 endif
 
@@ -1548,7 +1547,6 @@ ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10P RT-N12B1 RT-N12C1 RT-N12D1 
 	rm -f $(TARGETDIR)/usr/lib/libcom*
 	rm -f $(TARGETDIR)/usr/lib/libe2p*
 endif
-
 
 image:
 ifneq ($(RTCONFIG_BCMARM),y)
