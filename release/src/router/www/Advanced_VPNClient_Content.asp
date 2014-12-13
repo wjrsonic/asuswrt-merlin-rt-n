@@ -84,6 +84,7 @@ var $j = jQuery.noConflict();
 var vpnc_clientlist = decodeURIComponent('<% nvram_char_to_ascii("","vpnc_clientlist"); %>');
 var vpnc_clientlist_array_ori = '<% nvram_char_to_ascii("","vpnc_clientlist"); %>';
 var vpnc_clientlist_array = decodeURIComponent(vpnc_clientlist_array_ori);
+var vpnc_defgw_array = decodeURIComponent('<% nvram_char_to_ascii("", "vpnc_defgw"); %>');
 var vpnc_appendix_array = decodeURIComponent('<% nvram_char_to_ascii("", "vpnc_appendix"); %>');
 var vpnc_pptp_options_x_list_array = decodeURIComponent('<% nvram_char_to_ascii("", "vpnc_pptp_options_x_list"); %>');
 var overlib_str0 = new Array();	//Viz add 2013.04 for record longer VPN client username/pwd
@@ -101,6 +102,7 @@ function Add_profile(){
 	document.form.vpnc_account_edit.value = "";
 	document.form.vpnc_pwd_edit.value = "";
 	document.form.selPPTPOption.value = "auto";
+	document.form.vpnc_defgw_edit[1].checked = true;
 	document.form.vpnc_auto_conn_edit[1].checked = true;
 	tabclickhandler(0);
 	$("cancelBtn").style.display = "";
@@ -125,6 +127,15 @@ function get_vpnc_appendix_auto_conn(idx){
 		return false;
 }
 
+function get_vpnc_defgw(idx){
+	var orig_array = vpnc_defgw_array;
+	var orig_value = orig_array.split("<")[idx];
+	if(orig_value == 1)
+		return true;
+	else
+		return false;
+}
+
 function addRow_Group(upper, flag, idx){
 	idx = parseInt(idx);
 	if(idx >= 0){		//idx: edit row		
@@ -137,6 +148,7 @@ function addRow_Group(upper, flag, idx){
 			server_obj = document.form.vpnc_svr_edit;
 			username_obj = document.form.vpnc_account_edit;
 			password_obj = document.form.vpnc_pwd_edit;
+			defgw_obj = document.form.vpnc_defgw_edit[0];
 			auto_conn_obj = document.form.vpnc_auto_conn_edit[0];
 		}
 
@@ -157,10 +169,17 @@ function addRow_Group(upper, flag, idx){
 					
 			vpnc_clientlist_row[idx] = description_obj.value+">"+type_obj.value+">"+server_obj.value+">"+username_obj.value+">"+password_obj.value;
 
-			vpnc_clientlist_array = vpnc_clientlist_row.join("<");		
+			vpnc_clientlist_array = vpnc_clientlist_row.join("<");
+
+			if(vpnc_defgw_array == ""){
+				re_fill_empty_defgw(idx, defgw_obj);		//idx: NaN=Add i=edit row
+			}else{		//add or edit vpnc_defgw
+				edit_defgw(idx, defgw_obj);
+			}
+		
 			if(vpnc_appendix_array == ""){
 				re_fill_empty_auto_conn(idx, auto_conn_obj);		//idx: NaN=Add i=edit row
-			}else{		//add orr edit vpnc_appendix
+			}else{		//add or edit vpnc_appendix
 				edit_auto_conn(idx, auto_conn_obj);
 			}	
 
@@ -261,6 +280,7 @@ function addRow_Group(upper, flag, idx){
 		server_obj = document.form.vpnc_svr_edit;
 		username_obj = document.form.vpnc_account_edit;
 		password_obj = document.form.vpnc_pwd_edit;
+		defgw_obj = document.form.vpnc_defgw_edit[0];
 		auto_conn_obj = document.form.vpnc_auto_conn_edit[0];				
 
 		if(validForm(flag)){
@@ -280,12 +300,18 @@ function addRow_Group(upper, flag, idx){
 			addRow(server_obj, 0);
 			addRow(username_obj, 0);
 			addRow(password_obj, 0);
-			if(vpnc_clientlist_array.charAt(0) == "<")	//rempve the 1st "<"
+			if(vpnc_clientlist_array.charAt(0) == "<")	//remove the 1st "<"
 				vpnc_clientlist_array = vpnc_clientlist_array.substr(1,vpnc_clientlist_array.length);
+
+			if(vpnc_defgw_array == ""){
+				re_fill_empty_defgw(idx, defgw_obj);		//idx: 0=Add i=edit row
+			}else{		//add or edit vpnc_defgw
+				edit_defgw(idx, defgw_obj);				
+			}
 
 			if(vpnc_appendix_array == ""){
 				re_fill_empty_auto_conn(idx, auto_conn_obj);		//idx: 0=Add i=edit row
-			}else{		//add orr edit vpnc_appendix
+			}else{		//add or edit vpnc_appendix
 				edit_auto_conn(idx, auto_conn_obj);				
 			}
 
@@ -399,12 +425,45 @@ function re_fill_empty_auto_conn(idx, obj){
 		temp_value += "<"+obj_value;			
 	}
 		
-	if(temp_value.charAt(0) == "<")	//rempve the 1st "<"
+	if(temp_value.charAt(0) == "<")	//remove the 1st "<"
 		temp_value = temp_value.substr(1,temp_value.length);
 		
 	vpnc_appendix_array = temp_value;
 	document.form.vpnc_appendix.value = vpnc_appendix_array;	//for OpenVPN Edit/Add
 	document.form.vpnc_appendix.value = vpnc_appendix_array;						//for PPTP/L2TP Edit/Add
+}
+
+function re_fill_empty_defgw(idx, obj){
+	var obj_value = "";
+	var temp_value = "";
+	var rules_num = vpnc_clientlist_array.split("<").length;	
+	if(obj.checked == true)
+		obj_value = 1;
+	else
+		obj_value = 0;	
+
+	if(idx >= 0){	//row edit	//The 1st time set vpnc_defgw
+		for(var i=0;i<rules_num;i++){
+			if(i == idx)
+				temp_value += "<"+obj_value;
+			else	
+				temp_value += "<0";
+		}
+	}
+	else{		//NaN, Add rule		//The 1st time set vpnc_defgw
+		for(var i=0;i<rules_num-1;i++){
+			temp_value += "<0";
+		}	
+			
+		temp_value += "<"+obj_value;			
+	}
+		
+	if(temp_value.charAt(0) == "<")	//remove the 1st "<"
+		temp_value = temp_value.substr(1,temp_value.length);
+		
+	vpnc_defgw_array = temp_value;
+	document.form.vpnc_defgw.value = vpnc_defgw_array;	//for OpenVPN Edit/Add
+	document.form.vpnc_defgw.value = vpnc_defgw_array;						//for PPTP/L2TP Edit/Add
 }
 
 function edit_auto_conn(idx, obj){	
@@ -431,11 +490,42 @@ function edit_auto_conn(idx, obj){
 		temp_value += "<"+obj_value;
 	}
 		
-	if(temp_value.charAt(0) == "<")	//rempve the 1st "<"
+	if(temp_value.charAt(0) == "<")	//remove the 1st "<"
 		temp_value = temp_value.substr(1,temp_value.length);
 		
 	vpnc_appendix_array = temp_value;
 	document.form.vpnc_appendix.value = vpnc_appendix_array;
+}
+
+function edit_defgw(idx, obj){	
+	var obj_value = "";
+	var temp_value = "";		
+	var rules_num = vpnc_clientlist_array.split("<").length;
+	var rules_defgw_orig = vpnc_defgw_array;
+	var rules_defgw_array = rules_defgw_orig.split("<");
+	if(obj.checked == true)
+		obj_value = 1;
+	else
+		obj_value = 0;		
+			
+	if(idx >= 0){	//row edit	//Update vpnc_defgw		
+		for(var j=0;j<rules_num;j++){
+			if(idx == j)
+				temp_value += "<"+obj_value;			
+			else		
+				temp_value += "<"+rules_defgw_array[j];
+		}
+	}
+	else{		//NaN, Add rule		//Update vpnc_defgw
+		temp_value += rules_defgw_orig;
+		temp_value += "<"+obj_value;
+	}
+		
+	if(temp_value.charAt(0) == "<")	//remove the 1st "<"
+		temp_value = temp_value.substr(1,temp_value.length);
+		
+	vpnc_defgw_array = temp_value;
+	document.form.vpnc_defgw.value = vpnc_defgw_array;
 }
 
 var duplicateCheck = {
@@ -624,6 +714,8 @@ function connect_Row(rowdata, flag){
 		document.form.vpnc_heartbeat_x.value = "";
 		document.form.vpnc_pppoe_username.value = "";
 		document.form.vpnc_pppoe_passwd.value = "";
+		document.form.vpnc_defgw.value = "0";
+		document.form.vpnc_defaultroute.value = "0";
 		document.form.vpnc_auto_conn.value = "0";
 		if(vpnc_clientlist_col[1] == "PPTP") {
 			document.form.vpnc_pptp_options_x.value = "";
@@ -684,6 +776,24 @@ function connect_Row(rowdata, flag){
 				document.form.vpn_clientx_eas.value = "";			
 		}			
 
+		// handle default gateway
+		var rules_defgw_orig = vpnc_defgw_array;
+		if(rules_defgw_orig != ""){		//vpnc_defgw exist
+			var rules_defgw_array = rules_defgw_orig.split("<");
+			var set_defgw = rules_defgw_array[idx];
+
+			if(vpnc_clientlist_col[1] != "OpenVPN")	{			
+				document.form.vpnc_defgw.value = set_defgw;
+				document.form.vpnc_defaultroute.value = set_defgw;
+			}	
+		}
+		else{		//vpnc_defgw is empty
+			if(vpnc_clientlist_col[1] != "OpenVPN")				
+				document.form.vpnc_defgw.value = "";
+				document.form.vpnc_defaultroute.value = "";
+		}			
+
+
 		//handle vpnc_pptp_options_x
 		if(vpnc_clientlist_col[1] == "PPTP"){
 			var origPPTPOptionsList = vpnc_pptp_options_x_list_array;
@@ -702,6 +812,7 @@ function connect_Row(rowdata, flag){
 	}
 
 	document.form.vpnc_appendix.value = vpnc_appendix_array;
+	document.form.vpnc_defgw.value = vpnc_defgw_array;
 	document.form.vpnc_pptp_options_x_list.value = vpnc_pptp_options_x_list_array;
 	document.form.vpnc_clientlist.value = vpnc_clientlist_array;	
 	rowdata.parentNode.innerHTML = "<img src='/images/InternetScan.gif'>";
@@ -717,6 +828,7 @@ function Edit_Row(rowdata, flag){
 		restart_vpncall_flag = 1;
 	var vpnc_clientlist_row = vpnc_clientlist_array.split('<');
 	var vpnc_clientlist_col = vpnc_clientlist_row[idx].split('>');
+	var defgw_obj_checked = get_vpnc_defgw(idx);
 	var auto_conn_obj_checked = get_vpnc_appendix_auto_conn(idx);
 	//get idx of PPTP option value
 	var pptpOptionValue = "";
@@ -764,6 +876,11 @@ function Edit_Row(rowdata, flag){
 		} 
 	}
 
+	if(defgw_obj_checked)
+		document.form.vpnc_defgw_edit[0].checked = true;
+	else	
+		document.form.vpnc_defgw_edit[1].checked = true;
+
 	if(auto_conn_obj_checked)
 		document.form.vpnc_auto_conn_edit[0].checked = true;
 	else	
@@ -810,11 +927,28 @@ function del_Row(rowdata, flag){
 		}
 	}
 
+	//Update vpnc_defgw
+	var vpnc_defgw_value = "";
+	var rules_defgw_orig = vpnc_defgw_array;
+	var rules_defgw_array = rules_defgw_orig.split("<");
+	for(var m=0; m<rules_defgw_array.length; m++){
+		if(m != idx){	//save exist items
+			vpnc_defgw_value += "<"+rules_defgw_array[m];
+		}
+	}
+
 	if(vpnc_appendix_value.charAt(0) == "<")	//remove the 1st "<"
 		vpnc_appendix_value = vpnc_appendix_value.substr(1,vpnc_appendix_value.length);	
 	
 	vpnc_appendix_array = vpnc_appendix_value;
 	document.form.vpnc_appendix.value = vpnc_appendix_array;
+
+	if(vpnc_defgw_value.charAt(0) == "<")	//remove the 1st "<"
+		vpnc_defgw_value = vpnc_defgw_value.substr(1,vpnc_defgw_value.length);	
+	
+	vpnc_defgw_array = vpnc_defgw_value;
+	document.form.vpnc_defgw.value = vpnc_defgw_array;
+
 	//del vpnc_pptp_options_x_list
 	var tempPPTPOptionsValue = "";
 	var origPPTPOptionsList = vpnc_pptp_options_x_list_array;
@@ -877,6 +1011,8 @@ function del_Row(rowdata, flag){
 <input type="hidden" name="vpn_client1_username" value="<% nvram_get("vpn_client1_username"); %>">
 <input type="hidden" name="vpn_client1_password" value="<% nvram_get("vpn_client1_password"); %>">
 <input type="hidden" name="vpnc_appendix" value="<% nvram_get("vpnc_appendix"); %>">
+<input type="hidden" name="vpnc_defgw" value="<% nvram_get("vpnc_defgw"); %>">
+<input type="hidden" name="vpnc_defaultroute" value="<% nvram_get("vpnc_defaultroute"); %>">
 <input type="hidden" name="vpnc_pptp_options_x" value="<% nvram_get("vpnc_pptp_options_x"); %>">
 <input type="hidden" name="vpnc_pptp_options_x_list" value="<% nvram_get("vpnc_pptp_options_x_list"); %>">
 
@@ -924,6 +1060,18 @@ function del_Row(rowdata, flag){
 							<input type="text" maxlength="64" name="vpnc_pwd_edit" value="" class="input_32_table" style="float:left;"></input>
 						</td>
 					</tr>
+
+<!---- add use default gateway begin---->
+
+						<tr>
+							<th><a class="hintstyle" href="javascript:void(0);" onClick="openHint(14,3);">Remote gateway as default</a></th>
+							<td>
+								<input type="radio" value="1" name="vpnc_defgw_edit" class="content_input_fd"><#checkbox_Yes#>
+								<input type="radio" value="0" name="vpnc_defgw_edit" class="content_input_fd"><#checkbox_No#>
+							</td>
+						</tr>
+
+<!---- add use default gateway end---->
 
 					<tr>
 						<th><a class="hintstyle" href="javascript:void(0);" onClick="openHint(14,2);"><#CTL_reconnection#></a></th>
