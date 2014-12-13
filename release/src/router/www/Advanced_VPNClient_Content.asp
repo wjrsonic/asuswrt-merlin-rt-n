@@ -102,6 +102,7 @@ function Add_profile(){
 	document.form.vpnc_account_edit.value = "";
 	document.form.vpnc_pwd_edit.value = "";
 	document.form.selPPTPOption.value = "auto";
+	document.form.vpnc_defgw_edit[1].checked = true;
 	document.form.vpnc_auto_conn_edit[1].checked = true;
 	tabclickhandler(0);
 	$("cancelBtn").style.display = "";
