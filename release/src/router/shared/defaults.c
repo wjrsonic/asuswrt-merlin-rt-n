@@ -1712,6 +1712,7 @@ struct nvram_tuple router_defaults[] = {
 	{ "vpnc_clientlist", ""},
 	{ "vpnc_connect_row", ""},
 	{ "vpnc_auto_conn", ""},
+	{ "vpnc_appendix", ""},
 	{ "vpnc_pptp_options_x_list", ""},
 	{ "vpnc_defgw", ""},
 	{ "vpnc_defaultroute", ""},
