@@ -9,6 +9,7 @@
 <script type="text/JavaScript" src="/state.js"></script>
 <script type="text/JavaScript" src="/general.js"></script>
 <script type="text/JavaScript" src="/form.js"></script>
+<script type="text/JavaScript" src="/validator.js"></script>
 <style>
 span{
 	border:0px solid #FFFFFF;
@@ -55,7 +56,7 @@ function QKfinish_load_body(){
 		document.getElementById("mac_addr2").style.display = "";
 	}
 
-	if (country_str == "United Kingdom" && ispname_str == "SKY (MER)")
+	if (country_str == "United Kingdom" && (ispname_str == "SKY (MER)" || ispname_str == "Sky - Fibre Broadband"))
 	{
 		//UK ISP SKY Broadband, MER requires some tweak.
 		//PPP Username and Password needs to be added into DHCP option 61.
@@ -191,7 +192,7 @@ function submitForm(){
 		}
 	}
 
-	if (country_str == "United Kingdom" && ispname_str == "SKY (MER)")
+	if (country_str == "United Kingdom" && (ispname_str == "SKY (MER)" || ispname_str == "Sky - Fibre Broadband"))
 	{
 		//Only for UK ISP SKY Broadband
 		if(document.form.ppp_username.value != "")
@@ -200,6 +201,11 @@ function submitForm(){
 		document.form.ppp_username.disabled = true;
 		document.form.ppp_password.disabled = true;
 	}
+
+	if(transfer_mode == "ptm")
+		document.form.dsltmp_qis_proto.value = "dhcp";
+	else
+		document.form.dsltmp_qis_proto.value = "mer";
 
 	document.form.next_page.value = "/qis/QIS_wireless.htm";
 	document.form.submit();
@@ -227,7 +233,7 @@ function gotoHome() {
 <input type="hidden" name="action_wait" value="">
 <input type="hidden" name="dsltmp_qis_vpi" id="dsltmp_qis_vpi" value="<% nvram_get("dsltmp_cfg_vpi"); %>">
 <input type="hidden" name="dsltmp_qis_vci" id="dsltmp_qis_vci" value="<% nvram_get("dsltmp_cfg_vci"); %>">
-<input type="hidden" name="dsltmp_qis_proto" id="dsltmp_qis_proto" value="mer">
+<input type="hidden" name="dsltmp_qis_proto" id="dsltmp_qis_proto" value="">
 <input type="hidden" name="dsltmp_qis_encap" id="dsltmp_qis_encap" value="<% nvram_get("dsltmp_cfg_encap"); %>">
 <!--<input type="hidden" name="dsltmp_qis_pppoe_username" id="dsltmp_qis_pppoe_username" value="">
 <input type="hidden" name="dsltmp_qis_pppoe_passwd" id="dsltmp_qis_pppoe_passwd" value="">
@@ -255,8 +261,12 @@ function gotoHome() {
 <!-- dsltmp_qis_hwaddr is in the HTML code -->
 
 <div class="QISmain">
-	<div class="formfonttitle" style="padding:0 0 0 10;" id="FailReason"><#Manual_Setting_Title#></div>
 	<table width="730px">
+		<tr>
+			<td align="left">
+				<span class="description_down"><#Manual_Setting_Title#></span>
+			</td>
+		</tr>
 		<tr>
 			<td id="home_button" align="right">
 				<img onclick="gotoHome();" style="cursor:pointer;" align="right" title="Go to Home" src="/images/backtohome.png" onMouseOver="this.src='/images/backtohomeclick.png'" onMouseOut="this.src='/images/backtohome.png'">
@@ -269,15 +279,16 @@ function gotoHome() {
 
 <table id="tblsetting_1" class="QISform" width="400" border=0 align="center" cellpadding="5" cellspacing="0">
   <tr>
-	<div id="atm_info" style="display:none;">
-		&nbsp;&nbsp;&nbsp;ADSL WAN (ATM),&nbsp;<#Layer3Forwarding_x_ConnectionType_itemname#>: MER, VPI/VCI: <% nvram_get("dsltmp_cfg_vpi"); %>/<% nvram_get("dsltmp_cfg_vci"); %><script>document.write(encap_str);</script><br>
-		&nbsp;&nbsp;&nbsp;<b><script>document.write(iptv_num_pvc_str);</script></b><br>
-	</div>
+  	<td class="test_css">
+			<div id="atm_info" style="display:none;">
+				ADSL WAN (ATM),&nbsp;<#Layer3Forwarding_x_ConnectionType_itemname#>: MER, VPI/VCI: <% nvram_get("dsltmp_cfg_vpi"); %>/<% nvram_get("dsltmp_cfg_vci"); %><script>document.write(encap_str);</script><br>
+				<b><script>document.write(iptv_num_pvc_str);</script></b><br>
+			</div>
 
-	<div id="ptm_info" style="display:none;">
-		&nbsp;&nbsp;&nbsp;VDSL WAN (PTM),&nbsp;<#Layer3Forwarding_x_ConnectionType_itemname#>: <#BOP_ctype_title1#>, <#WANVLANIDText#>: <script>document.write(vlanid);</script><br>
-        </div>
-
+			<div id="ptm_info" style="display:none;">
+				&nbsp;&nbsp;&nbsp;VDSL WAN (PTM),&nbsp;<#Layer3Forwarding_x_ConnectionType_itemname#>: <#BOP_ctype_title1#>, <#WANVLANIDText#>: <script>document.write(vlanid);</script><br>
+			</div>
+		</td>
   </tr>
 </table>
 
@@ -286,8 +297,8 @@ function gotoHome() {
 <legend>
 	<#Layer3Forwarding_x_UseStaticIP_itemname#>
 	<span id="dhcp_info_radio">
-		<input type="radio" name="x_DHCPClient" class="input" value="0" onclick="show_dhcpenable(this.value);"><#checkbox_Yes#>
-		<input type="radio" name="x_DHCPClient" class="input" value="1" onclick="show_dhcpenable(this.value);"><#checkbox_No#>
+		<input type="radio" name="x_DHCPClient" class="input" value="0" tabindex="1" onclick="show_dhcpenable(this.value);"><#checkbox_Yes#>
+		<input type="radio" name="x_DHCPClient" class="input" value="1" tabindex="2" onclick="show_dhcpenable(this.value);"><#checkbox_No#>
 	</span>
 </legend>
 	<table id="tblsetting_2" class="QISform" width="400" border="0" align="center" cellpadding="3" cellspacing="0">
@@ -296,32 +307,32 @@ function gotoHome() {
 				<#IPConnection_ExternalIPAddress_itemname#>
 			</th>
 			<td class="QISformtd">
-				<input type="hidden" id="dsl_ipaddr" name="dsl_ipaddr" class="input_15_table" value="" maxlength="15" onkeypress="return is_ipaddr(this);" title="WAN IP">
+				<input type="hidden" id="dsl_ipaddr" name="dsl_ipaddr" class="input_15_table" value="" maxlength="15" onkeypress="return validator.isIPAddr(this);" title="WAN IP">
 				<div class="IPaddr" id="dsl_ipaddr_div">
-					<input maxlength="3"
+					<input maxlength="3" tabindex="3"
 								 name="dsl_ipaddr1";
-								 onkeypress="return checkIP(this,event);"
-                 onkeyup="return checkWord(this,event);"
+								 onkeypress="return validator.checkIP(this,event);"
+                 onkeyup="return validator.checkWord(this,event);"
                  onpaste="return   !clipboardData.getData('text').match(/\D/)"
                  ondragenter="return false"
                  autocomplete="off" />.
 					<input maxlength="3"
 								 id="dsl_ipaddr2"
-								 onkeypress="return checkIP(this,event);"
-                 onkeyup="return checkWord(this,event);"
+								 onkeypress="return validator.checkIP(this,event);"
+                 onkeyup="return validator.checkWord(this,event);"
                  onpaste="return   !clipboardData.getData('text').match(/\D/)"
                  ondragenter="return false"
                  autocomplete="off" />.
 					<input maxlength="3"
-								 onkeypress="return checkIP(this,event);"
-                 onkeyup="return checkWord(this,event);"
+								 onkeypress="return validator.checkIP(this,event);"
+                 onkeyup="return validator.checkWord(this,event);"
                  onpaste="return   !clipboardData.getData('text').match(/\D/)"
                  ondragenter="return false"
                  autocomplete="off" />.
 					<input maxlength="3"
 								 name="dsl_ipaddr4";
-								 onkeypress="return checkIP(this,event);"
-                 onkeyup="return checkWord(this,event);"
+								 onkeypress="return validator.checkIP(this,event);"
+                 onkeyup="return validator.checkWord(this,event);"
                  onpaste="return   !clipboardData.getData('text').match(/\D/)"
                  ondragenter="return false"
                  autocomplete="off" />
@@ -336,32 +347,32 @@ function gotoHome() {
 			<td class="QISformtd">
 				<input type="hidden" id="dsl_netmask" name="dsl_netmask" class="input_15_table" value="" maxlength="15"  title="WAN Subnet Mask">
 				<div class="IPaddr" id="dsl_netmask_div">
-					<input maxlength="3"
+					<input maxlength="3" tabindex="4"
 								 name="dsl_netmask1"
-								 onkeypress="return checkIP(this,event);"
-                 onkeyup="return checkWord(this,event);"
-                 onblur="validateIP(this);"
+								 onkeypress="return validator.checkIP(this,event);"
+                 onkeyup="return validator.checkWord(this,event);"
+                 onblur="validator.validateIP(this);"
                  onpaste="return   !clipboardData.getData('text').match(/\D/)"
                  ondragenter="return false"
                  autocomplete="off" />.
 					<input maxlength="3"
-								 onkeypress="return checkIP(this,event);"
-                 onkeyup="return checkWord(this,event);"
-                 onblur="validateIP(this);"
+								 onkeypress="return validator.checkIP(this,event);"
+                 onkeyup="return validator.checkWord(this,event);"
+                 onblur="validator.validateIP(this);"
                  onpaste="return   !clipboardData.getData('text').match(/\D/)"
                  ondragenter="return false"
                  autocomplete="off" />.
 					<input maxlength="3"
-								 onkeypress="return checkIP(this,event);"
-                 onkeyup="return checkWord(this,event);"
-                 onblur="validateIP(this);"
+								 onkeypress="return validator.checkIP(this,event);"
+                 onkeyup="return validator.checkWord(this,event);"
+                 onblur="validator.validateIP(this);"
                  onpaste="return   !clipboardData.getData('text').match(/\D/)"
                  ondragenter="return false"
                  autocomplete="off" />.
 					<input maxlength="3" name="dsl_netmask4"
-								 onkeypress="return checkIP(this,event);"
-                 onkeyup="return checkWord(this,event);"
-                 onblur="validateIP(this);"
+								 onkeypress="return validator.checkIP(this,event);"
+                 onkeyup="return validator.checkWord(this,event);"
+                 onblur="validator.validateIP(this);"
                  onpaste="return   !clipboardData.getData('text').match(/\D/)"
                  ondragenter="return false"
                  autocomplete="off" />
@@ -374,33 +385,33 @@ function gotoHome() {
 				<#IPConnection_x_ExternalGateway_itemname#>
 			</th>
 			<td class="QISformtd">
-				<input type="hidden" id="dsl_gateway" name="dsl_gateway" class="input_15_table" value="" maxlength="15" onkeypress="return is_ipaddr(this);"  class="input">
+				<input type="hidden" id="dsl_gateway" name="dsl_gateway" class="input_15_table" value="" maxlength="15" onkeypress="return validator.isIPAddr(this);"  class="input">
 				<div class="IPaddr" id="dsl_gateway_div">
-					<input maxlength="3"
-								 onkeypress="return checkIP(this,event);"
-                 onkeyup="return checkWord(this,event);"
-                 onblur="validateIP(this);"
+					<input maxlength="3" tabindex="5"
+								 onkeypress="return validator.checkIP(this,event);"
+                 onkeyup="return validator.checkWord(this,event);"
+                 onblur="validator.validateIP(this);"
                  onpaste="return   !clipboardData.getData('text').match(/\D/)"
                  ondragenter="return false"
                  autocomplete="off" />.
 					<input maxlength="3"
-								 onkeypress="return checkIP(this,event);"
-                 onkeyup="return checkWord(this,event);"
-                 onblur="validateIP(this);"
+								 onkeypress="return validator.checkIP(this,event);"
+                 onkeyup="return validator.checkWord(this,event);"
+                 onblur="validator.validateIP(this);"
                  onpaste="return   !clipboardData.getData('text').match(/\D/)"
                  ondragenter="return false"
                  autocomplete="off" />.
 					<input maxlength="3"
-								 onkeypress="return checkIP(this,event);"
-                 onkeyup="return checkWord(this,event);"
-                 onblur="validateIP(this);"
+								 onkeypress="return validator.checkIP(this,event);"
+                 onkeyup="return validator.checkWord(this,event);"
+                 onblur="validator.validateIP(this);"
                  onpaste="return   !clipboardData.getData('text').match(/\D/)"
                  ondragenter="return false"
                  autocomplete="off" />.
 					<input maxlength="3" name="dsl_gateway4"
-								 onkeypress="return checkIP(this,event);"
-                 onkeyup="return checkWord(this,event);"
-                 onblur="validateIP(this);"
+								 onkeypress="return validator.checkIP(this,event);"
+                 onkeyup="return validator.checkWord(this,event);"
+                 onblur="validator.validateIP(this);"
                  onpaste="return   !clipboardData.getData('text').match(/\D/)"
                  ondragenter="return false"
                  autocomplete="off" />
@@ -416,8 +427,8 @@ function gotoHome() {
   <legend>
 	  <span id="dns_info_title"><#qis_dns#>:</span>
 	  <span id="dns_info_radio">
-  		<input type="radio" name="wan_dnsenable_x" value="1" onclick="show_dnsenable(this.value);" class="input"><#checkbox_Yes#>
-			<input type="radio" name="wan_dnsenable_x" value="0" onclick="show_dnsenable(this.value);" class="input"><#checkbox_No#>
+  		<input type="radio" name="wan_dnsenable_x" value="1" tabindex="6" onclick="show_dnsenable(this.value);" class="input"><#checkbox_Yes#>
+			<input type="radio" name="wan_dnsenable_x" value="0" tabindex="7" onclick="show_dnsenable(this.value);" class="input"><#checkbox_No#>
 	  </span>
   </legend>
   <table id="tblsetting_4" class="QISform" width="400" border=0 align="center" cellpadding="5" cellspacing="0">
@@ -426,34 +437,34 @@ function gotoHome() {
 	  	<#IPConnection_x_DNSServer1_itemname#>
 	  </th>
 	  <td class="QISformtd">
-			<input type="hidden" id="dsl_dns1_x" name="dsl_dns1_x" class="input_15_table" value="" onkeypress="return is_ipaddr(this);" maxlength="15">
+			<input type="hidden" id="dsl_dns1_x" name="dsl_dns1_x" class="input_15_table" value="" onkeypress="return validator.isIPAddr(this);" maxlength="15">
 			<div class="IPaddr" id="dsl_dns1_x_div">
-				<input maxlength="3"
+				<input maxlength="3" tabindex="8"
 							 name="dsl_dns1_x1"
-							 onkeypress="return checkIP(this,event);"
-                onkeyup="return checkWord(this,event);"
-                onblur="validateIP(this);"
+							 onkeypress="return validator.checkIP(this,event);"
+                onkeyup="return validator.checkWord(this,event);"
+                onblur="validator.validateIP(this);"
                 onpaste="return   !clipboardData.getData('text').match(/\D/)"
                 ondragenter="return false"
                 autocomplete="off" />.
 				<input maxlength="3"
-							 onkeypress="return checkIP(this,event);"
-                onkeyup="return checkWord(this,event);"
-                onblur="validateIP(this);"
+							 onkeypress="return validator.checkIP(this,event);"
+                onkeyup="return validator.checkWord(this,event);"
+                onblur="validator.validateIP(this);"
                 onpaste="return   !clipboardData.getData('text').match(/\D/)"
                 ondragenter="return false"
                 autocomplete="off" />.
 				<input maxlength="3"
-							 onkeypress="return checkIP(this,event);"
-                onkeyup="return checkWord(this,event);"
-                onblur="validateIP(this);"
+							 onkeypress="return validator.checkIP(this,event);"
+                onkeyup="return validator.checkWord(this,event);"
+                onblur="validator.validateIP(this);"
                 onpaste="return   !clipboardData.getData('text').match(/\D/)"
                 ondragenter="return false"
                 autocomplete="off" />.
 				<input maxlength="3" name="dsl_dns1_x4"
-							 onkeypress="return checkIP(this,event);"
-                onkeyup="return checkWord(this,event);"
-                onblur="validateIP(this);"
+							 onkeypress="return validator.checkIP(this,event);"
+                onkeyup="return validator.checkWord(this,event);"
+                onblur="validator.validateIP(this);"
                 onpaste="return   !clipboardData.getData('text').match(/\D/)"
                 ondragenter="return false"
                 autocomplete="off" />
@@ -466,33 +477,33 @@ function gotoHome() {
 	  	<#IPConnection_x_DNSServer2_itemname#>
 	  </th>
 	  <td class="QISformtd">
-			<input type="hidden" id="dsl_dns2_x" name="dsl_dns2_x" class="input_15_table" value="" maxlength="15" onkeypress="return is_ipaddr(this);">
+			<input type="hidden" id="dsl_dns2_x" name="dsl_dns2_x" class="input_15_table" value="" maxlength="15" onkeypress="return validator.isIPAddr(this);">
 			<div class="IPaddr" id="dsl_dns2_x_div">
-				<input maxlength="3"
-							 onkeypress="return checkIP(this,event);"
-                onkeyup="return checkWord(this,event);"
-                onblur="validateIP(this);"
+				<input maxlength="3" tabindex="9"
+							 onkeypress="return validator.checkIP(this,event);"
+                onkeyup="return validator.checkWord(this,event);"
+                onblur="validator.validateIP(this);"
                 onpaste="return   !clipboardData.getData('text').match(/\D/)"
                 ondragenter="return false"
                 autocomplete="off" />.
 				<input maxlength="3"
-							 onkeypress="return checkIP(this,event);"
-               onkeyup="return checkWord(this,event);"
-               onblur="validateIP(this);"
+							 onkeypress="return validator.checkIP(this,event);"
+               onkeyup="return validator.checkWord(this,event);"
+               onblur="validator.validateIP(this);"
                onpaste="return   !clipboardData.getData('text').match(/\D/)"
                ondragenter="return false"
                autocomplete="off" />.
 				<input maxlength="3"
-							 onkeypress="return checkIP(this,event);"
-                 onkeyup="return checkWord(this,event);"
-                onblur="validateIP(this);"
+							 onkeypress="return validator.checkIP(this,event);"
+                 onkeyup="return validator.checkWord(this,event);"
+                onblur="validator.validateIP(this);"
                  onpaste="return   !clipboardData.getData('text').match(/\D/)"
                  ondragenter="return false"
                  autocomplete="off" />.
 				<input maxlength="3" name="dsl_dns2_x4"
-								 onkeypress="return checkIP(this,event);"
-                 onkeyup="return checkWord(this,event);"
-                 onblur="validateIP(this);"
+								 onkeypress="return validator.checkIP(this,event);"
+                 onkeyup="return validator.checkWord(this,event);"
+                 onblur="validator.validateIP(this);"
                  onpaste="return   !clipboardData.getData('text').match(/\D/)"
                  ondragenter="return false"
                  autocomplete="off" />
@@ -506,7 +517,7 @@ function gotoHome() {
 		<th width="120"><span id="mac_addr1" style="display:none"><#BOP_isp_mac_item#></span></th>
 		<td>
 		  <span id="mac_addr2" style="display:none">
-		  <input type="text" name="dsltmp_qis_hwaddr" class="input_18_table" value="" maxlength="17" size="17">&nbsp;e.g., 00:11:22:33:44:55
+		  <input type="text" name="dsltmp_qis_hwaddr" class="input_18_table" value="" tabindex="10" maxlength="17" size="17">&nbsp;e.g., 00:11:22:33:44:55
 		  </span>
 		</td>
 	  </tr>
@@ -516,7 +527,7 @@ function gotoHome() {
 		<th width="120"><span id="ppp_username1" style="display:none">PPP <#HSDPAConfig_Username_itemname#>:</span></th>
 		<td>
 		  <span id="ppp_username2" style="display:none">
-		  <input type="text" name="ppp_username" class="input_32_table" value="" maxlength="32" size="20">
+		  <input type="text" name="ppp_username" class="input_32_table" value="" tabindex="11" maxlength="32" size="20">
 		  </span>
 		</td>
 	  </tr>
@@ -524,7 +535,7 @@ function gotoHome() {
 		<th width="120"><span id="ppp_password1" style="display:none">PPP <#HSDPAConfig_Password_itemname#>:</span></th>
 		<td>
 		  <span id="ppp_password2" style="display:none">
-		  <input type="text" name="ppp_password" class="input_32_table" value="" maxlength="32" size="20">
+		  <input type="text" name="ppp_password" class="input_32_table" value="" tabindex="12" maxlength="32" size="20">
 		  </span>
 		</td>
 	  </tr>
@@ -533,11 +544,11 @@ function gotoHome() {
 
 
 	<div class="apply_gen" style="margin-top:30px">
-		<input type="button" id="prevButton" value="<#Manual_Setting_btn#>" onclick="gotoprev(document.form);" class="button_gen" >
+		<input type="button" id="prevButton" value="<#Manual_Setting_btn#>" tabindex="14" onclick="gotoprev(document.form);" class="button_gen" >
 <!--
 		<input type="button" id="nextButton" value="Ethernet WAN" onclick="redirect_page('internet_type');" class="button_gen" >
 -->
-		<input type="button" id="nextButton" value="<#btn_next#>" onclick="submitForm();" class="button_gen">
+		<input type="button" id="nextButton" value="<#btn_next#>" tabindex="13" onclick="submitForm();" class="button_gen">
 	</div>
 
 </div>
