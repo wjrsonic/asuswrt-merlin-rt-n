@@ -31,24 +31,25 @@ function QKinternettype_load_body(){
 	parent.document.title = "<#Web_Title#> - <#QKSet_detect_sanglass#>";
 }
 
-function submitForm(){	
-	document.form.submit();
+function submitForm(){
+	if(validForm()){
+		document.form.submit();
+	}
+}
+
+function validForm(){
+                if(document.form.dslx_annex[0].checked == false && document.form.dslx_annex[1].checked == false){
+                                alert("<#QIS_chooseAnnex_yet#>");
+                                document.form.dslx_annex[0].focus();
+                                return false;
+                }
+                return true;
 }
 
 function redirect_page(redirect_flag){
 	document.form.action = "/qis/QIS_"+redirect_flag+".htm";
 	document.form.submit();
 }
-
-function gotoIndex(){
-	if (w_Setting == "0") {
-		alert("<#QIS_recommand_encryption#>");
-		redirect_page("wireless");
-	}
-	else
-		parent.location.href = '../index.asp';
-}
-
 
 </script>
 </head>  
@@ -70,9 +71,9 @@ function gotoIndex(){
 			<td align="left">
 				<span class="description_down"><#dslsetting_disc2_setting#></span>
 			</td>
-			<td align="right">
+			<!--td align="right">
 				<img onclick="gotoIndex();" style="cursor:pointer;" align="right" title="Go to Home" src="../images/backtohome.png" onMouseOver="this.src='../images/backtohomeclick.png'" onMouseOut="this.src='../images/backtohome.png'">
-			</td>
+			</td-->
 		</tr>
 	</table>
 </div>
@@ -81,9 +82,9 @@ function gotoIndex(){
 	<table id="tblsetting_1" class="QISform" width="400" border=0 align="center" cellpadding="5" cellspacing="0">
 		<tr>
 			<td>
-				<input type="radio" value="4" name="dslx_annex" class="input" checked>Annex A
+				<input type="radio" value="4" name="dslx_annex" tabindex="1" class="input">Annex A
 				<br><br>
-				<input type="radio" value="6" name="dslx_annex" class="input">Annex B
+				<input type="radio" value="6" name="dslx_annex" tabindex="2" class="input">Annex B
 				<br><br><br>
 				<#QIS_chooseAnnex_desc1#><br><br>
 				<#ADSL_FW_note#> <#QIS_NoCable_desc#> <#QIS_chooseAnnex_desc2#>
@@ -91,7 +92,7 @@ function gotoIndex(){
 		</tr>
 	</table>
 	<div class="apply_gen" style="margin-top:30px">
-		<input type="button" id="nextButton" value="<#btn_next#>" onclick="submitForm();" class="button_gen">
+		<input type="button" id="nextButton" value="<#btn_next#>" tabindex="3" onclick="submitForm();" class="button_gen">
 	</div>
 </div>
 
