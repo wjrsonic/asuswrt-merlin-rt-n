@@ -365,7 +365,7 @@ function validForm(){
 	}
 
 	if(document.form.sshd_enable[0].checked){
-		if (!validate_range(document.form.sshd_rwb, 0, 1048576))
+		if (!validator.range(document.form.sshd_rwb, 0, 1048576))
 			return false;
 	}
 	else{
@@ -376,15 +376,15 @@ function validForm(){
 		alert("You must configure at least one SSH authentication method!");
 		return false;
 	}
-	
+
 	if(document.form.apps_swap_enable[0].checked){
-		if (!validate_range(document.form.apps_swap_size, 32768, 1048576))
+		if (!validator.range(document.form.apps_swap_size, 32768, 1048576))
 			return false;
 	}
 	else{
 		document.form.apps_swap_size = true;
 	}
-
+	
 	if(isPortConflict(document.form.misc_httpport_x.value)){
 		alert(isPortConflict(document.form.misc_httpport_x.value));
 		document.form.misc_httpport_x.focus();
@@ -920,14 +920,12 @@ function check_sshd_enable(obj_value){
 }
 
 function check_apps_swap_enable(obj_value){
-	var state_s;
-
-	if (obj_value == 1)
-		state_s = "";
-	else
-		state_s = "none";
-
-	$("apps_swap_size_tr").style.display = state_s;
+	if(obj_value == 1){
+		$("apps_swap_size_tr").style.display = "";
+	}
+	else{
+		$("apps_swap_size_tr").style.display = "none";
+	}
 }
 
 /*function sshd_remote_access(obj_value){
@@ -1055,6 +1053,7 @@ function toggle_jffs_visibility(state){
 					</td>
 				</tr>
 			</table>
+			
 			<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable" style="margin-top:8px;">
 				<thead>
 					<tr>
@@ -1115,6 +1114,7 @@ function toggle_jffs_visibility(state){
 						<div id="svc_hint_div" style="display:none;"><span style="color:#FFCC00;"><#General_x_SystemTime_syncNTP#></span></div>
 					</td>
 				</tr>
+			</table>
 
 			<table id="jffs_table" width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
 				<thead>
@@ -1145,7 +1145,7 @@ function toggle_jffs_visibility(state){
 				</tr>
 			</table>
 
-<table id="swapfile_table" width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+<table id="swap_table" width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
                 <thead>
                 <tr>
           <td colspan="2">Swap file for USB installed applications</td>
@@ -1238,7 +1238,7 @@ function toggle_jffs_visibility(state){
 	</tr>
 </table>
 
-<table id="crontab_table" width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+<table id="cron_table" width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
                 <thead>
                 <tr>
           <td colspan="2">Cron Jobs</td>
