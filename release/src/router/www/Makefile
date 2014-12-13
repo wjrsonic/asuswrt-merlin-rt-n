@@ -102,14 +102,14 @@ ifneq ($(RTCONFIG_BCMWL6),y)
 #	rm -rf $(INSTALLDIR)/www/images/New_ui/re.jpg
 #	rm -rf $(INSTALLDIR)/www/images/New_ui/ap.jpg
 	rm -rf $(INSTALLDIR)/www/images/New_ui/mb.jpg
-	rm -rf $(INSTALLDIR)/www/images/wl_device/wl_devices.png
-	rm -rf $(INSTALLDIR)/www/images/backtohome.png
-	rm -rf $(INSTALLDIR)/www/images/backtohomeclick.png
-	rm -rf $(INSTALLDIR)/www/images/wifi_hw_sw.png
-	rm -rf $(INSTALLDIR)/www/images/qis/security_key.png
-	rm -rf $(INSTALLDIR)/www/images/qis/select_wireless.jpg
-	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/client-listover.png
-	cd $(INSTALLDIR)/www/images/New_ui/networkmap && ln -sf client-list.png client-listover.png && cd $(TOP)/www
+#	rm -rf $(INSTALLDIR)/www/images/wl_device/wl_devices.png
+#	rm -rf $(INSTALLDIR)/www/images/backtohome.png
+#	rm -rf $(INSTALLDIR)/www/images/backtohomeclick.png
+#	rm -rf $(INSTALLDIR)/www/images/wifi_hw_sw.png
+#	rm -rf $(INSTALLDIR)/www/images/qis/security_key.png
+#	rm -rf $(INSTALLDIR)/www/images/qis/select_wireless.jpg
+#	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/client-listover.png
+#	cd $(INSTALLDIR)/www/images/New_ui/networkmap && ln -sf client-list.png client-listover.png && cd $(TOP)/www
 #Andrey
 	rm -rf $(INSTALLDIR)/www/AiStream*
 ifeq ($(RTCONFIG_NFS),y)
