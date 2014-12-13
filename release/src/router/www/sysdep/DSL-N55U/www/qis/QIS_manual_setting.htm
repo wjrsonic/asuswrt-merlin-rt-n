@@ -63,7 +63,8 @@ function setIptvNumPvc() {
 function showCountryList(o){
 	var code = "";
 	var showed_country = "";
-	code +="<select	name='country' class='input_option' onchange='showAllList(this.value);'>";
+	code +="<select	name='country' class='input_option' tabindex='1' onchange='showAllList(this.value);'>";
+	code +="<option value='default'><#Select_menu_default#></option>";
 	for(var i = 0; i < ISP_List.length; i++){
 		if(showed_country != ISP_List[i][1]){
 			code +="<option value='"+ISP_List[i][1];
@@ -84,7 +85,7 @@ function showCountryList(o){
 function showCityList(o){
 	var code = "";
 	var showedCity = "";
-	code +="<select	name='city' class='input_option' onchange='showRussiaISPList(this.value);'>";
+	code +="<select	name='city' class='input_option' tabindex='2' onchange='showRussiaISPList(this.value);'>";
 	for(var i = 0; i < ISP_List.length; i++){
 		if((showedCity != ISP_List[i][3]) && (o == ISP_List[i][1])){
 			code +="<option value='"+ISP_List[i][3]+"'>"+ISP_List[i][3]+"</option>";
@@ -98,7 +99,7 @@ function showCityList(o){
 
 function showNomoISPList(o){
 	var code = "";
-	code +="<select	id='ISP' name='ISP' class='input_option' onChange='ShowPVC(this.value);'>";
+	code +="<select	id='ISP' name='ISP' class='input_option' tabindex='3' onChange='ShowPVC(this.value);'>";
 	var first_element = 0;
 	for(var i = 0; i < ISP_List.length; i++){
 		if(o == ISP_List[i][1]){
@@ -123,7 +124,7 @@ function showRussiaISPList(o){
 	var code = "";
 	var First_ISP= "";
 	var showed_ISP = "";
-	code +="<select	id='ISP' name='ISP' class='input_option' onChange='ShowPVC(this.value); showRussiaISPServiceByIdx(ISPlocatedCity, this.value)'>";
+	code +="<select	id='ISP' name='ISP' class='input_option' tabindex='3' onChange='ShowPVC(this.value); showRussiaISPServiceByIdx(ISPlocatedCity, this.value)'>";
 	var first_element = 0;
 	for(var i = ru_idx_start; i < ISP_List.length; i++){
 		if((showed_ISP != ISP_List[i][4]) && (o == ISP_List[i][3])){
@@ -160,7 +161,7 @@ function showRussiaISPServiceByIdx(c, idx){
    	else {
       	    $("Service_tr").style.display="";
 	var code = "";
-	code +="<select	id='ISPSVC' name='ISPSVC' class='input_option' onChange='ChgSVC(this.value);'>";
+	code +="<select	id='ISPSVC' name='ISPSVC' class='input_option' tabindex='4' onChange='ChgSVC(this.value);'>";
 	var first_element = 0;
 	for(var i = ru_idx_start; i < ISP_List.length; i++){
 		if((c == ISP_List[i][3]) && (isp_str == ISP_List[i][4])){
@@ -185,7 +186,7 @@ function showRussiaISPService(c, o){
    	else {
       	    $("Service_tr").style.display="";
 	var code = "";
-	code +="<select	id='ISPSVC' name='ISPSVC' class='input_option' onChange='ChgSVC(this.value);'>";
+	code +="<select	id='ISPSVC' name='ISPSVC' class='input_option' tabindex='4' onChange='ChgSVC(this.value);'>";
 	var first_element = 0;
 	for(var i = ru_idx_start; i < ISP_List.length; i++){
 		if((c == ISP_List[i][3]) && (o == ISP_List[i][4])){
@@ -322,7 +323,7 @@ function QIS_menual_setting_load_body() {
 	}
 
 	if(country_code=="")
-	    country_code = "Australia";
+	    country_code = "default";
 	showCountryList(country_code);
 	showAllList(country_code);
 }
@@ -335,17 +336,22 @@ function QKfinish_load_body(){
 function submit_page(){
 	setIptvNumPvc();
 	if(parent.based_modelid == "DSL-AC68U"){
-			update_dsl_info();
+		update_dsl_info();
 	}
 	document.form.submit();
 }
 
 function btnNext() {
 	var connection_type = 0;
-  // Manual Setting
-  if ( document.form.country.value=='NO'|| document.form.ISP.value=='NO' ){
+	// Manual Setting
+	if(document.form.country.value=='default'){
+		alert("<#JS_fieldblank#>");
+		document.form.country.focus();
+		return false;           
+        }
+	else if ( document.form.country.value=='NO'|| document.form.ISP.value=='NO' ){
 
-   	var tmp_vpi = document.form.user_vpi.value;
+		var tmp_vpi = document.form.user_vpi.value;
 		var tmp_vci = document.form.user_vci.value;
 
 		if(tmp_vpi == ""){
@@ -394,8 +400,8 @@ function btnNext() {
 		document.form.dsltmp_cfg_iptv_idx.value = "";
 		document.form.dsltmp_cfg_ispname.value = "";
 		document.form.dsltmp_cfg_country.value = "";
-  }
-  else {
+	}
+	else {
 		var isp_idx = 0
 		if (selected_country == "Russia") {
 			isp_idx = document.getElementById("ISPSVC").value;
@@ -417,40 +423,38 @@ function btnNext() {
 	{
 		//pppoe or pppoa
 		document.form.next_page.value = "/qis/QIS_ppp_cfg_tmp.htm";
-		submit_page();
+		setIptvNumPvc();
+		document.form.submit();
+
 	}
 	else if (connection_type==2)
 	{
 		//mer
 		document.form.next_page.value = "/qis/QIS_mer_cfg_tmp.htm";
-		submit_page();
+		setIptvNumPvc();
+		document.form.submit();
+
 	}
 	else if (connection_type==3)
 	{
 		//bridge
 		document.form.next_page.value = "/qis/QIS_bridge_cfg_tmp.htm";
-		submit_page();
+		setIptvNumPvc();
+		document.form.submit();
+
 	}
 	else if (connection_type==4)
 	{
 		//ipoa
 		document.form.next_page.value = "/qis/QIS_ipoa_cfg_tmp.htm";
-		submit_page();
+		setIptvNumPvc();
+		document.form.submit();
+
 	}
 	else
 	{
 		alert("<#Connectiontype_unknown#>");
 		return;
-	}
-}
-
-function gotoIndex(){
-	if (w_Setting == "0") {
-		alert("<#QIS_recommand_encryption#>");	
-		location.href = '/qis/QIS_wireless.htm';
-	}
-	else {
-		parent.location.href = '/index.asp';
 	}
 }
 
@@ -503,11 +507,11 @@ function update_dsl_info(){
 							<span class="description_down"><#Manual_Setting_Title#></span>
 						</td>
 					</tr>
-					<tr id="home_button">
+					<!--tr id="home_button">
 						<td align="right">
 							<img onclick="gotoIndex();" style="cursor:pointer;" align="right" title="Go to Home" src="/images/backtohome.png" onMouseOver="this.src='/images/backtohomeclick.png'" onMouseOut="this.src='/images/backtohome.png'">
 						</td>
-					</tr>
+					</tr-->
 				</table>
 			</div>
 			<div style="margin:5px;"><img style="width: 720px; *width: 710px; height: 2px;" src="/images/New_ui/export/line_export.png"></div>
@@ -562,16 +566,16 @@ function update_dsl_info(){
 			</tr>
 			<tr>
 				<th width="40%">VPI:</th>
-				<td><input type='text' name='user_vpi' size='2' maxlength="3" class="input_6_table"><span> 0-255</span></td>
+				<td><input type='text' name='user_vpi' tabindex="5" maxlength="3" class="input_6_table"><span> 0-255</span></td>
 			</tr>
 			<tr>
 				<th>VCI:</th>
-				<td><input type='text' name='user_vci' size='4' maxlength="5" class="input_6_table"><span> 32-65535</span></td>
+				<td><input type='text' name='user_vci' tabindex="6" maxlength="5" class="input_6_table"><span> 32-65535</span></td>
 			</tr>
 			<tr>
 				<th><#Layer3Forwarding_x_ConnectionType_itemname#>:</th>
 				<td>
-				<select	name='user_prctl' class='input_option'>
+				<select	name='user_prctl' class='input_option' tabindex="7">
 				<option value = 0>PPPoE</option>
 				<option value = 1>PPPoA</option>
 				<option value = 2>MER</option>
@@ -583,7 +587,7 @@ function update_dsl_info(){
 			<tr>
 				<th><#prtcl_JS_encmode#>:</th>
 				<td>
-				<select	name='user_encap' class='input_option'>
+				<select	name='user_encap' class='input_option' tabindex="8">
 				<option value = 0>LLC</option>
 				<option value = 1>VC-Mux</option>
 				</select>
@@ -594,8 +598,8 @@ function update_dsl_info(){
 	</div>
 
 	<div class="apply_gen" style="margin-top:10px">
-		<span id="bottom_btn1"><input type="button" value="<#CTL_Detect_Again#>" onclick="submit_page();" class="button_gen" ></span>
-		<input type="button" value="<#btn_next#>" onclick="btnNext();" class="button_gen">
+		<span id="bottom_btn1"><input type="button" value="<#CTL_Detect_Again#>" tabindex="10" onclick="submit_page();" class="button_gen" ></span>
+		<input type="button" value="<#btn_next#>" tabindex="9" onclick="btnNext();" class="button_gen">
 	</div>
 
 </div>
