@@ -1227,6 +1227,7 @@ ifeq ($(RTCONFIG_USB_BECEEM),y)
 	mv -f $(TARGETDIR)/sbin/wimaxc $(SRCBASE)/image/ext/sbin
 	mv -f $(TARGETDIR)/sbin/wimaxd $(SRCBASE)/image/ext/sbin
 	mv -f $(TARGETDIR)/rom/Beceem_firmware $(SRCBASE)/image/ext/rom
+	mv -f $(TARGETDIR)/rom/apn_asus.dat $(SRCBASE)/image/ext/rom
 	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/Beceem_driver $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/drivers/usb
 	mv -f $(TARGETDIR)/lib/libeap_supplicant.so $(SRCBASE)/image/ext/lib
 	mv -f $(TARGETDIR)/lib/libengine_beceem.so $(SRCBASE)/image/ext/lib
@@ -1253,6 +1254,7 @@ ifeq ($(RTCONFIG_OPENVPN),y)
 	mv -f $(TARGETDIR)/usr/sbin/updown.sh $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/rom/easy-rsa $(SRCBASE)/image/ext/rom
 	mv -f $(TARGETDIR)/www/Advanced_OpenVPNClient_Content.asp $(SRCBASE)/image/ext/www
+	mv -f $(TARGETDIR)/www/Advanced_VPN_OpenVPN.asp $(SRCBASE)/image/ext/www
 	mv -f $(TARGETDIR)/www/ajax_openvpn_server.asp $(SRCBASE)/image/ext/www
 	cp -f -R  $(SRCBASE)/image/openvpn/usr/* $(TARGETDIR)/usr
 	cp -f -R  $(SRCBASE)/image/openvpn/rom/* $(TARGETDIR)/rom
@@ -1290,6 +1292,7 @@ ifeq ($(RTCONFIG_MEDIA_SERVER),y)
 	mkdir -p $(SRCBASE)/image/ext/usr/lib
 	mkdir -p $(SRCBASE)/image/ext/usr/sbin
 	mkdir -p $(SRCBASE)/image/ext/www
+	mv -f $(TARGETDIR)/rom/dlna $(SRCBASE)/image/ext/rom/
 	mv -f $(TARGETDIR)/rom/etc/web $(SRCBASE)/image/ext/rom/etc
 	mv -f $(TARGETDIR)/usr/lib/libFLAC.so.8 $(SRCBASE)/image/ext/usr/lib
 	mv -f $(TARGETDIR)/usr/lib/libavcodec.so.52 $(SRCBASE)/image/ext/usr/lib
@@ -1306,7 +1309,7 @@ ifeq ($(RTCONFIG_MEDIA_SERVER),y)
 	mv -f $(TARGETDIR)/usr/sbin/mt-daapd $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/www/mediaserver.asp $(SRCBASE)/image/ext/www
 	cp -f -R  $(SRCBASE)/image/media/usr/* $(TARGETDIR)/usr
-	cp -f -R  $(SRCBASE)/image/media/rom/etc/* $(TARGETDIR)/rom/etc
+	cp -f -R  $(SRCBASE)/image/media/rom/* $(TARGETDIR)/rom/
 	cp -f -R  $(SRCBASE)/image/media/www/* $(TARGETDIR)/www
 endif
 # media server end
