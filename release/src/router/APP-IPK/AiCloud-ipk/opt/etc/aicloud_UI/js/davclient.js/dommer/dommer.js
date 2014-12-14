@@ -251,7 +251,7 @@ global.dommer = new function() {
     };
 
     Node.prototype.hasAttributes = function() {
-        return (this.attributes !== undefined && this.attributes.length);
+        return (this.attributes != undefined && this.attributes.length);
     };
 
     Node.prototype.appendChild = function(newChild) {
@@ -265,7 +265,7 @@ global.dommer = new function() {
         var newChildren = new NodeList();
         var found = false;
         for (var i=0; i < this.childNodes.length; i++) {
-            if (this.childNodes[i] === oldChild) {
+            if (this.childNodes[i] == oldChild) {
                 oldChild._setProtected('parentNode', null);
                 var previous = oldChild.previousSibling;
                 if (previous) {
@@ -321,7 +321,7 @@ global.dommer = new function() {
         // see if the child isn't a (grand)parent of ourselves
         var currparent = this;
         while (currparent && currparent.nodeType != newChild.DOCUMENT_NODE) {
-            if (currparent === newChild) {
+            if (currparent == newChild) {
                 throw(
                     (new DOMException(DOMException.HIERARCHY_REQUEST_ERR))
                 );
@@ -343,7 +343,7 @@ global.dommer = new function() {
             var found = false;
             for (var i=0; i < this.childNodes.length; i++) {
                 var currChild = this.childNodes[i];
-                if (currChild === refChild) {
+                if (currChild == refChild) {
                     newchildren.push(newChild);
                     var previous = this.childNodes[i - 1];
                     if (previous) {
@@ -390,7 +390,7 @@ global.dommer = new function() {
     };
 
     Node.prototype._checkIsChild = function(refChild) {
-        if (refChild.parentNode !== this) {
+        if (refChild.parentNode != this) {
             throw(
                 (new DOMException(DOMException.NOT_FOUND_ERR))
             );
@@ -1157,7 +1157,7 @@ global.dommer = new function() {
         // we're done
         var delete_mode = false;
         for (var i=0; i < this.length; i++) {
-            if (this[i] === name) {
+            if (this[i] == name) {
                 delete_mode = true;
             };
             if (delete_mode) {
