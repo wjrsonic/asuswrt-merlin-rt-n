@@ -24,7 +24,7 @@ if(typeof Array.prototype.forEach != 'function'){
 
 String.prototype.toArray = function(){
 	var ret = eval(this.toString());
-	if(Object.prototype.toString.apply(ret) === '[object Array]')
+	if(Object.prototype.toString.apply(ret) == '[object Array]')
 		return ret;
 	return [];
 }
@@ -3318,7 +3318,7 @@ var notification = {
 		var tarObj = document.getElementById("notification_status");
 		var tarObj1 = document.getElementById("notification_status1");
 
-		if(tarObj === null)	
+		if(tarObj == null)	
 			return false;		
 
 		if(this.stat == "on"){
@@ -3574,7 +3574,7 @@ var isNewFW = function(FWVer){
 	if (odmpid == "TM-AC1900" && bl_version == "2.1.2.2")
 		return true;
 
-	if(typeof Latest_firmver[0] !== "undefined" && typeof Latest_firmver[1] !== "undefined" && typeof Latest_firmver[2] !== "undefined"){
+	if(typeof Latest_firmver[0] != "undefined" && typeof Latest_firmver[1] != "undefined" && typeof Latest_firmver[2] != "undefined"){
 		var Latest_firm = parseInt(Latest_firmver[0]);
 		var Latest_buildno = parseInt(Latest_firmver[1]);
 		var Latest_extendno = parseInt(Latest_firmver[2].split("-g")[0]);
