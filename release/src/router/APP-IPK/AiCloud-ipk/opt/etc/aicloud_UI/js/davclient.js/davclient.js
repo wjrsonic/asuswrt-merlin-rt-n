@@ -890,7 +890,7 @@ global.davlib = new function() {
             var key = string.strip(chunks.shift());
             var value = string.strip(chunks.join(':'));
             var lkey = key.toLowerCase();
-            if (headers[lkey] !== undefined) {
+            if (headers[lkey] != undefined) {
                 if (!headers[lkey].push) {
                     headers[lkey] = [headers[lkey, value]];
                 } else {

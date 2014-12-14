@@ -19,7 +19,7 @@ if(!Array.prototype.pop) {
 if(!Array.prototype.contains) {
 	function array_contains(obj){
 		for (var i = 0; i < this.length; i++) {
-			if (this[i] === obj) {
+			if (this[i] == obj) {
             return true;
         }
     }
@@ -31,7 +31,7 @@ if(!Array.prototype.contains) {
 if(!Array.prototype.removeItem) {
 	function array_removeItem(obj){
 		for (var i = 0; i < this.length; i++) {
-			if (this[i] === obj) {
+			if (this[i] == obj) {
 				 		this.splice(i,1);
 				 		//alert('remove: ' + obj + ', ' + this.length);
             return true;
@@ -442,7 +442,7 @@ function parseHeaders(headerstring) {
     var key = $.trim(chunks.shift());
     var value = $.trim(chunks.join(':'));
     var lkey = key.toLowerCase();
-    if (headers[lkey] !== undefined) {
+    if (headers[lkey] != undefined) {
     	if (!headers[lkey].push) {
       	headers[lkey] = [headers[lkey, value]];
       } else {

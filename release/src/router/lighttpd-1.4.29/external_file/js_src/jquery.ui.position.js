@@ -36,7 +36,7 @@ function parseCss( element, property ) {
 
 function getDimensions( elem ) {
 	var raw = elem[0];
-	if ( raw.nodeType === 9 ) {
+	if ( raw.nodeType == 9 ) {
 		return {
 			width: elem.width(),
 			height: elem.height(),
@@ -66,7 +66,7 @@ function getDimensions( elem ) {
 
 $.position = {
 	scrollbarWidth: function() {
-		if ( cachedScrollbarWidth !== undefined ) {
+		if ( cachedScrollbarWidth != undefined ) {
 			return cachedScrollbarWidth;
 		}
 		var w1, w2,
@@ -79,7 +79,7 @@ $.position = {
 
 		w2 = innerDiv.offsetWidth;
 
-		if ( w1 === w2 ) {
+		if ( w1 == w2 ) {
 			w2 = div[0].clientWidth;
 		}
 
@@ -90,10 +90,10 @@ $.position = {
 	getScrollInfo: function( within ) {
 		var overflowX = within.isWindow ? "" : within.element.css( "overflow-x" ),
 			overflowY = within.isWindow ? "" : within.element.css( "overflow-y" ),
-			hasOverflowX = overflowX === "scroll" ||
-				( overflowX === "auto" && within.width < within.element[0].scrollWidth ),
-			hasOverflowY = overflowY === "scroll" ||
-				( overflowY === "auto" && within.height < within.element[0].scrollHeight );
+			hasOverflowX = overflowX == "scroll" ||
+				( overflowX == "auto" && within.width < within.element[0].scrollWidth ),
+			hasOverflowY = overflowY == "scroll" ||
+				( overflowY == "auto" && within.height < within.element[0].scrollHeight );
 		return {
 			width: hasOverflowX ? $.position.scrollbarWidth() : 0,
 			height: hasOverflowY ? $.position.scrollbarWidth() : 0
@@ -147,7 +147,7 @@ $.fn.position = function( options ) {
 			horizontalOffset,
 			verticalOffset;
 
-		if ( pos.length === 1) {
+		if ( pos.length == 1) {
 			pos = rhorizontal.test( pos[ 0 ] ) ?
 				pos.concat( [ "center" ] ) :
 				rvertical.test( pos[ 0 ] ) ?
@@ -173,19 +173,19 @@ $.fn.position = function( options ) {
 	});
 
 	// normalize collision option
-	if ( collision.length === 1 ) {
+	if ( collision.length == 1 ) {
 		collision[ 1 ] = collision[ 0 ];
 	}
 
-	if ( options.at[ 0 ] === "right" ) {
+	if ( options.at[ 0 ] == "right" ) {
 		basePosition.left += targetWidth;
-	} else if ( options.at[ 0 ] === "center" ) {
+	} else if ( options.at[ 0 ] == "center" ) {
 		basePosition.left += targetWidth / 2;
 	}
 
-	if ( options.at[ 1 ] === "bottom" ) {
+	if ( options.at[ 1 ] == "bottom" ) {
 		basePosition.top += targetHeight;
-	} else if ( options.at[ 1 ] === "center" ) {
+	} else if ( options.at[ 1 ] == "center" ) {
 		basePosition.top += targetHeight / 2;
 	}
 
@@ -205,15 +205,15 @@ $.fn.position = function( options ) {
 			position = $.extend( {}, basePosition ),
 			myOffset = getOffsets( offsets.my, elem.outerWidth(), elem.outerHeight() );
 
-		if ( options.my[ 0 ] === "right" ) {
+		if ( options.my[ 0 ] == "right" ) {
 			position.left -= elemWidth;
-		} else if ( options.my[ 0 ] === "center" ) {
+		} else if ( options.my[ 0 ] == "center" ) {
 			position.left -= elemWidth / 2;
 		}
 
-		if ( options.my[ 1 ] === "bottom" ) {
+		if ( options.my[ 1 ] == "bottom" ) {
 			position.top -= elemHeight;
-		} else if ( options.my[ 1 ] === "center" ) {
+		} else if ( options.my[ 1 ] == "center" ) {
 			position.top -= elemHeight / 2;
 		}
 
@@ -380,14 +380,14 @@ $.ui.position = {
 				collisionPosLeft = position.left - data.collisionPosition.marginLeft,
 				overLeft = collisionPosLeft - offsetLeft,
 				overRight = collisionPosLeft + data.collisionWidth - outerWidth - offsetLeft,
-				myOffset = data.my[ 0 ] === "left" ?
+				myOffset = data.my[ 0 ] == "left" ?
 					-data.elemWidth :
-					data.my[ 0 ] === "right" ?
+					data.my[ 0 ] == "right" ?
 						data.elemWidth :
 						0,
-				atOffset = data.at[ 0 ] === "left" ?
+				atOffset = data.at[ 0 ] == "left" ?
 					data.targetWidth :
-					data.at[ 0 ] === "right" ?
+					data.at[ 0 ] == "right" ?
 						-data.targetWidth :
 						0,
 				offset = -2 * data.offset[ 0 ],
@@ -415,15 +415,15 @@ $.ui.position = {
 				collisionPosTop = position.top - data.collisionPosition.marginTop,
 				overTop = collisionPosTop - offsetTop,
 				overBottom = collisionPosTop + data.collisionHeight - outerHeight - offsetTop,
-				top = data.my[ 1 ] === "top",
+				top = data.my[ 1 ] == "top",
 				myOffset = top ?
 					-data.elemHeight :
-					data.my[ 1 ] === "bottom" ?
+					data.my[ 1 ] == "bottom" ?
 						data.elemHeight :
 						0,
-				atOffset = data.at[ 1 ] === "top" ?
+				atOffset = data.at[ 1 ] == "top" ?
 					data.targetHeight :
-					data.at[ 1 ] === "bottom" ?
+					data.at[ 1 ] == "bottom" ?
 						-data.targetHeight :
 						0,
 				offset = -2 * data.offset[ 1 ],
