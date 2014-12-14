@@ -117,7 +117,7 @@
 		}
 	},
 	isObject = function(val) { // Basic check for Object
-		if(val && typeof val === 'object' && val.hasOwnProperty) {
+		if(val && typeof val == 'object' && val.hasOwnProperty) {
 			return true;
 		} else {
 			return false;
@@ -171,9 +171,9 @@
 			rVal = false, // Only a boolean false means it is not supported.
 			mediaType;
 
-			if(cType !== 'video' && cType !== 'audio') {
+			if(cType != 'video' && cType != 'audio') {
 
-				if(typeof url === 'string') {
+				if(typeof url == 'string') {
 					// Check it starts with http, so the URL is absolute... Well, it is not a perfect check.
 					if(/^http.*/i.test(url)) {
 						mediaType = getMediaType(url);
@@ -211,8 +211,8 @@
 					for(var sol = 0; sol < solution.length; sol++) {
 
 						var solutionType = solution[sol].replace(/^\s+|\s+$/g, ""), //trim
-						checkingHtml = solutionType === 'html',
-						checkingFlash = solutionType === 'flash',
+						checkingHtml = solutionType == 'html',
+						checkingFlash = solutionType == 'flash',
 						mediaElem;
 
 						for(var fmt = 0; fmt < supplied.length; fmt++) {
@@ -307,14 +307,14 @@
 				// Triggering patched events through the jPlayer Object so the events are homogeneous. ie., The contain the event.jPlayer data structure.
 
 				var checkDuration = function(event) {
-					if(event.jPlayer.status.duration !== duration) {
+					if(event.jPlayer.status.duration != duration) {
 						duration = event.jPlayer.status.duration;
 						dispatchDurationChange();
 					}
 				},
 
 				checkCanPlayThrough = function(event) {
-					if(!canplaythrough && event.jPlayer.status.seekPercent === 100) {
+					if(!canplaythrough && event.jPlayer.status.seekPercent == 100) {
 						canplaythrough = true;
 						setTimeout(function() {
 							if(DEBUG) console.log('Trigger : canplaythrough');
@@ -352,7 +352,7 @@
 
 					myPlayer = $('#' +  media.id);
 
-					if(typeof media.src === 'string') {
+					if(typeof media.src == 'string') {
 						mediaType = getMediaType(media.src);
 						jpMedia[mediaType] = media.src;
 						jpOptions.supplied = mediaType;
@@ -397,7 +397,7 @@
 							var nativeEvent = true;
 							for(var iRes in reservedEvent) {
 								if(reservedEvent.hasOwnProperty(iRes)) {
-									if(reservedEvent[iRes] === eventName) {
+									if(reservedEvent[iRes] == eventName) {
 										nativeEvent = false;
 										break;
 									}
@@ -431,7 +431,7 @@
 
 						error = event.jPlayer.error; // Saving object pointer, not a copy of the object. Possible garbage collection issue... But the player is dead anyway, so don't care.
 
-						if(error.type === $.jPlayer.error.URL) {
+						if(error.type == $.jPlayer.error.URL) {
 							error.code = 4; // MEDIA_ERR_SRC_NOT_SUPPORTED since jPlayer makes this assumption. It is the most common error, then the decode error. Never seen either of the other 2 error types occur.
 						} else {
 							error.code = 0; // It was a jPlayer error, not an HTML5 media error.

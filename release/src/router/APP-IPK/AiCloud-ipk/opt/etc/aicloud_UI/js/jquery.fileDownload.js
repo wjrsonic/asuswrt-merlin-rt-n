@@ -184,7 +184,7 @@ $.extend({
 
 
         //make settings.data a param string if it exists and isn't already
-        if (settings.data !== null && typeof settings.data !== "string") {
+        if (settings.data != null && typeof settings.data != "string") {
             settings.data = $.param(settings.data);
         }
 
@@ -194,9 +194,9 @@ $.extend({
             formDoc,
             $form;
 				
-        if (httpMethodUpper === "GET") {
+        if (httpMethodUpper == "GET") {
 
-            if (settings.data !== null) {
+            if (settings.data != null) {
                 //need to merge any fileUrl params with the data object
 
                 var qsStart = fileUrl.indexOf('?');
@@ -204,7 +204,7 @@ $.extend({
                 if (qsStart != -1) {
                     //we have a querystring in the url
 
-                    if (fileUrl.substring(fileUrl.length - 1) !== "&") {
+                    if (fileUrl.substring(fileUrl.length - 1) != "&") {
                         fileUrl = fileUrl + "&";
                     }
                 } else {
@@ -237,7 +237,7 @@ $.extend({
 
             var formInnerHtml = "";
 
-            if (settings.data !== null) {
+            if (settings.data != null) {
 
                 $.each(settings.data.replace(/\+/g, ' ').split("&"), function () {
 
@@ -321,7 +321,7 @@ $.extend({
                         if ($form && $form.length > 0) {
                             var $contents = $(formDoc.body).contents().first();
 
-                            if ($contents.length > 0 && $contents[0] === $form[0]) {
+                            if ($contents.length > 0 && $contents[0] == $form[0]) {
                                 isFailure = false;
                             }
                         }
