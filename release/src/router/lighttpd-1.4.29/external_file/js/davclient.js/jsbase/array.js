@@ -20,7 +20,7 @@ global.array = new function() {
     this.indexOf = function(a, element, compareValues) {
         for (var i=0; i < a.length; i++) {
             if (!compareValues) {
-                if (element === a[i]) {
+                if (element == a[i]) {
                     return i;
                 };
             } else {
@@ -59,7 +59,7 @@ global.array = new function() {
     };
 
     this.StopIteration = function(message) {
-        if (message !== undefined) {
+        if (message != undefined) {
             this._initialize('StopIteration', message);
         };
     };

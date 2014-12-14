@@ -117,7 +117,7 @@ var // currently active contextMenu trigger
             if (!x && !y) {
                 opt.determinePosition.call(this, opt.$menu);
                 return;
-            } else if (x === "maintain" && y === "maintain") {
+            } else if (x == "maintain" && y == "maintain") {
                 // x and y must not be changed (after re-show on command click)
                 offset = opt.$menu.position();
             } else {
@@ -236,7 +236,7 @@ var // currently active contextMenu trigger
                 if (e.data.build) {
                     var built = e.data.build($currentTrigger, e);
                     // abort if build() returned false
-                    if (built === false) {
+                    if (built == false) {
                         return;
                     }
                     
@@ -360,7 +360,7 @@ var // currently active contextMenu trigger
             
             setTimeout(function() {
                 var $window, hideshow, possibleTarget;
-                var triggerAction = ((root.trigger == 'left' && button === 0) || (root.trigger == 'right' && button === 2));
+                var triggerAction = ((root.trigger == 'left' && button == 0) || (root.trigger == 'right' && button == 2));
                 
                 // find the element that would've been clicked, wasn't the layer in the way
                 if (document.elementFromPoint) {
@@ -697,7 +697,7 @@ var // currently active contextMenu trigger
                 opt = data.contextMenu,
                 root = data.contextMenuRoot;
 
-            if (root !== opt && root.$layer && root.$layer.is(e.relatedTarget)) {
+            if (root != opt && root.$layer && root.$layer.is(e.relatedTarget)) {
                 root.$selected && root.$selected.trigger('contextmenu:blur');
                 e.preventDefault();
                 e.stopImmediatePropagation();
@@ -736,7 +736,7 @@ var // currently active contextMenu trigger
             }
 
             // hide menu if callback doesn't stop that
-            if (callback.call(root.$trigger, key, root) !== false) {
+            if (callback.call(root.$trigger, key, root) != false) {
                 root.$menu.trigger('contextmenu:hide');
             } else if (root.$menu.parent().length) {
                 op.update.call(root.$trigger, root);
@@ -797,7 +797,7 @@ var // currently active contextMenu trigger
             opt.$trigger = $trigger;
 
             // show event
-            if (opt.events.show.call($trigger, opt) === false) {
+            if (opt.events.show.call($trigger, opt) == false) {
                 $currentTrigger = null;
                 return;
             }
@@ -854,7 +854,7 @@ var // currently active contextMenu trigger
             }
             
             // hide event
-            if (!force && opt.events && opt.events.hide.call($trigger, opt) === false) {
+            if (!force && opt.events && opt.events.hide.call($trigger, opt) == false) {
                 return;
             }
             
@@ -915,7 +915,7 @@ var // currently active contextMenu trigger
             });
         },
         create: function(opt, root) {
-            if (root === undefined) {
+            if (root == undefined) {
                 root = opt;
             }
             // create contextMenu
@@ -1136,7 +1136,7 @@ var // currently active contextMenu trigger
         },
         update: function(opt, root) {
             var $trigger = this;
-            if (root === undefined) {
+            if (root == undefined) {
                 root = opt;
                 op.resize(opt.$menu);
             }
@@ -1145,7 +1145,7 @@ var // currently active contextMenu trigger
                 var $item = $(this),
                     key = $item.data('contextMenuKey'),
                     item = opt.items[key],
-                    disabled = ($.isFunction(item.disabled) && item.disabled.call($trigger, key, root)) || item.disabled === true;
+                    disabled = ($.isFunction(item.disabled) && item.disabled.call($trigger, key, root)) || item.disabled == true;
 
                 // dis- / enable item
                 $item[disabled ? 'addClass' : 'removeClass']('disabled');
@@ -1217,14 +1217,14 @@ function splitAccesskey(val) {
 
 // handle contextMenu triggers
 $.fn.contextMenu = function(operation) {
-    if (operation === undefined) {
+    if (operation == undefined) {
         this.first().trigger('contextmenu');
     } else if (operation.x && operation.y) {
         this.first().trigger($.Event("contextmenu", {pageX: operation.x, pageY: operation.y}));
-    } else if (operation === "hide") {
+    } else if (operation == "hide") {
         var $menu = this.data('contextMenu').$menu;
         $menu && $menu.trigger('contextmenu:hide');
-    } else if (operation === "destroy") {
+    } else if (operation == "destroy") {
         $.contextMenu("destroy", {context: this});
     } else if ($.isPlainObject(operation)) {
         operation.context = this;
@@ -1247,7 +1247,7 @@ $.contextMenu = function(operation, options) {
     
     if (typeof options == 'string') {
         options = {selector: options};
-    } else if (options === undefined) {
+    } else if (options == undefined) {
         options = {};
     }
     
@@ -1263,7 +1263,7 @@ $.contextMenu = function(operation, options) {
         // you never know what they throw at you...
         $context = $(o.context).first();
         o.context = $context.get(0);
-        _hasContext = o.context !== document;
+        _hasContext = o.context != document;
     }
     
     switch (operation) {
@@ -1358,7 +1358,7 @@ $.contextMenu = function(operation, options) {
                 // get proper options 
                 var context = o.context;
                 $.each(menus, function(ns, o) {
-                    if (o.context !== context) {
+                    if (o.context != context) {
                         return true;
                     }
                     
@@ -1438,7 +1438,7 @@ $.contextMenu = function(operation, options) {
 
 // import values into <input> commands
 $.contextMenu.setInputValues = function(opt, data) {
-    if (data === undefined) {
+    if (data == undefined) {
         data = {};
     }
     
@@ -1466,7 +1466,7 @@ $.contextMenu.setInputValues = function(opt, data) {
 
 // export values from <input> commands
 $.contextMenu.getInputValues = function(opt, data) {
-    if (data === undefined) {
+    if (data == undefined) {
         data = {};
     }
     

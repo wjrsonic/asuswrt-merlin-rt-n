@@ -176,7 +176,7 @@ function show_etherstate(){
 				if (clientList[devicemac])
 					hostname = clientList[devicemac].name;
 
-				if ((hostname != "") && (typeof hostname !== 'undefined')) {
+				if ((hostname != "") && (typeof hostname != 'undefined')) {
 					devicename = '<span class="ClientName" onclick="oui_query(\'' + devicemac +'\');;overlib_str_tmp=\''+ overlib_str +'\';return overlib(\''+ overlib_str +'\');" onmouseout="nd();" style="cursor:pointer; text-decoration:underline;">'+ hostname +'</span>';
 				} else {
 					devicename = '<span class="ClientName" onclick="oui_query(\'' + devicemac +'\');;overlib_str_tmp=\''+ overlib_str +'\';return overlib(\''+ overlib_str +'\');" onmouseout="nd();" style="cursor:pointer; text-decoration:underline;">'+ devicemac +'</span>'; 
@@ -330,7 +330,7 @@ switch (based_modelid)
 		break;
 		}
 }//Andrey end
-			if ( port !== "CPU") {			
+			if ( port != "CPU") {			
 			entry = '<tr><td>' + port + '</td><td>' + (line[7] & 0xFFF) + '</td><td><span>' + state2 + '</span></td>';
 			entry += '<td>'+ devicename +'</td></tr>';}
 			else break;
