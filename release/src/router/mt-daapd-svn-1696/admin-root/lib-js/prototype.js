@@ -454,7 +454,7 @@ Object.extend(Array.prototype, {
   },
 
   reverse: function(inline) {
-    return (inline !== false ? this : this.toArray())._reverse();
+    return (inline != false ? this : this.toArray())._reverse();
   },
 
   shift: function() {

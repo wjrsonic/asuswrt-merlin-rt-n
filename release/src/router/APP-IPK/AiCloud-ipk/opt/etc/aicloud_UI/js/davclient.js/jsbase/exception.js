@@ -15,7 +15,7 @@ global.exception = new function() {
 
     this.Exception = function(message) {
         /* base class of exceptions */
-        if (message !== undefined) {
+        if (message != undefined) {
             this._initialize('Exception', message);
         };
     };
@@ -63,7 +63,7 @@ global.exception = new function() {
 
     this.ValueError = function(message) {
         /* raised on providing invalid values */
-        if (message !== undefined) {
+        if (message != undefined) {
             this._initialize('ValueError', message);
         };
     };
@@ -72,7 +72,7 @@ global.exception = new function() {
 
     this.AssertionError = function(message) {
         /* raised when an assertion fails */
-        if (message !== undefined) {
+        if (message != undefined) {
             this._initialize('AssertionError', message);
         };
     };
@@ -82,7 +82,7 @@ global.exception = new function() {
     // XXX need to define a load of useful exceptions here
     this.NotSupported = function(message) {
         /* raised when a feature is not supported on the running platform */
-        if (message !== undefined) {
+        if (message != undefined) {
             this._initialize('NotSupported', message);
         };
     };
@@ -91,7 +91,7 @@ global.exception = new function() {
     
     this.NotFound = function(message) {
         /* raised when something is not found */
-        if (message !== undefined) {
+        if (message != undefined) {
             this._initialize('NotFound', message);
         };
     };
@@ -99,7 +99,7 @@ global.exception = new function() {
     this.NotFound.prototype = new this.Exception;
 
     this.HTTPError = function(status) {
-        if (status !== undefined) {
+        if (status != undefined) {
             // XXX need to get the message for the error here...
             this._initialize('HTTPError', status);
         };
@@ -109,7 +109,7 @@ global.exception = new function() {
 
     this.MissingDependency = function(missing, from) {
         /* raised when some dependency can not be resolved */
-        if (missing !== undefined) {
+        if (missing != undefined) {
             var message = missing;
             if (from) {
                 message += ' (from ' + from + ')';
