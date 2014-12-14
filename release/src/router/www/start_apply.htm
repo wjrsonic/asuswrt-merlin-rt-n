@@ -116,7 +116,7 @@ var makeRequest = {
 function initial(){
 	var getXMLAndRedirect = function(){
 		if(makeRequest._notSupportXML){
-			if(getflag !== ""){
+			if(getflag != ""){
 				parent.location.href = "/QIS_wizard.htm?flag=finish";
 			}
 
@@ -127,13 +127,13 @@ function initial(){
 
 		makeRequest.start('/httpd_check.xml', function(xmldoc){
 			var httpds = xmldoc.getElementsByTagName("httpd");
-			if (httpds !== null && httpds[0] !== null) {
+			if (httpds != null && httpds[0] != null) {
 				if(parent.parent.document.getElementById("drword")) {
 					parent.parent.document.getElementById("drword").innerHTML = "<#DrSurf_sweet_advise2#><br/><br/>";
 				}
 				var redirectPage = current_page;
 				if(redirectPage.length > 0) {
-					if (getflag !== "") {
+					if (getflag != "") {
 						redirectPage = next_page + "?flag=" + getflag;
 					}
 

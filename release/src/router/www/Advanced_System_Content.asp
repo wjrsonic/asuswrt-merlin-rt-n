@@ -148,6 +148,13 @@ function initial(){
 		$('ssh_table').style.display = "none";	
 	}
 
+	if(appnet_support || appbase_support){
+		check_apps_swap_enable('<% nvram_get("apps_swap_enable"); %>');
+	}	
+	else{
+		$('swap_table').style.display = "none";	
+	}
+
 	if(tmo_support){
 		document.getElementById("telnet_tr").style.display = "none";
 		document.form.telnetd_enable[0].disabled = true;

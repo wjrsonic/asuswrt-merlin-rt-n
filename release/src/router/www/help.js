@@ -2105,24 +2105,24 @@ function chkPass(pwd, flag) {
 				Loop through password to check for Symbol, Numeric, Lowercase and Uppercase pattern matches */
 		for (var a=0; a < arrPwdLen; a++) {
 			if (arrPwd[a].match(/[A-Z]/g)) {
-				if (nTmpAlphaUC !== "") { if ((nTmpAlphaUC + 1) == a) { nConsecAlphaUC++; nConsecCharType++; } }
+				if (nTmpAlphaUC != "") { if ((nTmpAlphaUC + 1) == a) { nConsecAlphaUC++; nConsecCharType++; } }
 				nTmpAlphaUC = a;
 				nAlphaUC++;
 			}
 			else if (arrPwd[a].match(/[a-z]/g)) { 
-				if (nTmpAlphaLC !== "") { if ((nTmpAlphaLC + 1) == a) { nConsecAlphaLC++; nConsecCharType++; } }
+				if (nTmpAlphaLC != "") { if ((nTmpAlphaLC + 1) == a) { nConsecAlphaLC++; nConsecCharType++; } }
 				nTmpAlphaLC = a;
 				nAlphaLC++;
 			}
 			else if (arrPwd[a].match(/[0-9]/g)) { 
 				if (a > 0 && a < (arrPwdLen - 1)) { nMidChar++; }
-				if (nTmpNumber !== "") { if ((nTmpNumber + 1) == a) { nConsecNumber++; nConsecCharType++; } }
+				if (nTmpNumber != "") { if ((nTmpNumber + 1) == a) { nConsecNumber++; nConsecCharType++; } }
 				nTmpNumber = a;
 				nNumber++;
 			}
 			else if (arrPwd[a].match(/[^a-zA-Z0-9_]/g)) { 
 				if (a > 0 && a < (arrPwdLen - 1)) { nMidChar++; }
-				if (nTmpSymbol !== "") { if ((nTmpSymbol + 1) == a) { nConsecSymbol++; nConsecCharType++; } }
+				if (nTmpSymbol != "") { if ((nTmpSymbol + 1) == a) { nConsecSymbol++; nConsecCharType++; } }
 				nTmpSymbol = a;
 				nSymbol++;
 			}
@@ -2199,12 +2199,12 @@ function chkPass(pwd, flag) {
 		//$("nMidCharBonus").innerHTML = sMidChar;
 		
 		/* Point deductions for poor practices */
-		if ((nAlphaLC > 0 || nAlphaUC > 0) && nSymbol === 0 && nNumber === 0) {  // Only Letters
+		if ((nAlphaLC > 0 || nAlphaUC > 0) && nSymbol == 0 && nNumber == 0) {  // Only Letters
 			nScore = parseInt(nScore - nLength);
 			nAlphasOnly = nLength;
 			sAlphasOnly = "- " + nLength;
 		}
-		if (nAlphaLC === 0 && nAlphaUC === 0 && nSymbol === 0 && nNumber > 0) {  // Only Numbers
+		if (nAlphaLC == 0 && nAlphaUC == 0 && nSymbol == 0 && nNumber > 0) {  // Only Numbers
 			nScore = parseInt(nScore - nLength); 
 			nNumbersOnly = nLength;
 			sNumbersOnly = "- " + nLength;
