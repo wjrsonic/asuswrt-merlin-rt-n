@@ -21,7 +21,7 @@
  */
 
 (function (root, factory) {
-	if (typeof define === 'function' && define.amd) {
+	if (typeof define == 'function' && define.amd) {
 		// AMD. Register as an anonymous module.
 		define(['jquery'], factory); // jQuery Switch
 		// define(['zepto'], factory); // Zepto Switch
@@ -38,7 +38,7 @@
 	// Adapted from jquery.ui.widget.js (1.8.7): $.widget.bridge - Tweaked $.data(this,XYZ) to $(this).data(XYZ) for Zepto
 	$.fn.jPlayer = function( options ) {
 		var name = "jPlayer";
-		var isMethodCall = typeof options === "string",
+		var isMethodCall = typeof options == "string",
 			args = Array.prototype.slice.call( arguments, 1 ),
 			returnValue = this;
 
@@ -48,7 +48,7 @@
 			options;
 
 		// prevent calls to internal methods
-		if ( isMethodCall && options.charAt( 0 ) === "_" ) {
+		if ( isMethodCall && options.charAt( 0 ) == "_" ) {
 			return returnValue;
 		}
 
@@ -58,7 +58,7 @@
 					methodValue = instance && $.isFunction( instance[options] ) ?
 						instance[ options ].apply( instance, args ) :
 						instance;
-				if ( methodValue !== instance && methodValue !== undefined ) {
+				if ( methodValue != instance && methodValue != undefined ) {
 					returnValue = methodValue;
 					return false;
 				}
@@ -96,7 +96,7 @@
 	// End of: (Adapted from jquery.ui.widget.js (1.8.7))
 
 	// Zepto is missing one of the animation methods.
-	if(typeof $.fn.stop !== 'function') {
+	if(typeof $.fn.stop != 'function') {
 		$.fn.stop = function() {};
 	}
 
@@ -204,7 +204,7 @@
 			};
 		},
 		time: function(s) { // function used on jPlayer.prototype._convertTime to enable per instance options.
-			s = (s && typeof s === 'number') ? s : 0;
+			s = (s && typeof s == 'number') ? s : 0;
 
 			var myTime = new Date(s * 1000),
 				hour = myTime.getUTCHours(),
@@ -295,7 +295,7 @@
 			} else { // IE 5-7
 				docMode = 5; // Assume quirks mode unless proven otherwise
 				if (document.compatMode) {
-					if (document.compatMode === "CSS1Compat") {
+					if (document.compatMode == "CSS1Compat") {
 						docMode = 7; // standards mode
 					}
 				}
@@ -367,8 +367,8 @@
 				support: {
 					w3c: !!d[spec.w3c[0]],
 					moz: !!d[spec.moz[0]],
-					webkit: typeof d[spec.webkit[3]] === 'function',
-					webkitVideo: typeof v[spec.webkitVideo[2]] === 'function'
+					webkit: typeof d[spec.webkit[3]] == 'function',
+					webkitVideo: typeof v[spec.webkitVideo[2]] == 'function'
 				},
 				used: {}
 			};
@@ -437,7 +437,7 @@
 			// What generated the key press?
 			$.each( $.jPlayer.keyIgnoreElementNames.split(/\s+/g), function(i, name) {
 				// The strings should already be uppercase.
-				if(event.target.nodeName.toUpperCase() === name.toUpperCase()) {
+				if(event.target.nodeName.toUpperCase() == name.toUpperCase()) {
 					ignoreKey = true;
 					return false; // exit each.
 				}
@@ -446,7 +446,7 @@
 				// See if the key pressed matches any of the bindings.
 				$.each(f.options.keyBindings, function(action, binding) {
 					// The binding could be a null when the default has been disabled. ie., 1st clause in if()
-					if(binding && event.which === binding.key && $.isFunction(binding.fn)) {
+					if(binding && event.which == binding.key && $.isFunction(binding.fn)) {
 						event.preventDefault(); // Key being used by jPlayer, so prevent default operation.
 						binding.fn(f);
 						return false; // exit each.
@@ -809,7 +809,7 @@
 				time: NaN // The play(time) parameter
 			};
 			if($.jPlayer.platform.android) {
-				this.options.preload = this.options.preload !== 'auto' ? 'metadata' : 'auto'; // Default to metadata, but allow auto.
+				this.options.preload = this.options.preload != 'auto' ? 'metadata' : 'auto'; // Default to metadata, but allow auto.
 			}
 
 			this.formats = []; // Array based on supplied string option. Order defines priority.
@@ -836,7 +836,7 @@
 				if(self.format[format]) { // Check format is valid.
 					var dupFound = false;
 					$.each(self.formats, function(index2, value2) { // Check for duplicates
-						if(format === value2) {
+						if(format == value2) {
 							dupFound = true;
 							return false;
 						}
@@ -853,7 +853,7 @@
 				if(self.solution[solution]) { // Check solution is valid.
 					var dupFound = false;
 					$.each(self.solutions, function(index2, value2) { // Check for duplicates
-						if(solution === value2) {
+						if(solution == value2) {
 							dupFound = true;
 							return false;
 						}
@@ -887,7 +887,7 @@
 			this.internal.flash = $.extend({}, {
 				id: this.options.idPrefix + "_flash_" + this.count,
 				jq: undefined,
-				swf: this.options.swfPath + (this.options.swfPath.toLowerCase().slice(-4) !== ".swf" ? (this.options.swfPath && this.options.swfPath.slice(-1) !== "/" ? "/" : "") + "Jplayer.swf" : "")
+				swf: this.options.swfPath + (this.options.swfPath.toLowerCase().slice(-4) != ".swf" ? (this.options.swfPath && this.options.swfPath.slice(-1) != "/" ? "/" : "") + "Jplayer.swf" : "")
 			});
 			this.internal.poster = $.extend({}, {
 				id: this.options.idPrefix + "_poster_" + this.count,
@@ -896,7 +896,7 @@
 
 			// Register listeners defined in the constructor
 			$.each($.jPlayer.event, function(eventName,eventType) {
-				if(self.options[eventName] !== undefined) {
+				if(self.options[eventName] != undefined) {
 					self.element.bind(eventType + ".jPlayer", self.options[eventName]); // With .jPlayer namespace.
 					self.options[eventName] = undefined; // Destroy the handler pointer copy on the options. Reason, events can be added/removed in other ways so this could be obsolete and misleading.
 				}
@@ -971,20 +971,20 @@
 			this.html.canPlay = {};
 			this.flash.canPlay = {};
 			$.each(this.formats, function(priority, format) {
-				self.html.canPlay[format] = self.html[self.format[format].media].available && "" !== self.htmlElement[self.format[format].media].canPlayType(self.format[format].codec);
+				self.html.canPlay[format] = self.html[self.format[format].media].available && "" != self.htmlElement[self.format[format].media].canPlayType(self.format[format].codec);
 				self.flash.canPlay[format] = self.format[format].flashCanPlay && self.flash.available;
 			});
 			this.html.desired = false;
 			this.flash.desired = false;
 			$.each(this.solutions, function(solutionPriority, solution) {
-				if(solutionPriority === 0) {
+				if(solutionPriority == 0) {
 					self[solution].desired = true;
 				} else {
 					var audioCanPlay = false;
 					var videoCanPlay = false;
 					$.each(self.formats, function(formatPriority, format) {
 						if(self[self.solutions[0]].canPlay[format]) { // The other solution can play
-							if(self.format[format].media === 'video') {
+							if(self.format[format].media == 'video') {
 								videoCanPlay = true;
 							} else {
 								audioCanPlay = true;
@@ -1177,7 +1177,7 @@
 			// Remove the fullscreen event handlers
 			this._fullscreenRemoveEventListeners();
 			// Remove key bindings
-			if(this === $.jPlayer.focus) {
+			if(this == $.jPlayer.focus) {
 				$.jPlayer.focus = null;
 			}
 			// Destroy the HTML bridge.
@@ -1208,13 +1208,13 @@
 		_testPlaybackRate: function(type) {
 			// type: String 'audio' or 'video'
 			var el, rate = 0.5;
-			type = typeof type === 'string' ? type : 'audio';
+			type = typeof type == 'string' ? type : 'audio';
 			el = document.createElement(type);
 			// Wrapping in a try/catch, just in case older HTML5 browsers throw and error.
 			try {
 				if('playbackRate' in el) {
 					el.playbackRate = rate;
-					return el.playbackRate === rate;
+					return el.playbackRate == rate;
 				} else {
 					return false;
 				}
@@ -1432,7 +1432,7 @@
 
 			ct = media.currentTime;
 			cpa = (this.status.duration > 0) ? 100 * ct / this.status.duration : 0;
-			if((typeof media.seekable === "object") && (media.seekable.length > 0)) {
+			if((typeof media.seekable == "object") && (media.seekable.length > 0)) {
 				sp = (this.status.duration > 0) ? 100 * media.seekable.end(media.seekable.length-1) / this.status.duration : 100;
 				cpr = (this.status.duration > 0) ? 100 * media.currentTime / media.seekable.end(media.seekable.length-1) : 0; // Duration conditional for iOS duration bug. ie., seekable.end is a NaN in that case.
 			} else {
@@ -1482,13 +1482,13 @@
 		},
 		jPlayerFlashEvent: function(eventType, status) { // Called from Flash
 			
-			if(eventType === $.jPlayer.event.ready) {
+			if(eventType == $.jPlayer.event.ready) {
 				if(!this.internal.ready) {
 					this.internal.ready = true;
 					this.internal.flash.jq.css({'width':'0px', 'height':'0px'}); // Once Flash generates the ready event, minimise to zero as it is not affected by wmode anymore.
 
 					this.version.flash = status.version;
-					if(this.version.needFlash !== this.version.flash) {
+					if(this.version.needFlash != this.version.flash) {
 						this._error( {
 							type: $.jPlayer.error.VERSION,
 							context: this.version.flash,
@@ -1615,7 +1615,7 @@
 			this.status.ended = false; // status.ended;
 		},
 		_updateButtons: function(playing) {
-			if(playing === undefined) {
+			if(playing == undefined) {
 				playing = !this.status.paused;
 			} else {
 				this.status.paused = !playing;
@@ -1667,7 +1667,7 @@
 			var currentTimeText = '';
 			if(this.css.jq.currentTime.length) {
 				currentTimeText = this._convertTime(this.status.currentTime);
-				if(currentTimeText !== this.css.jq.currentTime.text()) {
+				if(currentTimeText != this.css.jq.currentTime.text()) {
 					this.css.jq.currentTime.text(this._convertTime(this.status.currentTime));
 				}
 			}
@@ -1675,10 +1675,10 @@
 				duration = this.status.duration,
 				remaining = this.status.remaining;
 			if(this.css.jq.duration.length) {
-				if(typeof this.status.media.duration === 'string') {
+				if(typeof this.status.media.duration == 'string') {
 					durationText = this.status.media.duration;
 				} else {
-					if(typeof this.status.media.duration === 'number') {
+					if(typeof this.status.media.duration == 'number') {
 						duration = this.status.media.duration;
 						remaining = duration - this.status.currentTime;
 					}
@@ -1688,7 +1688,7 @@
 						durationText = this._convertTime(duration);
 					}
 				}
-				if(durationText !== this.css.jq.duration.text()) {
+				if(durationText != this.css.jq.duration.text()) {
 					this.css.jq.duration.text(durationText);
 				}
 			}
@@ -1740,7 +1740,7 @@
 
 			var	self = this,
 				supported = false,
-				posterChanged = this.status.media.poster !== media.poster; // Compare before reset. Important for OSX Safari as this.htmlElement.poster.src is absolute, even if original poster URL was relative.
+				posterChanged = this.status.media.poster != media.poster; // Compare before reset. Important for OSX Safari as this.htmlElement.poster.src is absolute, even if original poster URL was relative.
 
 			this._resetMedia();
 			this._resetGate();
@@ -1755,10 +1755,10 @@
 			media = this._absoluteMediaUrls(media);
 
 			$.each(this.formats, function(formatPriority, format) {
-				var isVideo = self.format[format].media === 'video';
+				var isVideo = self.format[format].media == 'video';
 				$.each(self.solutions, function(solutionPriority, solution) {
 					if(self[solution].support[format] && self._validString(media[format])) { // Format supported in solution and url given for format.
-						var isHtml = solution === 'html';
+						var isHtml = solution == 'html';
 
 						if(isVideo) {
 							if(isHtml) {
@@ -1818,7 +1818,7 @@
 					}
 				}
 				if(this.css.jq.title.length) {
-					if(typeof media.title === 'string') {
+					if(typeof media.title == 'string') {
 						this.css.jq.title.html(media.title);
 						if(this.htmlElement.audio) {
 							this.htmlElement.audio.setAttribute('title', media.title);
@@ -1887,7 +1887,7 @@
 			}
 		},
 		play: function(time) {
-			time = (typeof time === "number") ? time : NaN; // Remove jQuery event from click handler
+			time = (typeof time == "number") ? time : NaN; // Remove jQuery event from click handler
 			if(this.status.srcSet) {
 				this.focus();
 				if(this.html.active) {
@@ -1903,7 +1903,7 @@
 			this.play();
 		},
 		pause: function(time) {
-			time = (typeof time === "number") ? time : NaN; // Remove jQuery event from click handler
+			time = (typeof time == "number") ? time : NaN; // Remove jQuery event from click handler
 			if(this.status.srcSet) {
 				if(this.html.active) {
 					this._html_pause(time);
@@ -1916,10 +1916,10 @@
 		},
 		tellOthers: function(command, conditions) {
 			var self = this,
-				hasConditions = typeof conditions === 'function',
+				hasConditions = typeof conditions == 'function',
 				args = Array.prototype.slice.call(arguments); // Convert arguments to an Array.
 
-			if(typeof command !== 'string') { // Ignore, since no command.
+			if(typeof command != 'string') { // Ignore, since no command.
 				return; // Return undefined to maintain chaining.
 			}
 			if(hasConditions) {
@@ -1928,7 +1928,7 @@
 
 			$.each(this.instances, function() {
 				// Remember that "this" is the instance's "element" in the $.each() loop.
-				if(self.element !== this) { // Do not tell my instance.
+				if(self.element != this) { // Do not tell my instance.
 					if(!hasConditions || conditions.call(this.data("jPlayer"), self)) {
 						this.jPlayer.apply(this, args);
 					}
@@ -1990,15 +1990,15 @@
 			}
 		},
 		mute: function(mute) { // mute is either: undefined (true), an event object (true) or a boolean (muted).
-			mute = mute === undefined ? true : !!mute;
+			mute = mute == undefined ? true : !!mute;
 			this._muted(mute);
 		},
 		unmute: function(unmute) { // unmute is either: undefined (true), an event object (true) or a boolean (!muted).
-			unmute = unmute === undefined ? true : !!unmute;
+			unmute = unmute == undefined ? true : !!unmute;
 			this._muted(!unmute);
 		},
 		_updateMute: function(mute) {
-			if(mute === undefined) {
+			if(mute == undefined) {
 				mute = this.options.muted;
 			}
 			if(this.css.jq.mute.length && this.css.jq.unmute.length) {
@@ -2060,7 +2060,7 @@
 			}
 		},
 		_updateVolume: function(v) {
-			if(v === undefined) {
+			if(v == undefined) {
 				v = this.options.volume;
 			}
 			v = this.options.muted ? 0 : v;
@@ -2099,7 +2099,7 @@
 			this.options.cssSelectorAncestor = ancestor;
 			this._removeUiClass();
 			this.ancestorJq = ancestor ? $(ancestor) : []; // Would use $() instead of [], but it is only 1.4+
-			if(ancestor && this.ancestorJq.length !== 1) { // So empty strings do not generate the warning.
+			if(ancestor && this.ancestorJq.length != 1) { // So empty strings do not generate the warning.
 				this._warning( {
 					type: $.jPlayer.warning.CSS_SELECTOR_COUNT,
 					context: ancestor,
@@ -2121,7 +2121,7 @@
 		},
 		_cssSelector: function(fn, cssSel) {
 			var self = this;
-			if(typeof cssSel === 'string') {
+			if(typeof cssSel == 'string') {
 				if($.jPlayer.prototype.options.cssSelector[fn]) {
 					if(this.css.jq[fn] && this.css.jq[fn].length) {
 						this.css.jq[fn].unbind(".jPlayer");
@@ -2144,7 +2144,7 @@
 						this.css.jq[fn].bind("click.jPlayer", handler); // Using jPlayer namespace
 					}
 
-					if(cssSel && this.css.jq[fn].length !== 1) { // So empty strings do not generate the warning. ie., they just remove the old one.
+					if(cssSel && this.css.jq[fn].length != 1) { // So empty strings do not generate the warning. ie., they just remove the old one.
 						this._warning( {
 							type: $.jPlayer.warning.CSS_SELECTOR_COUNT,
 							context: this.css.cs[fn],
@@ -2234,7 +2234,7 @@
 			this._loop(false);
 		},
 		_loop: function(loop) {
-			if(this.options.loop !== loop) {
+			if(this.options.loop != loop) {
 				this.options.loop = loop;
 				this._updateButtons();
 				this._trigger($.jPlayer.event.repeat);
@@ -2246,19 +2246,19 @@
 			var options = key;
 
 			 // Enables use: options().  Returns a copy of options object
-			if ( arguments.length === 0 ) {
+			if ( arguments.length == 0 ) {
 				return $.extend( true, {}, this.options );
 			}
 
-			if(typeof key === "string") {
+			if(typeof key == "string") {
 				var keys = key.split(".");
 
 				 // Enables use: options("someOption")  Returns a copy of the option. Supports dot notation.
-				if(value === undefined) {
+				if(value == undefined) {
 
 					var opt = $.extend(true, {}, this.options);
 					for(var i = 0; i < keys.length; i++) {
-						if(opt[keys[i]] !== undefined) {
+						if(opt[keys[i]] != undefined) {
 							opt = opt[keys[i]];
 						} else {
 							this._warning( {
@@ -2350,7 +2350,7 @@
 					this._updatePlaybackRate();
 					break;
 				case "fullScreen" :
-					if(this.options[key] !== value) { // if changed
+					if(this.options[key] != value) { // if changed
 						var wkv = $.jPlayer.nativeFeatures.fullscreen.used.webkitVideo;
 						if(!wkv || wkv && !this.status.waitForPlay) {
 							if(!wkv) { // No sensible way to unset option on these devices.
@@ -2368,21 +2368,21 @@
 					}
 					break;
 				case "fullWindow" :
-					if(this.options[key] !== value) { // if changed
+					if(this.options[key] != value) { // if changed
 						this._removeUiClass();
 						this.options[key] = value;
 						this._refreshSize();
 					}
 					break;
 				case "size" :
-					if(!this.options.fullWindow && this.options[key].cssClass !== value.cssClass) {
+					if(!this.options.fullWindow && this.options[key].cssClass != value.cssClass) {
 						this._removeUiClass();
 					}
 					this.options[key] = $.extend({}, this.options[key], value); // store a merged copy of it, incase not all properties changed.
 					this._refreshSize();
 					break;
 				case "sizeFull" :
-					if(this.options.fullWindow && this.options[key].cssClass !== value.cssClass) {
+					if(this.options.fullWindow && this.options[key].cssClass != value.cssClass) {
 						this._removeUiClass();
 					}
 					this.options[key] = $.extend({}, this.options[key], value); // store a merged copy of it, incase not all properties changed.
@@ -2422,7 +2422,7 @@
 					this._updateMute();
 					break;
 				case "emulateHtml" :
-					if(this.options[key] !== value) { // To avoid multiple event handlers being created, if true already.
+					if(this.options[key] != value) { // To avoid multiple event handlers being created, if true already.
 						this.options[key] = value;
 						if(value) {
 							this._emulateHtmlBridge();
@@ -2436,7 +2436,7 @@
 					break;
 				case "keyEnabled" :
 					this.options[key] = value;
-					if(!value && this === $.jPlayer.focus) {
+					if(!value && this == $.jPlayer.focus) {
 						$.jPlayer.focus = null;
 					}
 					break;
@@ -2549,7 +2549,7 @@
 			if(fs.api.fullscreenEnabled) {
 				if(fs.event.fullscreenchange) {
 					// Create the event handler function and store it for removal.
-					if(typeof this.internal.fullscreenchangeHandler !== 'function') {
+					if(typeof this.internal.fullscreenchangeHandler != 'function') {
 						this.internal.fullscreenchangeHandler = function() {
 							self._fullscreenchange();
 						};
@@ -2619,7 +2619,7 @@
 
 			this.htmlElement.media.src = this.status.src;
 
-			if(this.options.preload !== 'none') {
+			if(this.options.preload != 'none') {
 				this._html_load(); // See function for comments
 			}
 			this._trigger($.jPlayer.event.timeupdate); // The flash generates this event for its solution.
@@ -2651,7 +2651,7 @@
 		},
 		_html_resetMedia: function() {
 			if(this.htmlElement.media) {
-				if(this.htmlElement.media.id === this.internal.video.id && !this.status.nativeVideoControls) {
+				if(this.htmlElement.media.id == this.internal.video.id && !this.status.nativeVideoControls) {
 					this.internal.video.jq.css({'width':'0px', 'height':'0px'});
 				}
 				this.htmlElement.media.pause();
@@ -2698,7 +2698,7 @@
 				try {
 					// !media.seekable is for old HTML5 browsers, like Firefox 3.6.
 					// Checking seekable.length is important for iOS6 to work with setMedia().play(time)
-					if(!media.seekable || typeof media.seekable === "object" && media.seekable.length > 0) {
+					if(!media.seekable || typeof media.seekable == "object" && media.seekable.length > 0) {
 						media.currentTime = time;
 						media.play();
 					} else {
@@ -2737,7 +2737,7 @@
 
 			} else if(!isNaN(time)) {
 				try {
-					if(!media.seekable || typeof media.seekable === "object" && media.seekable.length > 0) {
+					if(!media.seekable || typeof media.seekable == "object" && media.seekable.length > 0) {
 						media.currentTime = time;
 					} else {
 						throw 1;
@@ -2762,7 +2762,7 @@
 			// This playHead() method needs a refactor to apply the android fix.
 
 			try {
-				if(typeof media.seekable === "object" && media.seekable.length > 0) {
+				if(typeof media.seekable == "object" && media.seekable.length > 0) {
 					media.currentTime = percent * media.seekable.end(media.seekable.length-1) / 100;
 				} else if(media.duration > 0 && !isNaN(media.duration)) {
 					media.currentTime = percent * media.duration / 100;
@@ -2824,7 +2824,7 @@
 					}
 				});
 
-				if(this.options.preload === 'auto') {
+				if(this.options.preload == 'auto') {
 					this._flash_load();
 					this.status.waitForLoad = false;
 				}
@@ -2852,7 +2852,7 @@
 					}
 				});
 
-				if(this.options.preload === 'auto') {
+				if(this.options.preload == 'auto') {
 					this._flash_load();
 					this.status.waitForLoad = false;
 				}
@@ -2958,7 +2958,7 @@
 			return flashOk;
 		},
 		_validString: function(url) {
-			return (url && typeof url === "string"); // Empty strings return false
+			return (url && typeof url == "string"); // Empty strings return false
 		},
 		_limitValue: function(value, min, max) {
 			return (value < min) ? min : ((value > max) ? max : value);
@@ -3023,7 +3023,7 @@
 			$.each($.jPlayer.event, function(eventName,eventType) {
 				var nativeEvent = true;
 				$.each( $.jPlayer.reservedEvent.split(/\s+/g), function(i, name) {
-					if(name === eventName) {
+					if(name == eventName) {
 						nativeEvent = false;
 						return false;
 					}

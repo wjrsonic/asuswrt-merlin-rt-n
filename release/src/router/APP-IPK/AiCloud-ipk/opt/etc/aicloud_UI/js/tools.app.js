@@ -63,7 +63,7 @@ Playlist.prototype = {
       
       	for (i=0; i < this.playlist.length; i++) {
       		var filename = this.playlist[i].name;
-      		var listItem = (i === this.playlist.length-1) ? "<li class='jp-playlist-last'>" : "<li>";
+      		var listItem = (i == this.playlist.length-1) ? "<li class='jp-playlist-last'>" : "<li>";
         	listItem += "<a href='#' id='" + this.cssId.playlist + this.instance + "_item_" + i +"' tabindex='1'>"+ filename +"</a>";
 
         	// Associate playlist items with their media
@@ -71,7 +71,7 @@ Playlist.prototype = {
        
         	$(this.cssSelector.playlist + "_item_" + i).data("index", i).click(function() {
         		var index = $(this).data("index");        	
-          		if(self.current !== index) {
+          		if(self.current != index) {
           			self.playlistChange(index);
           		} 
           		else {
