@@ -156,6 +156,10 @@ function initial(){
 		$('swap_table').style.display = "none";	
 	}
 
+	if(!appnet_support && !appbase_support){
+		$('apps_table').style.display = "none";	
+	}
+
 	if(tmo_support){
 		document.getElementById("telnet_tr").style.display = "none";
 		document.form.telnetd_enable[0].disabled = true;
@@ -929,12 +933,16 @@ function check_sshd_enable(obj_value){
 }
 
 function check_apps_swap_enable(obj_value){
-	if(obj_value == 1){
-		$("apps_swap_size_tr").style.display = "";
-	}
-	else{
-		$("apps_swap_size_tr").style.display = "none";
-	}
+	var state;
+
+	if (obj_value == 1)
+		state = "";
+	else
+		state = "none";
+
+	$("apps_swap_size_tr").style.display = state;
+	$("apps_swap_file_tr").style.display = state;
+
 }
 
 /*function sshd_remote_access(obj_value){
@@ -1074,6 +1082,25 @@ function display_spec_IP(flag){
 					</td>
 				</tr>
 			</table>
+			<table id="apps_table" width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+                		<thead>
+                			<tr>
+          					<td colspan="2">Path for USB installed applications</td>
+					</tr>
+				</thead>
+					<tr id="apps_dev_tr">
+					<th>USB installed applications device</th>
+					<td>
+						<input type="text" maxlength="5" class="input_6_table" name="apps_dev" value="<% nvram_get("apps_dev"); %>" onKeyPress="return validator.isString(this, event);">
+					</td>
+					</tr>
+					<tr id="apps_mounted_tr">
+					<th>USB installed applications mounted path</th>
+					<td>
+						<input type="text" maxlength="256" class="input_32_table" name="apps_mounted_path" value="<% nvram_get("apps_mounted_path"); %>" onKeyPress="return validator.isString(this, event);">
+					</td>
+					</tr>
+			</table>
 			<table id="swap_table" width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
                 		<thead>
                 			<tr>
@@ -1091,6 +1118,12 @@ function display_spec_IP(flag){
 					<th>Swap file size</th>
 					<td>
 					<input type="text" maxlength="8" class="input_15_table" name="apps_swap_size" onKeyPress="return validator.isNumber(this,event);" onblur="validate_number_range(this, 1, 1048576)" value="<% nvram_get("apps_swap_size"); %>">
+					</td>
+				</tr>
+			<tr id="apps_swap_file_tr">
+					<th>Swap file name and location</th>
+					<td>
+						<input type="text" maxlength="256" class="input_32_table" name="apps_swap_file" value="<% nvram_get("apps_swap_file"); %>" onKeyPress="return validator.isString(this, event);">
 					</td>
 				</tr>
 			</table>
