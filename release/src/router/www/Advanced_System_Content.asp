@@ -1085,7 +1085,7 @@ function display_spec_IP(flag){
 			<table id="apps_table" width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
                 		<thead>
                 			<tr>
-          					<td colspan="2">Path for USB installed applications</td>
+          					<td colspan="2">USB installed applications path and device </td>
 					</tr>
 				</thead>
 					<tr id="apps_dev_tr">
@@ -1095,9 +1095,21 @@ function display_spec_IP(flag){
 					</td>
 					</tr>
 					<tr id="apps_mounted_tr">
-					<th>USB installed applications mounted path</th>
+					<th>USB installed applications mounted device</th>
 					<td>
 						<input type="text" maxlength="256" class="input_32_table" name="apps_mounted_path" value="<% nvram_get("apps_mounted_path"); %>" onKeyPress="return validator.isString(this, event);">
+					</td>
+					</tr>
+					<tr id="apps_install_folder_tr">
+					<th>USB installed applications folder name</th>
+					<td>
+						<input type="text" maxlength="256" class="input_32_table" name="apps_install_folder" value="<% nvram_get("apps_install_folder"); %>" onKeyPress="return validator.isString(this, event);">
+					</td>
+					</tr>
+					<tr id="apps_local_space_tr">
+					<th>USB installed applications local space path</th>
+					<td>
+						<input type="text" maxlength="256" class="input_32_table" name="apps_local_space" value="<% nvram_get("apps_local_space"); %>" onKeyPress="return validator.isString(this, event);">
 					</td>
 					</tr>
 			</table>
