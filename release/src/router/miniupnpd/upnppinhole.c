@@ -42,6 +42,7 @@
 #if defined(USE_IPFW)
 #endif
 
+#ifdef RTCONFIG_IPV6
 #ifdef ENABLE_UPNPPINHOLE
 
 #if 0
@@ -530,3 +531,4 @@ upnp_clean_expired_pinholes(unsigned int * next_timestamp)
 }
 
 #endif /* ENABLE_UPNPPINHOLE */
+#endif /* RTCONFIG_IPV6 */
