@@ -23,7 +23,7 @@
 
 #include "upnputils.h"
 #include "upnpglobalvars.h"
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 #include "getroute.h"
 #endif
 
@@ -104,7 +104,7 @@ get_lan_for_peer(const struct sockaddr * peer)
 	char dbg_str[64];
 #endif /* DEBUG */
 
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 	if(peer->sa_family == AF_INET6)
 	{
 		struct sockaddr_in6 * peer6 = (struct sockaddr_in6 *)peer;
@@ -150,7 +150,7 @@ get_lan_for_peer(const struct sockaddr * peer)
 	}
 	else if(peer->sa_family == AF_INET)
 	{
-#endif /* ENABLE_IPV6 */
+#endif /* RTCONFIG_IPV6 */
 		for(lan_addr = lan_addrs.lh_first;
 		    lan_addr != NULL;
 		    lan_addr = lan_addr->list.le_next)
@@ -159,9 +159,9 @@ get_lan_for_peer(const struct sockaddr * peer)
 			   == (lan_addr->addr.s_addr & lan_addr->mask.s_addr))
 				break;
 		}
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 	}
-#endif /* ENABLE_IPV6 */
+#endif /* RTCONFIG_IPV6 */
 
 #ifdef DEBUG
 	sockaddr_to_string(peer, dbg_str, sizeof(dbg_str));
