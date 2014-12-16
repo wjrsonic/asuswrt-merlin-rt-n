@@ -77,9 +77,11 @@
 #ifdef USE_IFACEWATCHER
 #include "ifacewatcher.h"
 #endif
+#ifdef RTCONFIG_IPV6
 #ifdef ENABLE_UPNPPINHOLE
 #ifdef USE_NETFILTER
 void init_iptpinhole(void);
+#endif
 #endif
 #endif
 
@@ -112,7 +114,7 @@ volatile sig_atomic_t should_send_public_address_change_notif = 0;
 /* OpenAndConfHTTPSocket() :
  * setup the socket used to handle incoming HTTP connections. */
 static int
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 OpenAndConfHTTPSocket(unsigned short * port, int ipv6)
 #else
 OpenAndConfHTTPSocket(unsigned short * port)
@@ -120,7 +122,7 @@ OpenAndConfHTTPSocket(unsigned short * port)
 {
 	int s;
 	int i = 1;
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 	struct sockaddr_in6 listenname6;
 	struct sockaddr_in listenname4;
 #else
@@ -129,13 +131,13 @@ OpenAndConfHTTPSocket(unsigned short * port)
 	socklen_t listenname_len;
 
 	s = socket(
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 	           ipv6 ? PF_INET6 : PF_INET,
 #else
 	           PF_INET,
 #endif
 	           SOCK_STREAM, 0);
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 	if(s < 0 && ipv6 && errno == EAFNOSUPPORT)
 	{
 		/* the system doesn't support IPV6 */
@@ -169,7 +171,7 @@ OpenAndConfHTTPSocket(unsigned short * port)
 		syslog(LOG_WARNING, "set_non_blocking(http): %m");
 	}
 
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 	if(ipv6)
 	{
 		memset(&listenname6, 0, sizeof(struct sockaddr_in6));
@@ -192,7 +194,7 @@ OpenAndConfHTTPSocket(unsigned short * port)
 	listenname_len =  sizeof(struct sockaddr_in);
 #endif
 
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 	if(bind(s,
 	        ipv6 ? (struct sockaddr *)&listenname6 : (struct sockaddr *)&listenname4,
 	        listenname_len) < 0)
@@ -213,7 +215,7 @@ OpenAndConfHTTPSocket(unsigned short * port)
 	}
 
 	if(*port == 0) {
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 		if(ipv6) {
 			struct sockaddr_in6 sockinfo;
 			socklen_t len = sizeof(struct sockaddr_in6);
@@ -223,7 +225,7 @@ OpenAndConfHTTPSocket(unsigned short * port)
 				*port = ntohs(sockinfo.sin6_port);
 			}
 		} else {
-#endif /* ENABLE_IPV6 */
+#endif /* RTCONFIG_IPV6 */
 			struct sockaddr_in sockinfo;
 			socklen_t len = sizeof(struct sockaddr_in);
 			if (getsockname(s, (struct sockaddr *)&sockinfo, &len) < 0) {
@@ -231,9 +233,9 @@ OpenAndConfHTTPSocket(unsigned short * port)
 			} else {
 				*port = ntohs(sockinfo.sin_port);
 			}
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 		}
-#endif /* ENABLE_IPV6 */
+#endif /* RTCONFIG_IPV6 */
 	}
 	return s;
 }
@@ -243,7 +245,7 @@ ProcessIncomingHTTP(int shttpl, const char * protocol)
 {
 	int shttp;
 	socklen_t clientnamelen;
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 	struct sockaddr_storage clientname;
 	clientnamelen = sizeof(struct sockaddr_storage);
 #else
@@ -279,7 +281,7 @@ ProcessIncomingHTTP(int shttpl, const char * protocol)
 			tmp = New_upnphttp(shttp);
 			if(tmp)
 			{
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 				if(clientname.ss_family == AF_INET)
 				{
 					tmp->clientaddr = ((struct sockaddr_in *)&clientname)->sin_addr;
@@ -769,7 +771,7 @@ parselanaddr(struct lan_addr_s * lan_addr, const char * str)
 		}
 	}
 #endif
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 	if(lan_addr->ifname[0] != '\0')
 	{
 		lan_addr->index = if_nametoindex(lan_addr->ifname);
@@ -871,9 +873,9 @@ init(int argc, char * * argv, struct runtime_vars * v)
 
 	/* set initial values */
 	SETFLAG(ENABLEUPNPMASK);	/* UPnP is enabled by default */
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 	ipv6_bind_addr = in6addr_any;
-#endif /* ENABLE_IPV6 */
+#endif /* RTCONFIG_IPV6 */
 
 	LIST_INIT(&lan_addrs);
 	v->port = -1;
@@ -914,7 +916,7 @@ init(int argc, char * * argv, struct runtime_vars * v)
 				if(parselanaddr(lan_addr, ary_options[i].value) != 0)
 				{
 					fprintf(stderr, "can't parse \"%s\" as a valid "
-#ifndef ENABLE_IPV6
+#ifndef RTCONFIG_IPV6
 					        "LAN address or "
 #endif
 					        "interface name\n", ary_options[i].value);
@@ -923,14 +925,14 @@ init(int argc, char * * argv, struct runtime_vars * v)
 				}
 				LIST_INSERT_HEAD(&lan_addrs, lan_addr, list);
 				break;
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 			case UPNPIPV6_LISTENING_IP:
 				if (inet_pton(AF_INET6, ary_options[i].value, &ipv6_bind_addr) < 1)
 				{
 					fprintf(stderr, "can't parse \"%s\" as valid IPv6 listening address", ary_options[i].value);
 				}
 				break;
-#endif /* ENABLE_IPV6 */
+#endif /* RTCONFIG_IPV6 */
 			case UPNPPORT:
 				v->port = atoi(ary_options[i].value);
 				break;
@@ -1264,7 +1266,7 @@ init(int argc, char * * argv, struct runtime_vars * v)
 				if(parselanaddr(lan_addr, argv[i]) != 0)
 				{
 					fprintf(stderr, "can't parse \"%s\" as a valid "
-#ifndef ENABLE_IPV6
+#ifndef RTCONFIG_IPV6
 					        "LAN address or "
 #endif
 					        "interface name\n", argv[i]);
@@ -1439,9 +1441,11 @@ init(int argc, char * * argv, struct runtime_vars * v)
 		syslog(LOG_ERR, "Failed to init redirection engine. EXITING");
 		return 1;
 	}
+#ifdef RTCONFIG_IPV6
 #ifdef ENABLE_UPNPPINHOLE
 #ifdef USE_NETFILTER
 	init_iptpinhole();
+#endif
 #endif
 #endif
 
@@ -1534,23 +1538,23 @@ main(int argc, char * * argv)
 {
 	int i;
 	int shttpl = -1;	/* socket for HTTP */
-#if defined(V6SOCKETS_ARE_V6ONLY) && defined(ENABLE_IPV6)
+#if defined(V6SOCKETS_ARE_V6ONLY) && defined(RTCONFIG_IPV6)
 	int shttpl_v4 = -1;	/* socket for HTTP (ipv4 only) */
 #endif
 #ifdef ENABLE_HTTPS
 	int shttpsl = -1;	/* socket for HTTPS */
-#if defined(V6SOCKETS_ARE_V6ONLY) && defined(ENABLE_IPV6)
+#if defined(V6SOCKETS_ARE_V6ONLY) && defined(RTCONFIG_IPV6)
 	int shttpsl_v4 = -1;	/* socket for HTTPS (ipv4 only) */
 #endif
 #endif /* ENABLE_HTTPS */
 	int sudp = -1;		/* IP v4 socket for receiving SSDP */
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 	int sudpv6 = -1;	/* IP v6 socket for receiving SSDP */
 #endif
 #ifdef ENABLE_NATPMP
 	int * snatpmp = NULL;	/* also used for PCP */
 #endif
-#if defined(ENABLE_IPV6) && defined(ENABLE_PCP)
+#if defined(RTCONFIG_IPV6) && defined(ENABLE_PCP)
 	int spcp_v6 = -1;
 #endif
 #ifdef ENABLE_NFQUEUE
@@ -1595,7 +1599,7 @@ main(int argc, char * * argv)
 	for(lan_addr = lan_addrs.lh_first; lan_addr != NULL; lan_addr = lan_addr->list.le_next)
 		addr_count++;
 	if(addr_count > 0) {
-#ifndef ENABLE_IPV6
+#ifndef RTCONFIG_IPV6
 		snotify = calloc(addr_count, sizeof(int));
 #else
 		/* one for IPv4, one for IPv6 */
@@ -1642,11 +1646,11 @@ main(int argc, char * * argv)
 		unsigned short listen_port;
 		listen_port = (v.port > 0) ? v.port : 0;
 		/* open socket for HTTP connections. Listen on the 1st LAN address */
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 		shttpl = OpenAndConfHTTPSocket(&listen_port, 1);
-#else /* ENABLE_IPV6 */
+#else /* RTCONFIG_IPV6 */
 		shttpl = OpenAndConfHTTPSocket(&listen_port);
-#endif /* ENABLE_IPV6 */
+#endif /* RTCONFIG_IPV6 */
 		if(shttpl < 0)
 		{
 			syslog(LOG_ERR, "Failed to open socket for HTTP. EXITING");
@@ -1654,7 +1658,7 @@ main(int argc, char * * argv)
 		}
 		v.port = listen_port;
 		syslog(LOG_NOTICE, "HTTP listening on port %d", v.port);
-#if defined(V6SOCKETS_ARE_V6ONLY) && defined(ENABLE_IPV6)
+#if defined(V6SOCKETS_ARE_V6ONLY) && defined(RTCONFIG_IPV6)
 		if(!GETFLAG(IPV6DISABLEDMASK))
 		{
 			shttpl_v4 =  OpenAndConfHTTPSocket(&listen_port, 0);
@@ -1668,11 +1672,11 @@ main(int argc, char * * argv)
 #ifdef ENABLE_HTTPS
 		/* https */
 		listen_port = (v.https_port > 0) ? v.https_port : 0;
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 		shttpsl = OpenAndConfHTTPSocket(&listen_port, 1);
-#else /* ENABLE_IPV6 */
+#else /* RTCONFIG_IPV6 */
 		shttpsl = OpenAndConfHTTPSocket(&listen_port);
-#endif /* ENABLE_IPV6 */
+#endif /* RTCONFIG_IPV6 */
 		if(shttpl < 0)
 		{
 			syslog(LOG_ERR, "Failed to open socket for HTTPS. EXITING");
@@ -1680,7 +1684,7 @@ main(int argc, char * * argv)
 		}
 		v.https_port = listen_port;
 		syslog(LOG_NOTICE, "HTTPS listening on port %d", v.https_port);
-#if defined(V6SOCKETS_ARE_V6ONLY) && defined(ENABLE_IPV6)
+#if defined(V6SOCKETS_ARE_V6ONLY) && defined(RTCONFIG_IPV6)
 		shttpsl_v4 =  OpenAndConfHTTPSocket(&listen_port, 0);
 		if(shttpsl_v4 < 0)
 		{
@@ -1689,7 +1693,7 @@ main(int argc, char * * argv)
 		}
 #endif /* V6SOCKETS_ARE_V6ONLY */
 #endif /* ENABLE_HTTPS */
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 		if(find_ipv6_addr(NULL, ipv6_addr_for_http_with_brackets, sizeof(ipv6_addr_for_http_with_brackets)) > 0) {
 			syslog(LOG_NOTICE, "HTTP IPv6 address given to control points : %s",
 			       ipv6_addr_for_http_with_brackets);
@@ -1710,7 +1714,7 @@ main(int argc, char * * argv)
 				return 1;
 			}
 		}
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 		if(!GETFLAG(IPV6DISABLEDMASK))
 		{
 			sudpv6 = OpenAndConfSSDPReceiveSocket(1);
@@ -1765,7 +1769,7 @@ main(int argc, char * * argv)
 	}
 #endif
 
-#if defined(ENABLE_IPV6) && defined(ENABLE_PCP)
+#if defined(RTCONFIG_IPV6) && defined(ENABLE_PCP)
 	spcp_v6 = OpenAndConfPCPv6Socket();
 #endif
 
@@ -1884,6 +1888,7 @@ main(int argc, char * * argv)
 			syslog(LOG_DEBUG, "setting timeout to %u sec",
 			       (unsigned)timeout.tv_sec);
 		}
+#ifdef RTCONFIG_IPV6
 #ifdef ENABLE_UPNPPINHOLE
 		/* Clean up expired IPv6 PinHoles */
 		next_pinhole_ts = 0;
@@ -1894,6 +1899,7 @@ main(int argc, char * * argv)
 			timeout.tv_usec = 0;
 		}
 #endif /* ENABLE_UPNPPINHOLE */
+#endif /* RTCONFIG_IPV6 */
 
 		/* select open sockets (SSDP, HTTP listen, and all HTTP soap sockets) */
 		FD_ZERO(&readset);
@@ -1916,7 +1922,7 @@ main(int argc, char * * argv)
 			FD_SET(shttpl, &readset);
 			max_fd = MAX( max_fd, shttpl);
 		}
-#if defined(V6SOCKETS_ARE_V6ONLY) && defined(ENABLE_IPV6)
+#if defined(V6SOCKETS_ARE_V6ONLY) && defined(RTCONFIG_IPV6)
 		if (shttpl_v4 >= 0)
 		{
 			FD_SET(shttpl_v4, &readset);
@@ -1929,7 +1935,7 @@ main(int argc, char * * argv)
 			FD_SET(shttpsl, &readset);
 			max_fd = MAX( max_fd, shttpsl);
 		}
-#if defined(V6SOCKETS_ARE_V6ONLY) && defined(ENABLE_IPV6)
+#if defined(V6SOCKETS_ARE_V6ONLY) && defined(RTCONFIG_IPV6)
 		if (shttpsl_v4 >= 0)
 		{
 			FD_SET(shttpsl_v4, &readset);
@@ -1937,7 +1943,7 @@ main(int argc, char * * argv)
 		}
 #endif
 #endif /* ENABLE_HTTPS */
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 		if (sudpv6 >= 0)
 		{
 			FD_SET(sudpv6, &readset);
@@ -1983,7 +1989,7 @@ main(int argc, char * * argv)
 			}
 		}
 #endif
-#if defined(ENABLE_IPV6) && defined(ENABLE_PCP)
+#if defined(RTCONFIG_IPV6) && defined(ENABLE_PCP)
 		if(spcp_v6 >= 0) {
 			FD_SET(spcp_v6, &readset);
 			max_fd = MAX(max_fd, spcp_v6);
@@ -2182,7 +2188,7 @@ main(int argc, char * * argv)
 			}
 		}
 #endif
-#if defined(ENABLE_IPV6) && defined(ENABLE_PCP)
+#if defined(RTCONFIG_IPV6) && defined(ENABLE_PCP)
 		/* in IPv6, only PCP is supported, not NAT-PMP */
 		if(spcp_v6 >= 0 && FD_ISSET(spcp_v6, &readset))
 		{
@@ -2214,7 +2220,7 @@ main(int argc, char * * argv)
 			ProcessSSDPRequest(sudp, (unsigned short)v.port);
 #endif
 		}
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 		if(sudpv6 >= 0 && FD_ISSET(sudpv6, &readset))
 		{
 			syslog(LOG_INFO, "Received UDP Packet (IPv6)");
@@ -2254,7 +2260,7 @@ main(int argc, char * * argv)
 				LIST_INSERT_HEAD(&upnphttphead, tmp, entries);
 			}
 		}
-#if defined(V6SOCKETS_ARE_V6ONLY) && defined(ENABLE_IPV6)
+#if defined(V6SOCKETS_ARE_V6ONLY) && defined(RTCONFIG_IPV6)
 		if(shttpl_v4 >= 0 && FD_ISSET(shttpl_v4, &readset))
 		{
 			struct upnphttp * tmp;
@@ -2276,7 +2282,7 @@ main(int argc, char * * argv)
 				LIST_INSERT_HEAD(&upnphttphead, tmp, entries);
 			}
 		}
-#if defined(V6SOCKETS_ARE_V6ONLY) && defined(ENABLE_IPV6)
+#if defined(V6SOCKETS_ARE_V6ONLY) && defined(RTCONFIG_IPV6)
 		if(shttpsl_v4 >= 0 && FD_ISSET(shttpsl_v4, &readset))
 		{
 			struct upnphttp * tmp;
@@ -2316,7 +2322,7 @@ shutdown:
 	/* send good-bye */
 	if (GETFLAG(ENABLEUPNPMASK))
 	{
-#ifndef ENABLE_IPV6
+#ifndef RTCONFIG_IPV6
 		if(SendSSDPGoodbye(snotify, addr_count) < 0)
 #else
 		if(SendSSDPGoodbye(snotify, addr_count * 2) < 0)
@@ -2338,10 +2344,10 @@ shutdown:
 
 	if (sudp >= 0) close(sudp);
 	if (shttpl >= 0) close(shttpl);
-#if defined(V6SOCKETS_ARE_V6ONLY) && defined(ENABLE_IPV6)
+#if defined(V6SOCKETS_ARE_V6ONLY) && defined(RTCONFIG_IPV6)
 	if (shttpl_v4 >= 0) close(shttpl_v4);
 #endif
-#ifdef ENABLE_IPV6
+#ifdef RTCONFIG_IPV6
 	if (sudpv6 >= 0) close(sudpv6);
 #endif
 #ifdef USE_IFACEWATCHER
@@ -2356,7 +2362,7 @@ shutdown:
 		}
 	}
 #endif
-#if defined(ENABLE_IPV6) && defined(ENABLE_PCP)
+#if defined(RTCONFIG_IPV6) && defined(ENABLE_PCP)
 	if(spcp_v6 >= 0)
 	{
 		close(spcp_v6);
@@ -2377,7 +2383,7 @@ shutdown:
 
 	if (GETFLAG(ENABLEUPNPMASK))
 	{
-#ifndef ENABLE_IPV6
+#ifndef RTCONFIG_IPV6
 		for(i = 0; i < addr_count; i++)
 #else
 		for(i = 0; i < addr_count * 2; i++)

@@ -81,9 +81,11 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "upnputils.h"
 #include "portinuse.h"
 #include "pcp_msg_struct.h"
+#ifdef RTCONFIG_IPV6
 #ifdef ENABLE_UPNPPINHOLE
 #include "upnppinhole.h"
 #endif /* ENABLE_UPNPPINHOLE */
+#endif /* RTCONFIG_IPV6 */
 
 
 #ifdef PCP_PEER
@@ -1009,6 +1011,7 @@ static int CreatePCPMap_NAT(pcp_info_t *pcp_msg_info)
 
 static int CreatePCPMap_FW(pcp_info_t *pcp_msg_info)
 {
+#ifdef RTCONFIG_IPV6
 #ifdef ENABLE_UPNPPINHOLE
 	int uid;
 	int r = upnp_add_inboundpinhole(NULL, 0,
@@ -1026,6 +1029,7 @@ static int CreatePCPMap_FW(pcp_info_t *pcp_msg_info)
 	UNUSED(pcp_msg_info);
 	return PCP_ERR_NO_RESOURCES;
 #endif /* ENABLE_UPNPPINHOLE */
+#endif /* RTCONFIG_IPV6 */
 }
 
 
@@ -1088,9 +1092,12 @@ static void DeletePCPMap(pcp_info_t *pcp_msg_info)
 	int proto2;
 	char desc[64];
 	unsigned int timestamp;
+
+#ifdef RTCONFIG_IPV6
 #ifdef ENABLE_UPNPPINHOLE
 	int uid = -1;
 #endif /* ENABLE_UPNPPINHOLE */
+#endif
 
 	/* iterate through all rules and delete the requested ones */
 	for (index = 0 ;
@@ -1100,6 +1107,8 @@ static void DeletePCPMap(pcp_info_t *pcp_msg_info)
 					 &iport2, &proto2,
 					 desc, sizeof(desc),
 					 0, 0, &timestamp, 0, 0) >= 0)
+
+#ifdef RTCONFIG_IPV6
 #ifdef ENABLE_UPNPPINHOLE
 	       ||
 	     (pcp_msg_info->is_fw &&
@@ -1110,6 +1119,7 @@ static void DeletePCPMap(pcp_info_t *pcp_msg_info)
 				    &proto2, desc, sizeof(desc),
 				    &timestamp, NULL) > 0)
 #endif /* ENABLE_UPNPPINHOLE */
+#endif
 		     ;
 	     index++)
 		if(0 == strcmp(iaddr2, pcp_msg_info->mapped_str)
@@ -1119,9 +1129,11 @@ static void DeletePCPMap(pcp_info_t *pcp_msg_info)
 			if (!pcp_msg_info->is_fw) {
 				r = _upnp_delete_redir(eport2, proto2);
 			} else {
+#ifdef RTCONFIG_IPV6
 #ifdef ENABLE_UPNPPINHOLE
 				r = upnp_delete_inboundpinhole(uid);
 #endif /* ENABLE_UPNPPINHOLE */
+#endif
 			}
 			break;
 		}
