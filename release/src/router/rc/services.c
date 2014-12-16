@@ -1245,7 +1245,6 @@ void stop_dhcp6s(void)
 {
 	killall_tk("dhcp6s");
 }
-#endif
 
 #ifdef RTCONFIG_WIDEDHCP6
 
@@ -1466,6 +1465,7 @@ void stop_ipv6(void)
 	eval("ip", "-6", "route", "flush", "scope", "global");
 	eval("ip", "-6", "neigh", "flush", "dev", lan_ifname);
 }
+#endif /* RTCONFIG_IPV6 */
 
 // -----------------------------------------------------------------------------
 
