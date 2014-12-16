@@ -30,7 +30,7 @@ if [ "$DLSRV" != "" ]
 		then
 ASUS_BASE_APPS="http://dlcdnet.asus.com/pub/ASUS/LiveUpdate/Release/Wireless/asus_base_apps.tgz"
 SOURCE_DIR="ftp://"$DLSRV"/pub/ASUS/ASUSWRT_MODDED"
-MOD_VERSION="mod7c"
+MOD_VERSION="mod"`nvram get extendno | sed -n -e 's/^.*-m//p' | sed 's/-webkit.*//'`
 FILENAME=`nvram get productid`"_"`nvram get firmver`"_"`nvram get buildno`"_"`nvram get extendno`"-ext.tgz"
 
 
