@@ -1574,10 +1574,6 @@ int no_need_to_start_wps(void)
 			     nvram_match(strcat_r(prefix_mssid, "auth_mode_x", tmp), "shared") ||
 			     strstr(nvram_safe_get(strcat_r(prefix_mssid, "auth_mode_x", tmp)), "wpa") ||
 			     nvram_match(strcat_r(prefix_mssid, "auth_mode_x", tmp), "radius"))
-<<<<<<< HEAD
-=======
-			)
->>>>>>> 0891715... remove fix when WIDEDHCP6 disabled and miniupnpd not compiled
 				ret++;
 		}
 		i++;
