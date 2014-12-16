@@ -898,6 +898,7 @@ struct nvram_tuple router_defaults[] = {
 	{ "wan_pppoe_relay", "0" },
 	{ "wan_dhcpc_options",""},  // Optional arguments for udhcpc
 	{ "wan_mtu", "1500"},		// WAN MTU (non-PPP based)
+	{ "ttl_inc_enable", "0"},		// Extend TTL value
 
 	// VPN+DHCP, a sperated nvram to control this function
 	{ "wan_vpndhcp", "1"},
