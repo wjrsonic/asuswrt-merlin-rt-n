@@ -16,6 +16,7 @@
 #include "iptpinhole.h"
 #include "../upnpglobalvars.h"
 
+#ifdef RTCONFIG_IPV6
 #ifdef ENABLE_UPNPPINHOLE
 
 #include <iptables.h>
@@ -427,3 +428,4 @@ clean_pinhole_list(unsigned int * next_timestamp)
 }
 
 #endif /* ENABLE_UPNPPINHOLE */
+#endif /* RTCONFIG_IPV6 */
