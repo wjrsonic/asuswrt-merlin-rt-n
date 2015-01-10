@@ -50,6 +50,10 @@ ifeq ($(RTN65U), y)
 	CFLAGS += -DRTN56U
 endif
 
+ifeq ($(or $(RTN66U),$(RTAC66U)),y)
+	CFLAGS += -DRTN66U
+endif
+
 INSTALLPREFIX ?= $(DESTDIR)/usr
 SBININSTALLDIR = $(INSTALLPREFIX)/sbin
 ETCINSTALLDIR = $(DESTDIR)/etc
@@ -70,7 +74,7 @@ ALLOBJS = $(BASEOBJS) $(LNXOBJS)
 #STATIC_LINKING: LIBS = -lvorbis -logg -lm -lsqlite3 -lpthread -lexif -ljpeg -lFLAC -lm -lid3tag -lz -lavformat -lavutil -lavcodec -lm
 
 ifeq ($(STATIC),1)
-LIBS = -lpthread -lm \
+LIBS = -lpthread -ldl -lm \
 	$(TOP)/libvorbis/lib/.libs/libvorbis.a \
 	$(TOP)/libogg/src/.libs/libogg.a \
 	$(TOP)/sqlite/.libs/libsqlite3.a \
@@ -83,9 +87,9 @@ LIBS = -lpthread -lm \
 	$(TOP)/ffmpeg/libavcodec/libavcodec.a \
 	$(TOP)/ffmpeg/libavutil/libavutil.a
 else
-#LIBS += -lpthread -lm -lvorbis -logg -lsqlite3 -lexif -ljpeg -lFLAC -lid3tag -lz -lavformat -lavcodec -lavutil
+#LIBS += -lpthread -lm -ldl -lvorbis -logg -lsqlite3 -lexif -ljpeg -lFLAC -lid3tag -lz -lavformat -lavcodec -lavutil
 # Temporary workaround as we need a threadsafe build of sqlite
-LIBS += -lpthread -lm -lvorbis -logg ./libsqlite3_threadsafe$(BCMEX).a -lexif -ljpeg -lFLAC -lid3tag -lz -lavformat -lavcodec -lavutil
+LIBS += -lpthread -lm -ldl -lvorbis -logg ./libsqlite3_threadsafe$(BCMEX).a -lexif -ljpeg -lFLAC -lid3tag -lz -lavformat -lavcodec -lavutil
 endif
 
 TESTUPNPDESCGENOBJS = testupnpdescgen.o upnpdescgen.o

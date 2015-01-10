@@ -157,6 +157,8 @@ function validForm(){
 					document.form.DDNSName.select();
 					return false;
 				}
+
+				return true;
 			}
 		}else{
 			if(!validator.numberRange(document.form.ddns_refresh_x, 0, 365))
@@ -190,7 +192,7 @@ function validForm(){
 			}
 			
 			if(document.form.ddns_regular_period.value < 30){	
-				alert("The value of check period can't be less than 30 minutes");
+				alert(Untranslated.period_time_validation + " : 30");
 				document.form.ddns_regular_period.focus();
 				document.form.ddns_regular_period.select();
 				return false;
@@ -349,7 +351,6 @@ function onSubmitApply(s){
                     			<option value="WWW.DNSOMATIC.COM" <% nvram_match("ddns_server_x", "WWW.DNSOMATIC.COM","selected"); %>>WWW.DNSOMATIC.COM</option>
                     			<option value="WWW.TUNNELBROKER.NET" <% nvram_match("ddns_server_x", "WWW.TUNNELBROKER.NET","selected"); %>>WWW.TUNNELBROKER.NET</option>
 					<option value="WWW.NO-IP.COM" <% nvram_match("ddns_server_x", "WWW.NO-IP.COM","selected"); %>>WWW.NO-IP.COM</option>
-								<option value="WWW.NO-IP.COM" <% nvram_match("ddns_server_x", "WWW.NO-IP.COM","selected"); %>>WWW.NO-IP.COM</option>
                     			<option value="WWW.NAMECHEAP.COM" <% nvram_match("ddns_server_x", "WWW.NAMECHEAP.COM","selected"); %>>WWW.NAMECHEAP.COM</option>
                   		</select>
 				<a id="link" href="javascript:openLink('x_DDNSServer')" style=" margin-left:5px; text-decoration: underline;"><#LANHostConfig_x_DDNSServer_linkname#></a>
@@ -373,11 +374,11 @@ function onSubmitApply(s){
 			</tr>			
 			<tr>
 				<th id="ddns_username_th"><#LANHostConfig_x_DDNSUserName_itemname#></th>
-				<td><input type="text" maxlength="32" class="input_25_table" name="ddns_username_x" value="<% nvram_get("ddns_username_x"); %>" onKeyPress="return validator.isString(this, event)"></td>
+				<td><input type="text" maxlength="32" class="input_25_table" name="ddns_username_x" value="<% nvram_get("ddns_username_x"); %>" onKeyPress="return validator.isString(this, event)" autocapitalization="off" autocomplete="off"></td>
 			</tr>
 			<tr>
 				<th><#LANHostConfig_x_DDNSPassword_itemname#></th>
-				<td><input type="password" autocapitalization="off" maxlength="64" class="input_25_table" name="ddns_passwd_x" value="<% nvram_get("ddns_passwd_x"); %>"></td>
+				<td><input type="password" autocapitalization="off" maxlength="64" class="input_25_table" name="ddns_passwd_x" value="<% nvram_get("ddns_passwd_x"); %>" autocapitalization="off" autocomplete="off"></td>
 			</tr>
 			<tr id="wildcard_field">
 				<th><#LANHostConfig_x_DDNSWildcard_itemname#></th>

@@ -1,4 +1,4 @@
-Asuswrt-Merlin - build 376.49 (xx-xxx-2014)
+Asuswrt-Merlin - build 376.50 (xx-xxx-2015)
 ===========================================
 
 About
@@ -50,7 +50,7 @@ Here is a list of features that Asuswrt-merlin brings over the original
 firmware:
 
 System:
-   - Based on 3.0.0.4.376_3677 source code from Asus
+   - Based on 3.0.0.4.378_3762 source code from Asus
    - Various bugfixes and optimizations
    - Some components were updated to newer versions, for improved
      stability and security
@@ -76,7 +76,6 @@ Disk sharing:
 Networking:
    - Force acting as a Master Browser
    - Act as a WINS server
-   - SSHD
    - Allows tweaking TCP/UDP connection tracking timeouts
    - CIFS client support (for mounting remote SMB share on the router)
    - Layer7 iptables matching (N16/N66/AC66 only)
@@ -118,6 +117,7 @@ integrated/enabled/re-implemented in the official firmware:
 - Persistent JFFS partition
 - The various MAC/IP selection pulldowns will also display hostnames
   when possible instead of just NetBIOS names
+- SSHD
 
 
 Installation
@@ -572,7 +572,40 @@ https://github.com/RMerl/asuswrt-merlin
 
 History
 -------
-376.49 (xx-xxx-2014)
+378.50 (xx-xxx-2015)
+   - NEW: Merged with Asus 378_3762 GPL code.  Most notable changes:
+            * TrendMicro DPI engine for RT-AC68U
+
+   - CHANGED: Added logo to DNSFilter on the AiProtection
+              homepage (contributed by Piterel)
+   - FIXED: OpenVPN server page would report an initializing
+            state when it was already running under certain
+            conditions
+
+
+376.49_5 (9-Jan-2015)
+   - FIXED: Vulnerability in infosvr (CVE-2014-9583) (Asus bug)
+   - FIXED: Additional security issue in infosvr (incorrect memcpy()
+            call) (Asus bug)
+
+
+376.49_4 (27-Dec-2014)
+   - FIXED: WAN page error when entering a hostname, and broken 
+            UPNP FAQ link
+   - FIXED: OpenVPN Server wasn't showing the Advertize DNS to
+            Client option (regression from 3677 merge)
+   - FIXED: bootloop when enabling Traditional QoS (or any other
+            feature that forces CTF to be disabled) due to 
+            FA being left enabled (Asus bug) (AC87)
+
+
+376.49_2 (23-Dec-2014)
+   - FIXED: Asus DDNS couldn't be configured on the webui
+   - FIXED: OpenVPN server wouldn't let you edit user accounts
+   - FIXED: Missing DLNA icon on clients (Asus bug) (N66, AC66)
+
+
+376.49 (21-Dec-2014)
    - NEW: Merged with Asus GPL 376_3677.  This new code
           includes a lot of changes related to USB modem
           support.
@@ -604,10 +637,19 @@ History
              for dnsmasq
   - CHANGED: Hide wireless key on settings page unless field
              has focus (patch by John9527)
+  - CHANGED: Ported USB 3.0 (XHCI) kernel driver from
+             Netgear GPL (which seems to have in turn
+             backported it from upstream kernel 3.x)
+  - CHANGED: Updated Quantenna to v36.7.3.23 (AC87)
   - FIXED: vsftpd wasn't properly compiled with SSL
            support.
   - FIXED: MAC filtering couldn't be disabled on Guest
            networks (Asus bug) (Patch by John9527)
+  - FIXED: Various fixes and tweaks to the new IPv6
+           code from Pinwing and saintdev
+  - FIXED: Editing a client on the networkmap would 
+           cause any matching DHCP reservation entry to
+           lost its hostname
   - REMOVED: The web redirection control setting was
              removed, as it is being replaced by the
              (simpler) redirection setting Asus added
@@ -2191,12 +2233,12 @@ good amount of the limited available nvram. ***
 Contact information
 -------------------
 SmallNetBuilder forums (preferred method: http://forums.smallnetbuilder.com/showthread.php?t=7047 as RMerlin)
-Website: http://www.lostrealm.ca/
+Website: http://asuswrt.lostrealm.ca/
 Github: https://github.com/RMerl/asuswrt-merlin
 Email: rmerl@lostrealm.ca
 Twitter: https://twitter.com/RMerlinDev
 IRC: #asuswrt on DALnet
-Download: http://www.lostrealm.ca/asuswrt-merlin/download
+Download: http://asuswrt.lostrealm.ca/download
 
 Development news will be posted on Twitter.  You can also keep a closer 
 eye on development as it happens through the Github site.

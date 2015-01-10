@@ -582,7 +582,7 @@ function check_vpn(){		//true: (DHCP ip pool & static ip ) conflict with VPN cli
       <div class="formfontdesc"><#LANHostConfig_DHCPServerConfigurable_sectiondesc#></div>
       <div id="router_in_pool" class="formfontdesc" style="color:#FFCC00;display:none;"><#LANHostConfig_DHCPServerConfigurable_sectiondesc2#><span id="LANIP"></span></div>
       <div id="VPN_conflict" class="formfontdesc" style="color:#FFCC00;display:none;"><span id="VPN_conflict_span"></span></div>
-      <div class="formfontdesc" style="margin-top:-10px;">
+      <div class="formfontdesc" style="margin-top:-10px;display:none;">
          <br>You can enter up to 128 static DHCP reservations.  If filled, the Name field content will be pushed to the
          client as the hostname.  If an invalid name is entered (such as one with spaces), then the name will only
          be used as a description on the webui itself (for example, "My Laptop").
@@ -603,7 +603,7 @@ function check_vpn(){		//true: (DHCP ip pool & static ip ) conflict with VPN cli
 			  </tr>
 
 			  <tr>
-				<th>Log DHCP queries</a></th>
+				<th>Log DHCP queries</th>
 				<td>
 				  <input type="radio" value="1" name="dhcpd_querylog" class="content_input_fd" onClick="return change_common_radio(this, 'LANHostConfig', 'dhcpd_querylog', '1')" <% nvram_match("dhcpd_querylog", "1", "checked"); %>><#checkbox_Yes#>
 				  <input type="radio" value="0" name="dhcpd_querylog" class="content_input_fd" onClick="return change_common_radio(this, 'LANHostConfig', 'dhcpd_querylog', '0')" <% nvram_match("dhcpd_querylog", "0", "checked"); %>><#checkbox_No#>

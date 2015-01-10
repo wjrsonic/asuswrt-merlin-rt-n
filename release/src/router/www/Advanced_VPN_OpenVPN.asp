@@ -66,7 +66,7 @@ var $j = jQuery.noConflict();
 <% wanlink(); %>
 <% vpn_server_get_parameter(); %>;
 
-var vpn_server_clientlist_array_ori = '<% nvram_char_to_ascii("","vpn_server_clientlist"); %>';
+var vpn_server_clientlist_array_ori = '<% nvram_char_to_ascii("","vpn_serverx_clientlist"); %>';
 var vpn_server_clientlist_array = decodeURIComponent(vpn_server_clientlist_array_ori);
 var openvpn_unit = '<% nvram_get("vpn_server_unit"); %>';
 var vpn_server_mode = 'openvpn';	// Hardcoded for this page, as we support both simultaneously
@@ -395,7 +395,7 @@ function applyRule(){
 		if(document.form.VPNServer_enable.value == "1") {
 			document.form.VPNServer_mode.value = 'openvpn';
 			document.form.action_script.value = "restart_chpass;restart_vpnserver" + openvpn_unit;
-			document.form.vpn_server_clientlist.value = get_group_value();
+			document.form.vpn_serverx_clientlist.value = get_group_value();
 			/* Advanced setting start */
 			//Viz add 2014.06
 			if(document.getElementById("server_reneg").style.display == "none")
@@ -444,7 +444,7 @@ function applyRule(){
 		}
 		else {		//disable server
 			document.form.action_script.value = "stop_vpnserver" + openvpn_unit;
-			document.form.vpn_server_clientlist.value = get_group_value();
+			document.form.vpn_serverx_clientlist.value = get_group_value();
 		}	
 		
 		showLoading();
@@ -729,12 +729,13 @@ function update_visibility(){
 	var hmac = document.form.vpn_server_hmac.value;
 	userpass = getRadioValue(document.form.vpn_server_userpass_auth);
 	var dhcp = getRadioValue(document.form.vpn_server_dhcp);
-	var dns = getRadioValue(document.form.vpn_serverx_dns);
+	var dns = getRadioValue(document.form.vpn_server_x_dns);
 	if(auth != "tls")
 		ccd = 0;
 	else
 		ccd = getRadioValue(document.form.vpn_server_ccd);
 		
+	showhide("server_authhmac", (auth != "secret"));
 	showhide("server_snnm", ((auth == "tls") && (iface == "tun")));
 	showhide("server_plan", ((auth == "tls") && (iface == "tun")));
 	showhide("server_local", ((auth == "secret") && (iface == "tun")));
@@ -1033,7 +1034,7 @@ function cal_panel_block(){
 </script>
 </head>
 <body onload="initial();">
-<div id="tlsKey_panel"  class="contentM_qis" style="box-shadow: 3px 3px 10px #000;" disabled>
+<div id="tlsKey_panel"  class="contentM_qis" style="box-shadow: 3px 3px 10px #000;">
 	<!--===================================Beginning of tls Content===========================================-->
 	<table class="QISform_wireless" border=0 align="center" cellpadding="5" cellspacing="0">
 	<form method="post" name="openvpnTLSKeyForm" action="/start_apply.htm" target="hidden_frame">
@@ -1123,7 +1124,7 @@ function cal_panel_block(){
 	</table>
 	<!--===================================Ending of tls Content===========================================-->			
 </div>
-<div id="staticKey_panel"   class="contentM_qis" style="box-shadow: 3px 3px 10px #000;" disabled>
+<div id="staticKey_panel"   class="contentM_qis" style="box-shadow: 3px 3px 10px #000;">
 	<!--===================================Beginning of tls Content===========================================-->
 	<table class="QISform_wireless" border=0 align="center" cellpadding="5" cellspacing="0">
 		<form method="post" name="openvpnStaticKeyForm" action="/start_apply.htm" target="hidden_frame">
@@ -1193,7 +1194,7 @@ function cal_panel_block(){
 <input type="hidden" name="firmver" value="<% nvram_get("firmver"); %>">
 <input type="hidden" name="VPNServer_enable" value="<% nvram_get("VPNServer_enable"); %>">
 <input type="hidden" name="VPNServer_mode" value="<% nvram_get("VPNServer_mode"); %>">
-<input type="hidden" name="vpn_server_clientlist" value="">
+<input type="hidden" name="vpn_serverx_clientlist" value="">
 <input type="hidden" name="vpn_serverx_eas" value="<% nvram_get("vpn_serverx_eas"); %>">
 <input type="hidden" name="vpn_serverx_dns" value="<% nvram_get("vpn_serverx_dns"); %>">
 <input type="hidden" name="vpn_server_ccd_val" value="">
@@ -1248,10 +1249,8 @@ function cal_panel_block(){
 														enable_openvpn(0);
 														document.form.VPNServer_enable.value = "0";
 														formShowAndHide(0, "openvpn");
-													},
-													{
-														switch_on_container_path: '/switcherplugin/iphone_switch_container_off.png'
-													});
+													}
+													);
 												</script>			
 											</td>			
 										</tr>
@@ -1334,7 +1333,8 @@ function cal_panel_block(){
 										<div class="formfontdesc">
 											<p><#vpn_openvpn_desc3#><br />
 											<p><#vpn_openvpn_hint1#><br />
-											<p><#vpn_openvpn_hint2#>
+											<p><#vpn_openvpn_hint2#><br />
+											<p>Before changing any value in advanced settings, please check the openVPN client software ability.
 										</div>
 										<!-- Advanced setting table start-->
 										<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable" style="margin-top:8px;">
@@ -1365,9 +1365,6 @@ function cal_panel_block(){
 																document.form.action_script.value = "stop_vpnserver"+openvpn_unit;
 																parent.showLoading();
 																document.form.submit();
-															},
-															{
-																switch_on_container_path: '/switcherplugin/iphone_switch_container_off.png'
 															}
 														);
 													</script>
@@ -1393,7 +1390,7 @@ function cal_panel_block(){
 												</td>
 											</tr>
 											<tr>
-												<th><#WLANAuthentication11a_ExAuthDBPortNumber_itemname#></th>
+												<th>Server Port</th>
 												<td>
 													<input type="text" maxlength="5" class="input_6_table" name="vpn_server_port" onKeyPress="return validator.isNumber(this,event);" onblur="validator.numberRange(this, 1, 65535)" value="<% nvram_get("vpn_server_port"); %>" >
 													<span style="color:#FC0">(<#Setting_factorydefault_value#> : 1194)</span>
@@ -1436,7 +1433,7 @@ function cal_panel_block(){
 													<input type="radio" name="vpn_server_igncrt" class="input" value="0" <% nvram_match_x("", "vpn_server_igncrt", "0", "checked"); %>><#checkbox_No#>
 												</td>
 											</tr>
-											<tr>
+											<tr id="server_authhmac">
 												<th><#vpn_openvpn_AuthHMAC#></th>
 												<td>
 													<select name="vpn_server_hmac" class="input_option">
