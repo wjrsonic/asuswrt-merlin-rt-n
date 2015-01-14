@@ -1455,7 +1455,7 @@ void restart_lfp()
 #ifdef RTCONFIG_WIRELESSREPEATER
 // no dnsmq for 4MB
 #ifndef RTCONFIG_4M_SFP
-void setup_dnsmq(int mode)
+int setup_dnsmq(int mode)
 {
 	char v[32];
 	char tmp[32];
