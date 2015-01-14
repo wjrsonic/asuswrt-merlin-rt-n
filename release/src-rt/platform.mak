@@ -377,15 +377,6 @@ define platformKernelConfig
 		sed -i "/CONFIG_IP_NF_MATCH_ACCOUNT/d" $(1); \
 		echo "# CONFIG_IP_NF_MATCH_ACCOUNT is not set" >>$(1); \
 	fi; \
-	if [ "$(BUILD_NAME)" = "RT-N53" ]; then \
-		sed -i "/CONFIG_USB_NET_QMI_WWAN/d" $(1); \
-		echo "# CONFIG_USB_NET_QMI_WWAN is not set" >>$(1); \
-		rm -f ./linux/linux-2.6/include/linux/mod_devicetable.h; \
-		cp -f ./linux/linux-2.6/include/linux/mod_devicetable.h_n53 ./linux/linux-2.6/include/linux/mod_devicetable.h; \
-	else \
-		rm -f ./linux/linux-2.6/include/linux/mod_devicetable.h; \
-		cp -f ./linux/linux-2.6/include/linux/mod_devicetable.h_all ./linux/linux-2.6/include/linux/mod_devicetable.h; \
-	fi; \
 	if [ "$(ARM)" = "y" ]; then \
                 if [ "$(BWDPI)" = "y" ] && [ -d $(SRCBASE)/router/wl_arm/dpi/$(BUILD_NAME) ]; then \
                         mkdir $(SRCBASE)/wl/linux ; \

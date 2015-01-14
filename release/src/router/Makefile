@@ -1502,8 +1502,6 @@ endif
 endif
 endif
 
-
-
 ifeq ($(BUILD_NAME),RT-N53)
 	rm -f -r $(TARGETDIR)/www/aidisk
 	rm -f -r $(TARGETDIR)/www/images/Tree
@@ -1534,11 +1532,47 @@ ifeq ($(BUILD_NAME),RT-N53)
 	rm -f $(TARGETDIR)/usr/sbin/*.ext3
 	rm -f $(TARGETDIR)/usr/sbin/scsi*
 	rm -f $(TARGETDIR)/usr/sbin/sd*
-#	rm -f $(TARGETDIR)/usr/lib/libext2fs*
-#	rm -f $(TARGETDIR)/usr/lib/libuuid*
-#	rm -f $(TARGETDIR)/usr/lib/libblkid*
-#	rm -f $(TARGETDIR)/usr/lib/libcom*
-#	rm -f $(TARGETDIR)/usr/lib/libe2p*
+	rm -f $(TARGETDIR)/usr/sbin/snooper
+	rm -f $(TARGETDIR)/usr/lib/libext2fs*
+	rm -f $(TARGETDIR)/usr/lib/libuuid*
+	rm -f $(TARGETDIR)/usr/lib/libblkid*
+	rm -f $(TARGETDIR)/usr/lib/libcom*
+	rm -f $(TARGETDIR)/usr/lib/libe2p*
+#
+	rm -rf $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/scsi
+	rm -rf $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/cdrom
+	rm -rf $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/connector
+	rm -rf $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/block
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/ext*.ko
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/*fat*.ko
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/nls*.ko
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/fuse.ko
+	rm -f $(TARGETDIR)/lib/libutil.so.0
+	rm -f $(TARGETDIR)/rom/etc/e2fsck.conf
+#
+	rm -f $(TARGETDIR)/www/Advanced_VPN_Content.asp
+	rm -f $(TARGETDIR)/www/Advanced_VPNAdvanced_Content.asp
+	rm -f $(TARGETDIR)/www/Advanced_SwitchCtrl_Content.asp
+	rm -f $(TARGETDIR)/www/PrinterServer.asp
+	rm -f $(TARGETDIR)/www/mediaserver.asp
+	rm -f $(TARGETDIR)/www/device-map/*disk*.asp
+	rm -f $(TARGETDIR)/www/device-map/modem.asp
+	rm -f $(TARGETDIR)/www/device-map/printer.asp
+	rm -f -r $(TARGETDIR)/www/images/mobile
+	rm -f -r $(TARGETDIR)/www/images/*modem*.png
+	rm -f -r $(TARGETDIR)/www/images/*iphone*.png
+	rm -f -r $(TARGETDIR)/www/images/movie.jpg
+	rm -f -r $(TARGETDIR)/www/images/setup.jpg
+	rm -f -r $(TARGETDIR)/www/images/New_ui/usbstatus.png
+#
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/ohci-hcd.ko
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/uhci-hcd.ko
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/usblp.ko
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/usb-storage.ko
+	rm -rf $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/mon
+	rm -rf $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb
+#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/wl_high.ko
+#	cp -f -R  $(SRCBASE)/wl/sysdeps/RT-N53_blobs/wl_high.ko $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net
 endif
 
 ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10P RT-N12B1 RT-N12C1 RT-N12D1 RT-N12HP RT-N12HP_B1 RT-N12VP ))
