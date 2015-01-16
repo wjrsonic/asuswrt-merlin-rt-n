@@ -59,12 +59,6 @@ define platformRouterOptions
 		sed -i "/RTCONFIG_WIDEDHCP6/d" $(1); \
 		echo "# RTCONFIG_WIDEDHCP6 is not set" >>$(1); \
 	fi; \
-	if [ "$(SFPRAM16M)" = "y" ]; then \
-		sed -i "/RTCONFIG_L7/d" $(1); \
-		echo "# RTCONFIG_L7 is not set" >>$(1); \
-		sed -i "/RTCONFIG_L7PAT/d" $(1); \
-		echo "# RTCONFIG_L7PAT is not set" >>$(1); \
-	fi; \
 	if [ "$(BUILD_NAME)" != "RT-N53" ]; then \
 		sed -i "/RTCONFIG_HAS_5G/d" $(1); \
 		echo "# RTCONFIG_HAS_5G is not set" >>$(1); \
@@ -127,6 +121,8 @@ define platformBusyboxOptions
 		echo "# CONFIG_SETCONSOLE is not set" >>$(1); \
 		sed -i "/CONFIG_TFTP/d" $(1); \
 		echo "# CONFIG_TFTP is not set" >>$(1); \
+		sed -i "/CONFIG_TFTPD/d" $(1); \
+		echo "# CONFIG_TFTPD is not set" >>$(1); \
 		sed -i "/CONFIG_FEATURE_TFTP_PUT/d" $(1); \
 		echo "# CONFIG_FEATURE_TFTP_PUT is not set" >>$(1); \
 		sed -i "/CONFIG_FTPPUT/d" $(1); \
@@ -303,18 +299,6 @@ define platformKernelConfig
 		echo "# CONFIG_FS_MBCACHE is not set" >> $(1); \
 		sed -i "/CONFIG_CIFS/d" $(1); \
 		echo "# CONFIG_CIFS is not set" >> $(1); \
-		sed -i "/CONFIG_JFFS2_FS/d" $(1); \
-		echo "# CONFIG_JFFS2_FS is not set" >> $(1); \
-		sed -i "/CONFIG_JFFS2_ZLIB/d" $(1); \
-		echo "# CONFIG_JFFS2_ZLIB is not set" >> $(1); \
-		sed -i "/CONFIG_JFFS2_LZO/d" $(1); \
-		echo "# CONFIG_JFFS2_LZO is not set" >> $(1); \
-		sed -i "/CONFIG_JFFS2_RTIME/d" $(1); \
-		echo "# CONFIG_JFFS2_RTIME is not set" >> $(1); \
-		sed -i "/CONFIG_JFFS2_RUBIN/d" $(1); \
-		echo "# CONFIG_JFFS2_RUBIN is not set" >> $(1); \
-		sed -i "/CONFIG_JFFS_FS/d" $(1); \
-		echo "# CONFIG_JFFS_FS is not set" >> $(1); \
 		sed -i "/CONFIG_EXPORTFS/d" $(1); \
 		echo "# CONFIG_EXPORTFS is not set" >> $(1); \
 		sed -i "/CONFIG_FAT/d" $(1); \
