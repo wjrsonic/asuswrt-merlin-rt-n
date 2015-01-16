@@ -632,7 +632,11 @@ function remove_url(){
 
 	if(downsize_4m_support) {
 		remove_menu_item("Main_ConnStatus_Content.asp");
-		remove_menu_item("Main_TrafficMonitor_realtime.asp");		
+		remove_menu_item("Main_TrafficMonitor_realtime.asp");
+		remove_menu_item("Tools_OtherSettings.asp");
+//		remove_menu_item("Advanced_Wireless_Survey.asp");
+		remove_menu_item("Advanced_Feedback.asp");
+//		remove_menu_item("ParentalControl.asp");
 	}
 	
 	if(downsize_8m_support) {
