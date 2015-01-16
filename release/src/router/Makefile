@@ -1536,8 +1536,8 @@ ifeq ($(BUILD_NAME),RT-N53)
 	rm -f $(TARGETDIR)/usr/lib/libext2fs*
 	rm -f $(TARGETDIR)/usr/lib/libuuid*
 	rm -f $(TARGETDIR)/usr/lib/libblkid*
-#	rm -f $(TARGETDIR)/usr/lib/libcom*
-#	rm -f $(TARGETDIR)/usr/lib/libe2p*
+	rm -f $(TARGETDIR)/usr/lib/libcom*
+	rm -f $(TARGETDIR)/usr/lib/libe2p*
 #
 	rm -rf $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/scsi
 	rm -rf $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/cdrom
