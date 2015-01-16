@@ -13,9 +13,8 @@ Asuswrt-merlin is a customized version of Asus's firmware. The goal is
 to provide bugfixes and minor enhancements to Asus's firmware, with also 
 a few occasional feature additions.  This is done while retaining 
 the look and feel of the original firmware, and also ensuring that 
-the two codebases remain close enough so it will remain 
-possible to keep up with any new features brought by Asus in the 
-original firmware.
+the two codebases remain close enough so it will remain possible 
+to keep up with any new features brought by Asus in the original firmware.
 
 This project's goal is NOT to develop yet another firmware filled with 
 many features that are rarely used by home users - that is already covered 
@@ -50,7 +49,7 @@ Here is a list of features that Asuswrt-merlin brings over the original
 firmware:
 
 System:
-   - Based on 3.0.0.4.378_3762 source code from Asus
+   - Based on 3.0.0.4.378_3873 source code from Asus
    - Various bugfixes and optimizations
    - Some components were updated to newer versions, for improved
      stability and security
@@ -70,7 +69,7 @@ Disk sharing:
    - NFS sharing (through webui)
    - Improved compatibility with 3TB+ and Advanced Format HDDs
    - Allow or disable WAN access to the FTP server
-   - Updated Samba version (3.6.x)
+   - Updated Samba version (3.6)
 
 
 Networking:
@@ -86,6 +85,7 @@ Networking:
    - Configurable min/max UPNP ports
    - IPSec kernel support (N16/N66/AC66 only)
    - DNS-based Filtering, can be applied globally or per client
+   - Custom DDNS (through a user script)
 
 Web interface:
    - Optionally save traffic stats to disk (USB or JFFS partition)
@@ -175,6 +175,14 @@ These are shell scripts that you can create, and which will be run when
 certain events occur.  Those scripts must be saved in /jffs/scripts/ 
 (so, JFFS must be enabled and formatted).  Available scripts:
 
+ * ddns-start: Script called at the end of a DDNS update process.
+               This script is also called when setting the DDNS type
+               to "Custom".  The script gets passed the WAN IP as 
+               an argument.
+               When handling a "Custom" DDNS, this script is also
+               responsible for reporting the success or failure
+               of the update process.  See the Custom DDNS section
+               below for more information.
  * dhcpc-event: Called whenever a DHCP event occurs on the WAN 
                 interface.  The type of event (bound, release, etc...) 
                 is passed as an argument.
@@ -195,7 +203,10 @@ certain events occur.  Those scripts must be saved in /jffs/scripts/
               device path being mounted as an argument which can be 
               used in the script using $1.
  * qos-start: Called after both the iptables rules and tc configuration 
-              are completed for QoS.
+              are completed for QoS.  This script will be passed an
+              argument, which will be "init" (when QoS is being
+              initialized and it has setup the tc classes) or
+              "rules" (when the iptables rules are being setup).
  * openvpn-event: Called whenever an OpenVPN server gets 
                   started/stopped, or an OpenVPN client connects to a 
                   remote server.  Uses the same syntax/parameters as 
@@ -449,6 +460,7 @@ during boot, requiring a factory default reset to recover it.
 
 ** NFS Exports **
 IMPORTANT: NFS sharing is still a bit unstable.
+
 In addition to SMB and FTP, you can now also share any plugged 
 hard disk through NFS.  The NFS Exports interface can be accessed 
 from the USB Applications section, under Servers Center.  Click on the 
@@ -560,6 +572,40 @@ http://l7-filter.clearfoundation.com/
 
 
 
+** Custom DDNS **
+If you set the DDNS (dynamic DNS) service to "Custom", then you will be able 
+to fully control the update process through a ddns-start user script.  That 
+script could launch a custom DDNS update client, or run a simple "wget" on 
+a provider's update URL.  The ddns-start script will be passed the WAN IP 
+as an argument.
+
+Note that the script will also be responsible for notifying the firmware on 
+the success or failure of the process.  To do this you must simply 
+run the following command:
+
+   /sbin/ddns_custom_updated 0|1
+
+0 = failure, 1 = successful update
+
+If you cannot determine the success or failure, then report it as a 
+success to ensure that the firmware won't continuously try to 
+force an update.
+
+Here is a working example, for afraid.org's free DDNS (you must update
+the URL to use your private API key from afraid.org):
+
+-----
+    #!/bin/sh
+
+    wget -q http://freedns.afraid.org/dynamic/update.php?your-private-key-goes-here -O - >/dev/null
+
+    if [ $? -eq 0 ]; then
+        /sbin/ddns_custom_updated 1
+    else
+        /sbin/ddns_custom_updated 0
+    fi
+-----
+
 
 
 Source code
@@ -573,14 +619,43 @@ https://github.com/RMerl/asuswrt-merlin
 History
 -------
 378.50 (xx-xxx-2015)
-   - NEW: Merged with Asus 378_3762 GPL code.  Most notable changes:
+   - NEW: Merged with Asus 378_3873 GPL code.  Most notable changes:
             * TrendMicro DPI engine for RT-AC68U
+            * Various updates to 3G/4G support and Dual WAN
 
+   - NEW: ddns-start user script, run after the DDNS update was
+          launched
+   - NEW: Custom DDNS (handled through ddns-start script)
+          See the documentation for how to create such
+          a script (it will be responsible for updating
+          the router nvram flag indicating success of failure)
    - CHANGED: Added logo to DNSFilter on the AiProtection
               homepage (contributed by Piterel)
+   - CHANGED: Updated Openssl to 1.0.0p
+   - CHANGED: Merged Asus's newer NTP update code, with a fix
+              to prevent hourly log spam from the update process
+              when in a DST enabled timezone.
+   - CHANGED: Updated vstpd to 3.0.2 (newer version used by
+              Asus on their Qualcomm-based routers)
+   - CHANGED: the qos-start script will be passed an argument
+              that will contain "init" (when setting up tc)
+              or "rules" (when setting up iptables).
    - FIXED: OpenVPN server page would report an initializing
             state when it was already running under certain
             conditions
+   - FIXED: First OpenVPN client/server instance wasn't properly
+            run on the second CPU core, resulting in lower
+            performance (AC56/AC68/AC87)
+   - FIXED: Router IP wasn't advertised through DHCP as WINS
+            server if WINS was enabled
+   - FIXED: OpenVPN would crash if specifying "None" as
+            the cipher (regression in OpenVPN 2.3.6)
+   - FIXED: The "empty" category was removed by Asus a
+            few months ago, preventing you from removing
+            an assigned priority on the Adaptive QoS
+            page.  Re-added it.
+  - FIXED: Port triggers weren't written to the correct
+           iptables chain (Asus bug)
 
 
 376.49_5 (9-Jan-2015)

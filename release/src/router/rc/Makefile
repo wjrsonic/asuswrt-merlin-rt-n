@@ -269,7 +269,11 @@ OBJS += lteled.o
 endif
 
 ifeq ($(RTAC68U),y)
-#OBJS += sysdeps/broadcom/cfe.o
+OBJS += sysdeps/broadcom/cfe.o
+endif
+
+ifeq ($(RTCONFIG_TR069),y)
+OBJS += tr069.o
 endif
 
 ifeq ($(RTCONFIG_BCMARM),y)
@@ -347,6 +351,7 @@ endif
 	@cd $(INSTALLDIR)/sbin && ln -sf rc ntp
 	@cd $(INSTALLDIR)/sbin && ln -sf rc autodet
 	@cd $(INSTALLDIR)/sbin && ln -sf rc ddns_updated
+	@cd $(INSTALLDIR)/sbin && ln -sf rc ddns_custom_updated
 
 #	@cd $(INSTALLDIR)/sbin && ln -sf rc wldist
 
@@ -476,6 +481,9 @@ endif
 ifeq ($(and $(RTCONFIG_IPV6),$(RTCONFIG_WIDEDHCP6)),y)
 	@cd $(INSTALLDIR)/sbin && ln -sf rc stop_ipv6
 	@cd $(INSTALLDIR)/sbin && ln -sf rc start_dhcp6c
+endif
+ifeq ($(RTCONFIG_TR069),y)
+	@cd $(INSTALLDIR)/sbin && ln -sf rc dhcpc_lease
 endif
 
 clean:
