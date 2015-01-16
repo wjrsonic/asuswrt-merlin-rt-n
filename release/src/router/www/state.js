@@ -629,10 +629,10 @@ function remove_url(){
 	if(downsize_4m_support) {
 		remove_menu_item("Main_ConnStatus_Content.asp");
 		remove_menu_item("Main_TrafficMonitor_realtime.asp");
-		remove_menu_item("Tools_Sysinfo.asp");
-		remove_menu_item("Advanced_Wireless_Survey.asp");
+		remove_menu_item("Tools_OtherSettings.asp");
+//		remove_menu_item("Advanced_Wireless_Survey.asp");
 		remove_menu_item("Advanced_Feedback.asp");
-		remove_menu_item("ParentalControl.asp");	
+//		remove_menu_item("ParentalControl.asp");	
 	}
 	
 	if(downsize_8m_support) {
@@ -800,21 +800,21 @@ function remove_url(){
 	else{		
 		var dualwan_pri_if = '<% nvram_get("wans_dualwan"); %>'.split(" ")[0];
 		if(dualwan_pri_if == 'lan' || dualwan_pri_if == 'wan'){
+			menuL2_link[4] = "Advanced_WAN_Content.asp";
+			tablink[3][1] = "Advanced_WAN_Content.asp";
+		}
+		else if(dualwan_pri_if == 'usb'){
 			if(based_modelid == '4G-AC55U'){
 				menuL2_link[4] = "Advanced_MobileBroadband_Content.asp";
 				tablink[3][1] = "Advanced_MobileBroadband_Content.asp";
 			}
-			else{	
+			else{
 				menuL2_link[4] = "Advanced_Modem_Content.asp";
 				tablink[3][1] = "Advanced_Modem_Content.asp";
 			}
 		}
-		else if(dualwan_pri_if == 'usb'){
-			menuL2_link[4] = "Advanced_Modem_Content.asp";
-			tablink[3][1] = "Advanced_Modem_Content.asp";
-		}
 		else if(dualwan_pri_if == 'dsl'){
-			menuL2_link[4] = "Advanced_DSL_Content.asp";	
+			menuL2_link[4] = "Advanced_DSL_Content.asp";
 			tablink[3][1] = "Advanced_DSL_Content.asp";
 		}
 	}

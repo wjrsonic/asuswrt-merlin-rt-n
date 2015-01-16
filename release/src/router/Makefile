@@ -1082,18 +1082,31 @@ endif
 	@rm -f $(TARGETDIR)/lib/modules/*/build
 
 ifeq ($(RTCONFIG_4M_SFP),y)
-	rm -r -f $(TARGETDIR)/www/images
-	rm -f $(TARGETDIR)/www/Advanced_QOSUserPrio_Content.asp
-	rm -f $(TARGETDIR)/www/Advanced_QOSUserRules_Content.asp
+#	rm -r -f $(TARGETDIR)/www/images
+	rm -r -f $(TARGETDIR)/www/images/New_ui/new_qis
+	rm -r -f $(TARGETDIR)/www/images/New_ui/new_qis
+	rm -r -f $(TARGETDIR)/www/images/New_ui/mode_operations.jpg
+	rm -r -f $(TARGETDIR)/www/images/New_ui/network_config.png
+	rm -r -f $(TARGETDIR)/www/images/New_ui/parental-contol.png
+	rm -r -f $(TARGETDIR)/www/images/New_ui/QoS.png
+
+	rm -r -f $(TARGETDIR)/www/images/mobile
+	rm -r -f $(TARGETDIR)/www/images/map-iconRouter_iphone.png
+	rm -r -f $(TARGETDIR)/www/images/movie.jpg
+	rm -r -f $(TARGETDIR)/www/images/pwd_strength_gradient.jpg
+	rm -r -f $(TARGETDIR)/www/images/setup.jpg
+	rm -r -f $(TARGETDIR)/www/images/svg_th_hover.png
+	rm -r -f $(TARGETDIR)/rom/etc/static_routes
+	rm -f $(TARGETDIR)/www/Advanced_VPN_OpenVPN.asp
+#	rm -f $(TARGETDIR)/www/Advanced_QOSUserPrio_Content.asp
+#	rm -f $(TARGETDIR)/www/Advanced_QOSUserRules_Content.asp
 	rm -f $(TARGETDIR)/www/Advanced_SwitchCtrl_Content.asp
-	rm -f $(TARGETDIR)/www/Advanced_QOSUserPrio_Content.asp
 	rm -f $(TARGETDIR)/www/QIS_wizard_m.htm
-	rm -f $(TARGETDIR)/www/QoS_EZQoS.asp
-	rm -f $(TARGETDIR)/www/Advanced_QOSUserPrio_Content.asp
+	rm -f $(TARGETDIR)/www/qis/QISMobilePlugin.js
+#	rm -f $(TARGETDIR)/www/QoS_EZQoS.asp
 	rm -f $(TARGETDIR)/www/apps_test.asp
 	rm -f $(TARGETDIR)/www/update_applist.asp
 	rm -f $(TARGETDIR)/www/ajax_qos_default.asp
-	rm -f $(TARGETDIR)/www/Advanced_QOSUserPrio_Content.asp
 	rm -f $(TARGETDIR)/www/wds_aplist_5g.asp
 	rm -f $(TARGETDIR)/www/wds_aplist_5g_2.asp
 	rm -f $(TARGETDIR)/www/getsharelink.asp
@@ -1102,6 +1115,24 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -f $(TARGETDIR)/usr/sbin/helper.sh
 	rm -f $(TARGETDIR)/usr/sbin/webs_update.sh
 	rm -f $(TARGETDIR)/usr/sbin/webs_upgrade.sh
+	rm -f $(TARGETDIR)/usr/sbin/snooper
+	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_CLASSIFY.so
+	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_DSCP.so
+	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_TOS.so
+	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_account.so
+	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_condition.so
+	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_connlimit.so
+	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_dscp.so
+	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_policy.so
+	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_quota.so
+	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_recent.so
+	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_set.so
+	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_tos.so
+	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_web.so
+	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_webmon.so
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/wl.ko
+	cp -f -R  $(SRCBASE)/wl/sysdeps/RT-N10_blobs/wl.ko $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net
+	rm -f -R  $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs
 endif
 
 # External Web Kit

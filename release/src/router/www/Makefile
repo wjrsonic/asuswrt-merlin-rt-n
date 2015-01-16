@@ -90,6 +90,8 @@ endif
 ifneq ($(RTCONFIG_DNSFILTER),y)
 	rm -rf $(INSTALLDIR)/www/DNSFilter.asp
 	rm -rf $(INSTALLDIR)/www/Home_Security.asp
+	rm -rf $(INSTALLDIR)/www/images/New_ui/DnsFiltering.png
+
 endif
 #ifneq ($(RTCONFIG_OPENVPN),y)
 ifneq ($(RTCONFIG_BCMWL6),y)
@@ -127,6 +129,7 @@ endif
 #	rm -rf $(INSTALLDIR)/www/Home_Security.asp
 ifneq ($(RTCONFIG_OPENVPN),y)
 	rm -rf $(INSTALLDIR)/www/Advanced_OpenVPNClient_Content.asp
+	rm -rf $(INSTALLDIR)/www/Advanced_VPN_OpenVPN.asp
 	rm -rf $(INSTALLDIR)/www/ajax_openvpn_server.asp
 endif
 	rm -rf $(INSTALLDIR)/www/Advanced_PerformanceTuning_Content.asp
@@ -139,13 +142,13 @@ endif
 endif
 ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -rf $(INSTALLDIR)/www/images/cloudsync/invite_model.jpg
-	rm -rf $(INSTALLDIR)/www/switcherplugin
+#	rm -rf $(INSTALLDIR)/www/switcherplugin
 	rm -rf $(INSTALLDIR)/www/images/PrinterServer
 	rm -rf $(INSTALLDIR)/www/images/appinstall
-	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/bg.png
-	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/client-list.png
-	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/client-listover.png
-	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/client.png
+#	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/bg.png
+#	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/client-list.png
+#	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/client-listover.png
+#	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/client.png
 	rm -rf $(INSTALLDIR)/www/Main_ConnStatus_Content.asp
 	rm -rf $(INSTALLDIR)/www/svghtc
 	rm -rf $(INSTALLDIR)/www/svg.js
@@ -174,7 +177,7 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -rf $(INSTALLDIR)/www/images/qis/win7_network_icon1.jpg
 	rm -rf $(INSTALLDIR)/www/images/qis/win7_network_icon2.jpg
 	rm -rf $(INSTALLDIR)/www/images/qis/winxp.jpg
-	rm -rf $(INSTALLDIR)/www/Advanced_WANPort_Content.asp
+#	rm -rf $(INSTALLDIR)/www/Advanced_WANPort_Content.asp
 	rm -rf $(INSTALLDIR)/www/mediaserver.asp
 	rm -rf $(INSTALLDIR)/www/ajax_dms_status.asp
 	rm -rf $(INSTALLDIR)/www/Advanced_PerformanceTuning_Content.asp
@@ -185,12 +188,12 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -rf $(INSTALLDIR)/www/fan.svg
 	rm -rf $(INSTALLDIR)/www/detect_firmware.asp
 	rm -rf $(INSTALLDIR)/www/ajax_coretmp.asp
-	rm -rf $(INSTALLDIR)/www/qis/QIS_internet_ruisp.htm
-	rm -rf $(INSTALLDIR)/www/qis/ruisp.js
+#	rm -rf $(INSTALLDIR)/www/qis/QIS_internet_ruisp.htm
+#	rm -rf $(INSTALLDIR)/www/qis/ruisp.js
 #	rm -rf $(INSTALLDIR)/www/images/New_ui/network_config.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/TimeLimits.png
 #	rm -rf $(INSTALLDIR)/www/images/New_ui/QoS.png
-	rm -rf $(INSTALLDIR)/www/images/New_ui/parental-control.png
+#	rm -rf $(INSTALLDIR)/www/images/New_ui/parental-control.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/rt.jpg
 	rm -rf $(INSTALLDIR)/www/images/New_ui/re.jpg
 	rm -rf $(INSTALLDIR)/www/images/New_ui/ap.jpg
@@ -202,17 +205,18 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -rf $(INSTALLDIR)/www/DNSFilter.asp
 	rm -rf $(INSTALLDIR)/www/Home_Security.asp
 	rm -rf $(INSTALLDIR)/www/Advanced_OpenVPNClient_Content.asp
+	rm -rf $(INSTALLDIR)/www/Advanced_VPN_OpenVPN.asp
 	rm -rf $(INSTALLDIR)/www/Advanced_PerformanceTuning_Content.asp
 #Tools
-	rm -rf $(INSTALLDIR)/www/Tools_Sysinfo.asp
+#	rm -rf $(INSTALLDIR)/www/Tools_Sysinfo.asp
 	rm -rf $(INSTALLDIR)/www/Tools_OtherSettings.asp
-	rm -rf $(INSTALLDIR)/www/Tools_RunCmd.asp
-	rm -rf $(INSTALLDIR)/www/Advanced_Wireless_Survey.asp
+#	rm -rf $(INSTALLDIR)/www/Tools_RunCmd.asp
+#	rm -rf $(INSTALLDIR)/www/Advanced_Wireless_Survey.asp
 	rm -rf $(INSTALLDIR)/www/Advanced_Feedback.asp
 	rm -rf $(INSTALLDIR)/www/Feedback_Info.asp
 	rm -rf $(INSTALLDIR)/www/find_device.asp
-	rm -rf $(INSTALLDIR)/www/ParentalControl.asp
-	rm -rf $(INSTALLDIR)/www/ParentalControl.css
+#	rm -rf $(INSTALLDIR)/www/ParentalControl.asp
+#	rm -rf $(INSTALLDIR)/www/ParentalControl.css
 #USB
 	rm -rf $(INSTALLDIR)/www/images/New_ui/USBExt
 	rm -rf $(INSTALLDIR)/www/images/New_ui/aidisk
@@ -447,15 +451,17 @@ ifeq ($(RTCONFIG_OPENVPN), y)
 else
 	rm -rf $(INSTALLDIR)/www/ajax_openvpn_server.asp
 ifneq ($(RTCONFIG_ACCEL_PPTPD), y)
-	rm -rf $(INSTALLDIR)/www/images/New_ui/vpnstatus.png
 	rm -rf $(INSTALLDIR)/www/Advanced_VPN_PPTP.asp
 	rm -rf $(INSTALLDIR)/www/ajax_openvpn_server.asp
 	rm -rf $(INSTALLDIR)/www/Advanced_VPNAdvanced_Content.asp
 	rm -rf $(INSTALLDIR)/www/Advanced_VPN_Content.asp
+	rm -rf $(INSTALLDIR)/www/images/New_ui/vpnstatus.png
+ifneq ($(RTCONFIG_VPNC), y)
 	rm -rf $(INSTALLDIR)/www/Advanced_VPNStatus.asp
 endif
 endif
-ifneq ($(RTCONFIG_VPNC), y)	
+endif
+ifneq ($(RTCONFIG_VPNC), y)
 	rm -rf $(INSTALLDIR)/www/Advanced_VPNClient_Content.asp
 endif	
 ifneq ($(RTCONFIG_TIMEMACHINE),y)
