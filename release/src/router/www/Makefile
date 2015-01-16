@@ -261,12 +261,12 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -rf $(INSTALLDIR)/www/images/tmo_modem_unplug.png
 	rm -rf $(INSTALLDIR)/www/images/modem_plug.png
 	rm -rf $(INSTALLDIR)/www/images/modem_unplug.png
-	rm -rf $(INSTALLDIR)/www/images/survey/radio_status.png
-	-rm -f $(INSTALLDIR)/www/qis/QIS_modem.htm
+#	rm -rf $(INSTALLDIR)/www/images/survey/radio_status.png
+	rm -rf $(INSTALLDIR)/www/qis/QIS_modem.htm
 	rm -rf $(INSTALLDIR)/www/qis/QIS_resetModem.htm
 	rm -rf $(INSTALLDIR)/www/qis/QIS_resetModem2.htm
 	rm -rf $(INSTALLDIR)/www/MobileQIS_Login.asp
-	# disk utility
+# disk utility
 	rm -rf $(INSTALLDIR)/www/device-map/disk_utility.asp
 	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/backgroud_move_3_02.gif
 	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/white_04.gif

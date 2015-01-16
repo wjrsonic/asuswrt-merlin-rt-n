@@ -1094,7 +1094,7 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -r -f $(TARGETDIR)/www/images/New_ui/network_config.png
 	rm -r -f $(TARGETDIR)/www/images/New_ui/parental-contol.png
 	rm -r -f $(TARGETDIR)/www/images/New_ui/QoS.png
-
+	rm -f -r $(TARGETDIR)/www/images/WANunplug_usb.png
 	rm -r -f $(TARGETDIR)/www/images/mobile
 	rm -r -f $(TARGETDIR)/www/images/map-iconRouter_iphone.png
 	rm -r -f $(TARGETDIR)/www/images/movie.jpg
@@ -1135,9 +1135,9 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_tos.so
 	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_web.so
 	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_webmon.so
-	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/wl.ko
-	cp -f -R  $(SRCBASE)/wl/sysdeps/RT-N10_blobs/wl.ko $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net
-	rm -f -R  $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs
+#	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/wl.ko
+#	cp -f -R  $(SRCBASE)/wl/sysdeps/RT-N10_blobs/wl.ko $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net
+#	rm -f -R  $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs
 endif
 
 # External Web Kit
@@ -1593,6 +1593,7 @@ ifeq ($(BUILD_NAME),RT-N53)
 	rm -f -r $(TARGETDIR)/www/images/movie.jpg
 	rm -f -r $(TARGETDIR)/www/images/setup.jpg
 	rm -f -r $(TARGETDIR)/www/images/New_ui/usbstatus.png
+	rm -f -r $(TARGETDIR)/www/images/WANunplug_usb.png
 #
 	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/ohci-hcd.ko
 	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/uhci-hcd.ko
