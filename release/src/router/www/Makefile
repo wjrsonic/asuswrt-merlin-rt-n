@@ -188,12 +188,12 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -rf $(INSTALLDIR)/www/fan.svg
 	rm -rf $(INSTALLDIR)/www/detect_firmware.asp
 	rm -rf $(INSTALLDIR)/www/ajax_coretmp.asp
-#	rm -rf $(INSTALLDIR)/www/qis/QIS_internet_ruisp.htm
-#	rm -rf $(INSTALLDIR)/www/qis/ruisp.js
-#	rm -rf $(INSTALLDIR)/www/images/New_ui/network_config.png
+	rm -rf $(INSTALLDIR)/www/qis/QIS_internet_ruisp.htm
+	rm -rf $(INSTALLDIR)/www/qis/ruisp.js
+	rm -rf $(INSTALLDIR)/www/images/New_ui/network_config.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/TimeLimits.png
-#	rm -rf $(INSTALLDIR)/www/images/New_ui/QoS.png
-#	rm -rf $(INSTALLDIR)/www/images/New_ui/parental-control.png
+	rm -rf $(INSTALLDIR)/www/images/New_ui/QoS.png
+	rm -rf $(INSTALLDIR)/www/images/New_ui/parental-control.png
 	rm -rf $(INSTALLDIR)/www/images/New_ui/rt.jpg
 	rm -rf $(INSTALLDIR)/www/images/New_ui/re.jpg
 	rm -rf $(INSTALLDIR)/www/images/New_ui/ap.jpg
@@ -266,7 +266,7 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -rf $(INSTALLDIR)/www/qis/QIS_resetModem.htm
 	rm -rf $(INSTALLDIR)/www/qis/QIS_resetModem2.htm
 	rm -rf $(INSTALLDIR)/www/MobileQIS_Login.asp
-# disk utility
+	# disk utility
 	rm -rf $(INSTALLDIR)/www/device-map/disk_utility.asp
 	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/backgroud_move_3_02.gif
 	rm -rf $(INSTALLDIR)/www/images/New_ui/networkmap/white_04.gif

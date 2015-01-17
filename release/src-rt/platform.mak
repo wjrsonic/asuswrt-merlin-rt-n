@@ -59,12 +59,6 @@ define platformRouterOptions
 		sed -i "/RTCONFIG_WIDEDHCP6/d" $(1); \
 		echo "# RTCONFIG_WIDEDHCP6 is not set" >>$(1); \
 	fi; \
-	if [ "$(SFPRAM16M)" = "y" ]; then \
-		sed -i "/RTCONFIG_L7/d" $(1); \
-		echo "# RTCONFIG_L7 is not set" >>$(1); \
-		sed -i "/RTCONFIG_L7PAT/d" $(1); \
-		echo "# RTCONFIG_L7PAT is not set" >>$(1); \
-	fi; \
 	if [ "$(BUILD_NAME)" != "RT-N53" ]; then \
 		sed -i "/RTCONFIG_HAS_5G/d" $(1); \
 		echo "# RTCONFIG_HAS_5G is not set" >>$(1); \

@@ -601,9 +601,9 @@ obj-$(RTCONFIG_TCPDUMP) += tcpdump-4.4.0
 
 # Merlin addons
 obj-n += wol
-ifneq ($(RTCONFIG_4M_SFP),y)
+#ifneq ($(RTCONFIG_4M_SFP),y)
 obj-y += ipset
-endif
+#endif
 
 obj-$(RTCONFIG_BLINK_LED) += bled
 obj-$(RTCONFIG_BONDING) += ifenslave
@@ -921,8 +921,8 @@ endif
 	$(if $(RTCONFIG_OPENVPN),@cp -f,$(if $(RTCONFIG_USB),@cp -f,@mv)) $(TARGETDIR)/lib/modules/*/kernel/drivers/net/tun.*o $(PLATFORMDIR)/extras/ || true
 	$(if $(RTCONFIG_EBTABLES),@cp -f,@mv) $(TARGETDIR)/lib/modules/*/kernel/net/bridge/netfilter/ebt*.*o $(PLATFORMDIR)/extras/ || true
 
-#	@cp -f $(TARGETDIR)/lib/modules/*/kernel/net/ipv4/netfilter/ip_set*o $(PLATFORMDIR)/extras/ || true
-	$(if $(RTCONFIG_4M_SFP),@mv,@cp -f) $(TARGETDIR)/lib/modules/*/kernel/net/ipv4/netfilter/ip_set*o $(PLATFORMDIR)/extras/ || true
+	@cp -f $(TARGETDIR)/lib/modules/*/kernel/net/ipv4/netfilter/ip_set*o $(PLATFORMDIR)/extras/ || true
+#	$(if $(RTCONFIG_4M_SFP),@mv,@cp -f) $(TARGETDIR)/lib/modules/*/kernel/net/ipv4/netfilter/ip_set*o $(PLATFORMDIR)/extras/ || true
 	@mv $(TARGETDIR)/lib/modules/*/kernel/drivers/net/ifb.*o $(PLATFORMDIR)/extras/ || true
 	@mv $(TARGETDIR)/lib/modules/*/kernel/net/sched/sch_red.*o $(PLATFORMDIR)/extras/ || true
 	@mv $(TARGETDIR)/lib/modules/*/kernel/fs/ntfs.*o $(PLATFORMDIR)/extras/ || true
@@ -1089,10 +1089,9 @@ endif
 ifeq ($(RTCONFIG_4M_SFP),y)
 #	rm -r -f $(TARGETDIR)/www/images
 	rm -r -f $(TARGETDIR)/www/images/New_ui/new_qis
-	rm -r -f $(TARGETDIR)/www/images/New_ui/new_qis
-	rm -r -f $(TARGETDIR)/www/images/New_ui/mode_operations.jpg
+#	rm -r -f $(TARGETDIR)/www/images/New_ui/mode_operations.jpg
 	rm -r -f $(TARGETDIR)/www/images/New_ui/network_config.png
-	rm -r -f $(TARGETDIR)/www/images/New_ui/parental-contol.png
+	rm -r -f $(TARGETDIR)/www/images/New_ui/parental-control.png
 	rm -r -f $(TARGETDIR)/www/images/New_ui/QoS.png
 	rm -f -r $(TARGETDIR)/www/images/WANunplug_usb.png
 	rm -r -f $(TARGETDIR)/www/images/mobile
@@ -1103,12 +1102,16 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -r -f $(TARGETDIR)/www/images/svg_th_hover.png
 	rm -r -f $(TARGETDIR)/rom/etc/static_routes
 	rm -f $(TARGETDIR)/www/Advanced_VPN_OpenVPN.asp
+	rm -f $(TARGETDIR)/www/Advanced_VPNAdvanced_Content.asp
+	rm -f $(TARGETDIR)/www/Advanced_VPN_Content.asp
+	rm -f $(TARGETDIR)/www/require/modules/disk*
+	rm -f $(TARGETDIR)/www/pwdmeter.css
 #	rm -f $(TARGETDIR)/www/Advanced_QOSUserPrio_Content.asp
 #	rm -f $(TARGETDIR)/www/Advanced_QOSUserRules_Content.asp
+#	rm -f $(TARGETDIR)/www/QoS_EZQoS.asp
 	rm -f $(TARGETDIR)/www/Advanced_SwitchCtrl_Content.asp
 	rm -f $(TARGETDIR)/www/QIS_wizard_m.htm
 	rm -f $(TARGETDIR)/www/qis/QISMobilePlugin.js
-#	rm -f $(TARGETDIR)/www/QoS_EZQoS.asp
 	rm -f $(TARGETDIR)/www/apps_test.asp
 	rm -f $(TARGETDIR)/www/update_applist.asp
 	rm -f $(TARGETDIR)/www/ajax_qos_default.asp
@@ -1121,23 +1124,24 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -f $(TARGETDIR)/usr/sbin/webs_update.sh
 	rm -f $(TARGETDIR)/usr/sbin/webs_upgrade.sh
 	rm -f $(TARGETDIR)/usr/sbin/snooper
-	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_CLASSIFY.so
-	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_DSCP.so
-	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_TOS.so
-	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_account.so
-	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_condition.so
-	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_connlimit.so
-	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_dscp.so
-	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_policy.so
-	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_quota.so
-	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_recent.so
-	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_set.so
-	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_tos.so
-	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_web.so
-	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_webmon.so
+#	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_CLASSIFY.so
+#	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_DSCP.so
+#	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_TOS.so
+#	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_account.so
+#	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_condition.so
+#	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_connlimit.so
+#	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_dscp.so
+#	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_policy.so
+#	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_quota.so
+#	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_recent.so
+#	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_set.so
+#	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_tos.so
+#	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_web.so
+#	rm -f $(TARGETDIR)/usr/lib/iptables/libipt_webmon.so
 #	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/wl.ko
 #	cp -f -R  $(SRCBASE)/wl/sysdeps/RT-N10_blobs/wl.ko $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net
-#	rm -f -R  $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs
+	rm -f -R  $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs
+	rm -f -R  $(TARGETDIR)/lib/modules/2.6.22.19/kernel/lib
 endif
 
 # External Web Kit
@@ -1531,6 +1535,8 @@ endif
 endif
 endif
 
+
+
 ifeq ($(BUILD_NAME),RT-N53)
 	rm -f -r $(TARGETDIR)/www/aidisk
 	rm -f -r $(TARGETDIR)/www/images/Tree
@@ -1604,7 +1610,6 @@ ifeq ($(BUILD_NAME),RT-N53)
 #	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/wl_high.ko
 #	cp -f -R  $(SRCBASE)/wl/sysdeps/RT-N53_blobs/wl_high.ko $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net
 endif
-
 ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10P RT-N12B1 RT-N12C1 RT-N12D1 RT-N12HP RT-N12HP_B1 RT-N12VP ))
 	rm -f -r $(TARGETDIR)/www/aidisk
 	rm -f -r $(TARGETDIR)/www/images/Tree
