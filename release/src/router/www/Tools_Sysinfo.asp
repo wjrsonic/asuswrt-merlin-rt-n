@@ -218,6 +218,7 @@ switch (based_modelid)
 		case "RT-AC66U":
 		case "RT-N66U":
 		case "RT-AC68U":
+		case "RP-AC68U":
 		case "RT-N18U":
 		case "RT-AC3200":
 		case "RT-AC53U":
@@ -274,15 +275,14 @@ switch (based_modelid)
 		case "RT-N15U":
 		case "RT-N53":
 		case "RT-N12":
-		case "RT-N12A1":
 		case "RT-N12B1":
 		case "RT-N12C1":
 		case "RT-N12D1":
 		case "RT-N12HP":
-		case "RT-N12HP_V1":
+		case "RT-N12HP_B1":
 		case "RT-N12VP":
 		case "RT-N10P":
-		case "RT-N10P_V2":
+		case "RT-N10PV2":
 		case "RT-N10D1":
 		{
 		  switch (tmpPort) 
@@ -309,6 +309,7 @@ switch (based_modelid)
 		}
 
 		case "RT-AC56U":
+		case "RT-AC56S":
 		case "RT-N14UHP":
 		{
 		  switch (tmpPort) 
