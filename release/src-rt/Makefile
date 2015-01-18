@@ -304,7 +304,7 @@ endif
 endif
 endif
 	
-#	md5sum image/$(IMGNAME).trx > image/$(IMGNAME).md5
+	md5sum image/$(IMGNAME).trx > image/$(IMGNAME).md5
 
 ifeq ($(DSL_TCLINUX),y)
 	cat image/$(IMGNAME).trx tc_fw/tclinux.bin > image/$(IMGNAME)_DSL.trx

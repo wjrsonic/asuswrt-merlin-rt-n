@@ -1526,6 +1526,8 @@ ifeq ($(EXT_WEB_KIT),n)
 	rm -f $(TARGETDIR)/www/Lang_Hdr
 	rm -f $(TARGETDIR)/www/Advanced_APPList_Content.asp
 	rm -f $(TARGETDIR)/www/switch_AiDisk_app.asp
+	rm -f $(TARGETDIR)/www/Advanced_VPN_Content.asp
+	rm -f $(TARGETDIR)/www/Advanced_VPNAdvanced_Content.asp
 ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10U RT-N15U ))
 	rm -f $(TARGETDIR)/www/mediaserver.asp
 endif
@@ -1610,6 +1612,7 @@ ifeq ($(BUILD_NAME),RT-N53)
 #	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/wl_high.ko
 #	cp -f -R  $(SRCBASE)/wl/sysdeps/RT-N53_blobs/wl_high.ko $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net
 endif
+
 ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10P RT-N12B1 RT-N12C1 RT-N12D1 RT-N12HP RT-N12HP_B1 RT-N12VP ))
 	rm -f -r $(TARGETDIR)/www/aidisk
 	rm -f -r $(TARGETDIR)/www/images/Tree
@@ -1627,7 +1630,21 @@ ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10P RT-N12B1 RT-N12C1 RT-N12D1 
 	rm -f $(TARGETDIR)/www/Advanced_SwitchCtrl_Content.asp
 	rm -f $(TARGETDIR)/www/mediaserver.asp
 	rm -f $(TARGETDIR)/www/PrinterServer.asp
+	rm -f $(TARGETDIR)/www/Advanced_VPN_Content.asp
+	rm -f $(TARGETDIR)/www/Advanced_VPNAdvanced_Content.asp
 	rm -f $(TARGETDIR)/www/qis/QISMobilePlugin.js
+	rm -f $(TARGETDIR)/www/device-map/*disk*.asp
+	rm -f $(TARGETDIR)/www/device-map/modem.asp
+	rm -f $(TARGETDIR)/www/device-map/printer.asp
+	rm -f -r $(TARGETDIR)/www/images/mobile
+	rm -f -r $(TARGETDIR)/www/images/*modem*.png
+	rm -f -r $(TARGETDIR)/www/images/*iphone*.png
+	rm -f -r $(TARGETDIR)/www/images/movie.jpg
+	rm -f -r $(TARGETDIR)/www/images/setup.jpg
+	rm -f -r $(TARGETDIR)/www/images/New_ui/usbstatus.png
+	rm -f -r $(TARGETDIR)/www/images/New_ui/printstatus.png
+	rm -f -r $(TARGETDIR)/www/images/WANunplug_usb.png
+	rm -f $(TARGETDIR)/www/require/modules/disk*
 	rm -f $(TARGETDIR)/www/qis/*modem*
 	rm -f $(TARGETDIR)/bin/comgt
 	rm -f $(TARGETDIR)/bin/sdparm
@@ -1644,6 +1661,7 @@ ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10P RT-N12B1 RT-N12C1 RT-N12D1 
 	rm -f -r $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb
 	rm -r -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/scsi
 	rm -r -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/block
+	rm -r -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/cdrom
 	rm -r -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/connector
 	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/ext*.ko
 	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/*fat*.ko
