@@ -2877,7 +2877,7 @@ int init_nvram(void)
 		add_rc_support("switchctrl"); // broadcom: for jumbo frame only
 		add_rc_support("manual_stb");
 #ifndef RTCONFIG_CLOUDSYNC
-		add_rc_support("aicloudipk"); // 
+//		add_rc_support("aicloudipk"); // 
 #endif
 		add_rc_support("rrsut");	//syn server
 		add_rc_support("pwrctrl"); // wl power adjust
@@ -4191,7 +4191,7 @@ int init_nvram(void)
 			nvram_set("ct_max", "32768"); //force
 		add_rc_support("2.4G mssid usbX1 small_fw");
 #ifndef RTCONFIG_CLOUDSYNC
-		add_rc_support("aicloudipk"); // 
+//		add_rc_support("aicloudipk"); // 
 #endif
 		add_rc_support("rrsut");	//syn server
 		add_rc_support("pwrctrl"); // wl power adjust
@@ -4671,7 +4671,9 @@ int init_nvram(void)
 #ifdef RTCONFIG_8M_SFP
 	add_rc_support("sfp8m");
 #endif
+#ifndef RTCONFIG_4M_SFP
 	add_rc_support("ruisp");
+#endif
 
 #ifdef RTCONFIG_WIFI_TOG_BTN
 	add_rc_support("wifi_tog_btn");

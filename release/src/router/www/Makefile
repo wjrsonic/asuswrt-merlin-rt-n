@@ -320,9 +320,8 @@ ifneq ($(RTCONFIG_DSL),y)
 	rm -rf $(INSTALLDIR)/www/Feedback_Info.asp
 endif
 
-ifneq ($(BUILD_NAME),DSL-N55U)
-ifneq ($(BUILD_NAME),DSL-N55U-B)
-ifneq ($(BUILD_NAME),RT-N56U)
+
+ifneq ($(BUILD_NAME), $(filter $(BUILD_NAME), DSL-N55U DSL-N55U-B RT-N56U ))
 ifneq ($(RTCONFIG_CLOUDSYNC),y)
 ifeq ($(EXT_WEB_KIT),y)
 	mkdir -p $(SRCBASE)/image/ext/www
@@ -337,6 +336,7 @@ ifeq ($(EXT_WEB_KIT),y)
 	mv -f $(INSTALLDIR)/www/Advanced_AiDisk_webdav.asp $(SRCBASE)/image/ext/www
 	cp -f -R  $(SRCBASE)/image/cloud/* $(INSTALLDIR)/www/
 else
+ifneq ($(BUILD_NAME), RT-N14UHP )
 	rm -rf $(INSTALLDIR)/www/images/cloudsync
 	rm -rf $(INSTALLDIR)/www/images/aicloud_logo.png
 #	rm -rf $(INSTALLDIR)/www/images/New_ui/USBExt/*cloud*.png
@@ -349,7 +349,7 @@ endif
 endif
 endif
 endif
-endif
+
 
 ifneq ($(RTCONFIG_IPV6),y)
 	rm -rf $(INSTALLDIR)/www/Main_IPV6Status_Content.asp
