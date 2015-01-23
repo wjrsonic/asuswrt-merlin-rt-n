@@ -963,8 +963,10 @@ void start_dnsmasq(int force)
 
 	if (have_dhcp) {
 		/* Maximum leases */
-		if ((i = get_dhcpd_lmax()) > 0)
+		if ((i = get_dhcpd_lmax()) > 0) {
+			if (i < 253) i = 253;
 			fprintf(fp, "dhcp-lease-max=%d\n", i);
+		}
 
 		/* Faster for moving clients, if authoritative */
 		if (nvram_get_int("dhcpd_auth") >= 0)
@@ -4599,9 +4601,6 @@ again:
 			start_mt_daapd();
 #endif
 		}
-#ifdef RTCONFIG_RGMII_BRCM5301X
-		eval("ifconfig", "lo", "down");
-#endif
 	}
 	else if (strcmp(script, "wireless") == 0) {
 		if(action & RC_SERVICE_STOP) {

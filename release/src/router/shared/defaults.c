@@ -1392,7 +1392,8 @@ struct nvram_tuple router_defaults[] = {
 	{ "console_loglevel", "5"},	/* <  KERN_INFO */
 
 #if defined(RTCONFIG_JFFS2) || defined(RTCONFIG_BRCM_NAND_JFFS2)
-	{ "jffs2_on", "0" },
+	{ "jffs2_on", "1" },
+	{ "jffs2_scripts", "0" },
 	{ "jffs2_exec", "" },
 	{ "jffs2_format", "0" },
 #endif
@@ -1584,6 +1585,7 @@ struct nvram_tuple router_defaults[] = {
 	{ "sshd_authkeys", ""},
 	{ "sshd_wan","0"},
 	{ "sshd_bfp","0"},
+	{ "sshd_forwarding","0"},
 #endif
 
 #ifdef RTCONFIG_USB_MODEM
@@ -1705,7 +1707,6 @@ struct nvram_tuple router_defaults[] = {
 	{ "vpnc_clientlist", ""},
 	{ "vpnc_connect_row", ""},
 	{ "vpnc_auto_conn", ""},
-	{ "vpnc_appendix", ""},
 	{ "vpnc_pptp_options_x_list", ""},
 #endif
 
@@ -1728,7 +1729,7 @@ struct nvram_tuple router_defaults[] = {
 	{ "vpn_debug",			"0"		},
 	{ "vpn_loglevel",		"3"		},
 	{ "vpn_server_unit",		"1"		},
-	{ "vpn_serverx_eas",		""		},
+	{ "vpn_serverx_start",		""		},
 	{ "vpn_serverx_dns",		""		},
 	{ "vpn_server_poll",		"0"		},
 	{ "vpn_server_if",		"tun"		},
