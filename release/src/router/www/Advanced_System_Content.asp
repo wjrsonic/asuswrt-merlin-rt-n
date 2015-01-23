@@ -1166,6 +1166,76 @@ function toggle_jffs_visibility(state){
 						</td>
 					</tr>
 			</table>
+			<table id="apps_table" width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+                		<thead>
+                			<tr>
+          					<td colspan="2">USB installed applications path and device </td>
+					</tr>
+				</thead>
+					<tr id="apps_dev_tr">
+					<th>USB installed applications device</th>
+					<td>
+						<input type="text" maxlength="5" class="input_6_table" name="apps_dev" value="<% nvram_get("apps_dev"); %>" onKeyPress="return validator.isString(this, event);">
+					</td>
+					</tr>
+					<tr id="apps_mounted_tr">
+					<th>USB installed applications mounted device</th>
+					<td>
+						<input type="text" maxlength="256" class="input_32_table" name="apps_mounted_path" value="<% nvram_get("apps_mounted_path"); %>" onKeyPress="return validator.isString(this, event);">
+					</td>
+					</tr>
+					<tr id="apps_install_folder_tr">
+					<th>USB installed applications folder name</th>
+					<td>
+						<input type="text" maxlength="256" class="input_32_table" name="apps_install_folder" value="<% nvram_get("apps_install_folder"); %>" onKeyPress="return validator.isString(this, event);">
+					</td>
+					</tr>
+					<tr id="apps_local_space_tr">
+					<th>USB installed applications local space path</th>
+					<td>
+						<input type="text" maxlength="256" class="input_32_table" name="apps_local_space" value="<% nvram_get("apps_local_space"); %>" onKeyPress="return validator.isString(this, event);">
+					</td>
+					</tr>
+			</table>
+			<table id="swap_table" width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+                		<thead>
+                			<tr>
+          					<td colspan="2">Swap file for USB installed applications</td>
+					</tr>
+				</thead>
+					<tr>
+					<th>Enable Swap file</th>
+					<td>
+						<input type="radio" name="apps_swap_enable" class="input" onClick="check_apps_swap_enable(this.value);" value="1" <% nvram_match("apps_swap_enable", "1", "checked"); %>><#checkbox_Yes#>
+						<input type="radio" name="apps_swap_enable" class="input" onClick="check_apps_swap_enable(this.value);" value="0" <% nvram_match("apps_swap_enable", "0", "checked"); %>><#checkbox_No#>
+					</td>
+			</tr>
+			<tr id="apps_swap_size_tr">
+					<th>Swap file size</th>
+					<td>
+					<input type="text" maxlength="8" class="input_15_table" name="apps_swap_size" onKeyPress="return validator.isNumber(this,event);" onblur="validate_number_range(this, 1, 1048576)" value="<% nvram_get("apps_swap_size"); %>">
+					</td>
+				</tr>
+			<tr id="apps_swap_file_tr">
+					<th>Swap file name and location</th>
+					<td>
+						<input type="text" maxlength="256" class="input_32_table" name="apps_swap_file" value="<% nvram_get("apps_swap_file"); %>" onKeyPress="return validator.isString(this, event);">
+					</td>
+				</tr>
+			</table>
+			<table id="cron_table" width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+		                <thead>
+			                <tr>
+					          <td colspan="2">Cron Jobs</td>
+				        </tr>
+			        </thead>
+					<tr>
+						<th>Cron Tasks</th>
+						<td>
+							<textarea rows="12" class="textarea_cron_table" name="cron_tasks" cols="58" maxlength="8192"><% nvram_dump("../jffs/crontabs/admin",""); %></textarea>
+						</td>
+					</tr>
+			</table>
 			<table id="ssh_table" width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable" style="margin-top:8px;">
 				<thead>
 					<tr>
