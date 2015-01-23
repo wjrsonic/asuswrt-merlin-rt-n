@@ -1,3 +1,5 @@
+﻿document.write('<script type="text/javascript" src="/require/require.min.js"></script>');
+
 /* Internet Explorer lacks this array method */
 if (!('indexOf' in Array.prototype)) {
 	Array.prototype.indexOf= function(find, i /*opt*/) {

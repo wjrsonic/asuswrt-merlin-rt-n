@@ -94,6 +94,12 @@ var restart_vpncall_flag = 0; //Viz add 2014.04 for Edit Connecting rule then re
 function initial(){
 	show_menu();
 	show_vpnc_rulelist();
+
+	document.getElementById('edit_vpn_crt_client1_ca').value = '<% nvram_get("vpn_crt_client1_ca"); %>'.replace(/&#10/g, "\n").replace(/&#13/g, "\r");
+	document.getElementById('edit_vpn_crt_client1_crt').value = '<% nvram_get("vpn_crt_client1_crt"); %>'.replace(/&#10/g, "\n").replace(/&#13/g, "\r");
+	document.getElementById('edit_vpn_crt_client1_key').value = '<% nvram_get("vpn_crt_client1_key"); %>'.replace(/&#10/g, "\n").replace(/&#13/g, "\r");
+	document.getElementById('edit_vpn_crt_client1_static').value = '<% nvram_get("vpn_crt_client1_static"); %>'.replace(/&#10/g, "\n").replace(/&#13/g, "\r");
+	document.getElementById('edit_vpn_crt_client1_crl').value = '<% nvram_get("vpn_crt_client1_crl"); %>'.replace(/&#10/g, "\n").replace(/&#13/g, "\r");
 }
 
 function Add_profile(){
@@ -661,11 +667,13 @@ function show_vpnc_rulelist(){
 				vpnc_clientlist_col[3] == document.form.vpnc_pppoe_username.value)
 			{
 				if(vpnc_state_t == 0 || vpnc_state_t ==1) // Initial or Connecting
-					code +='<td width="10%"><img src="/images/InternetScan.gif"></td>';
+						code +='<td width="10%"><img title="<#CTL_Add_enrollee#>" src="/images/InternetScan.gif"></td>';
 				else if(vpnc_state_t == 2) // Connected
-					code +='<td width="10%"><img src="/images/checked_parentctrl.png" style="width:25px;"></td>';
+						code +='<td width="10%"><img title="<#Connected#>" src="/images/checked_parentctrl.png" style="width:25px;"></td>';
+					else if(vpnc_state_t == 4 && vpnc_sbstate_t == 2)
+						code +='<td width="10%"><img title="<#qis_fail_desc1#>" src="/images/button-close2.png" style="width:25px;"></td>';
 				else // Stop connection
-					code +='<td width="10%"><img src="/images/button-close2.png" style="width:25px;"></td>';
+						code +='<td width="10%"><img title="<#ConnectionFailed#>" src="/images/button-close2.png" style="width:25px;"></td>';
 			}
 			else
 				code +='<td width="10%">-</td>';
@@ -709,7 +717,8 @@ function connect_Row(rowdata, flag){
 	var idx = rowdata.parentNode.parentNode.rowIndex;
 	var vpnc_clientlist_row = vpnc_clientlist_array.split('<');
 	var vpnc_clientlist_col = vpnc_clientlist_row[idx].split('>');
-	if(flag == "disconnect"){
+	
+	if(flag == "disconnect"){	//Disconnect the connected rule 
 		document.form.vpnc_proto.value = "disable";
 		document.form.vpnc_heartbeat_x.value = "";
 		document.form.vpnc_pppoe_username.value = "";
@@ -765,15 +774,17 @@ function connect_Row(rowdata, flag){
 				document.form.vpnc_auto_conn.value = set_auto_conn;
 			}	
 			else{	// openvpn
-				if(set_auto_conn == 1)
-					document.form.vpn_clientx_eas.value += vpnc_clientlist_col[2]+",";
+				//if(set_auto_conn == 1)
+				//	document.form.vpn_clientx_eas.value += vpnc_clientlist_col[2]+",";
+				document.form.vpnc_auto_conn.value = 1;
 			}
 		}
 		else{		//vpnc_appendix is empty
 			if(vpnc_clientlist_col[1] != "OpenVPN")				
 				document.form.vpnc_auto_conn.value = "";
 			else	
-				document.form.vpn_clientx_eas.value = "";			
+				//document.form.vpn_clientx_eas.value = "";			
+				document.form.vpnc_auto_conn.value = 1;
 		}			
 
 		// handle default gateway
@@ -967,7 +978,7 @@ function del_Row(rowdata, flag){
 	vpnc_pptp_options_x_list_array = tempPPTPOptionsValue;
 	document.form.vpnc_pptp_options_x_list.value = vpnc_pptp_options_x_list_array;
 
-	if(flag == "vpnc_enable"){	//remove connecting rule.
+	if(flag == "vpnc_enable"){	//remove connected rule.
 		document.form.vpnc_proto.value = "disable";
 		document.form.vpnc_proto.disabled = false;
 		document.form.action = "/start_apply.htm";
@@ -1006,7 +1017,7 @@ function del_Row(rowdata, flag){
 <input type="hidden" name="vpnc_proto" value="<% nvram_get("vpnc_proto"); %>">
 <input type="hidden" name="vpnc_clientlist" value='<% nvram_clean_get("vpnc_clientlist"); %>'>
 <input type="hidden" name="vpnc_type" value="PPTP">
-<input type="hidden" name="vpnc_auto_conn" value="">
+<input type="hidden" name="vpnc_auto_conn" value="<% nvram_get("vpnc_auto_conn"); %>">
 <input type="hidden" name="vpn_client_unit" value="1">
 <input type="hidden" name="vpn_client1_username" value="<% nvram_get("vpn_client1_username"); %>">
 <input type="hidden" name="vpn_client1_password" value="<% nvram_get("vpn_client1_password"); %>">
@@ -1050,14 +1061,14 @@ function del_Row(rowdata, flag){
 					<tr>
 						<th><#PPPConnection_UserName_itemname#></th>
 						<td>
-							<input type="text" maxlength="64" name="vpnc_account_edit" value="" class="input_32_table" style="float:left;"></input>
+							<input type="text" maxlength="64" name="vpnc_account_edit" value="" class="input_32_table" style="float:left;" autocapitalization="off" autocomplete="off"></input>
 						</td>
 					</tr>
 
 					<tr>
 						<th><#PPPConnection_Password_itemname#></th>
 						<td>
-							<input type="text" maxlength="64" name="vpnc_pwd_edit" value="" class="input_32_table" style="float:left;"></input>
+							<input type="text" maxlength="64" name="vpnc_pwd_edit" value="" class="input_32_table" style="float:left;" autocapitalization="off" autocomplete="off"></input>
 						</td>
 					</tr>
 
