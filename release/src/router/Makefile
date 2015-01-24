@@ -524,8 +524,8 @@ obj-$(RTCONFIG_IXIAEP) += ixia_endpoint$(BCMEX)
 # Add for ASUS Components
 obj-y += miniupnpd
 obj-y += igmpproxy
-obj-y += snooper
 ifeq ($(RTCONFIG_BCMWL6),y)
+obj-y += snooper
 ifneq ($(RTCONFIG_BCMARM),y)
 obj-y += netconf
 obj-y += igmp
