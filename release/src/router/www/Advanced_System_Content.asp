@@ -1097,6 +1097,7 @@ function toggle_jffs_visibility(state){
 						<input type="radio" name="jffs2_scripts" class="input" value="0" <% nvram_match("jffs2_scripts", "0", "checked"); %>><#checkbox_No#>
 						</td>
 				</tr>
+			</table>
 			<table id="apps_table" width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
                 		<thead>
                 			<tr>
