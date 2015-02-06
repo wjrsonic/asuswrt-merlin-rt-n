@@ -1538,7 +1538,13 @@ endif
 endif
 endif
 
-
+ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10U RT-N15U RT-N14UHP RT-N16 ))
+ifeq ($(RTCONFIG_OPENVPN),y)
+	rm -f $(TARGETDIR)/www/client*.ovpn
+	cp -f $(SRCBASE)/image/openvpnclient/client.ovpn $(TARGETDIR)/www
+	cp -f $(SRCBASE)/image/openvpnclient/client1.ovpn $(TARGETDIR)/www
+endif
+endif
 
 ifeq ($(BUILD_NAME),RT-N53)
 	rm -f -r $(TARGETDIR)/www/aidisk
@@ -1586,6 +1592,7 @@ ifeq ($(BUILD_NAME),RT-N53)
 	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/nls*.ko
 	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/fuse.ko
 	rm -f $(TARGETDIR)/lib/libutil.so.0
+#	rm -f $(TARGETDIR)/lib/libdisk.so
 	rm -f $(TARGETDIR)/rom/etc/e2fsck.conf
 #
 	rm -f $(TARGETDIR)/www/Advanced_VPN_Content.asp
@@ -1612,6 +1619,42 @@ ifeq ($(BUILD_NAME),RT-N53)
 	rm -rf $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb
 #	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/wl_high.ko
 #	cp -f -R  $(SRCBASE)/wl/sysdeps/RT-N53_blobs/wl_high.ko $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net
+# for openvpn
+	rm -f $(TARGETDIR)/bin/comgt
+	rm -f $(TARGETDIR)/usr/bin/sdparm
+	rm -f $(TARGETDIR)/usr/lib/libeap.so.0.0.0
+	rm -f $(TARGETDIR)/usr/sbin/chat
+	rm -f $(TARGETDIR)/usr/sbin/check_spectrum.sh
+	rm -f $(TARGETDIR)/usr/sbin/entware-setup.sh
+	rm -f $(TARGETDIR)/usr/sbin/gctwimax
+	rm -f $(TARGETDIR)/usr/sbin/madwimax
+	rm -f $(TARGETDIR)/usr/sbin/uqmi
+	rm -f $(TARGETDIR)/usr/sbin/usb_modeswitch
+	rm -f $(TARGETDIR)/sbin/switchmode
+	rm -f $(TARGETDIR)/sbin/wimaxc
+	rm -f $(TARGETDIR)/sbin/wimaxd
+	rm -f $(TARGETDIR)/sbin/read_sms
+	rm -f $(TARGETDIR)/sbin/send_sms
+	rm -f $(TARGETDIR)/sbin/sigmon
+	rm -rf $(TARGETDIR)/rom/Beceem_firmware
+	rm -r $(TARGETDIR)/rom/apn_asus.dat
+	rm -f $(TARGETDIR)/rom/etc/usb_modeswitch.conf
+	rm -rf $(TARGETDIR)/rom/etc/ppp
+	rm -f $(TARGETDIR)/lib/libengine_beceem.so
+	rm -f $(TARGETDIR)/lib/libeap_supplicant.so
+	rm -f $(TARGETDIR)/lib/libxvi020*
+	rm -rf $(TARGETDIR)/lib/firmware
+	rm -rf $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/Beceem_driver
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/cdc*
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/option.ko
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/sierra.ko
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/usbserial.ko
+#
+ifeq ($(RTCONFIG_OPENVPN),y)
+	rm -f $(TARGETDIR)/www/client*.ovpn
+	cp -f $(SRCBASE)/image/openvpnclient/client.ovpn $(TARGETDIR)/www
+	cp -f $(SRCBASE)/image/openvpnclient/client1.ovpn $(TARGETDIR)/www
+endif
 endif
 
 ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10P RT-N12B1 RT-N12C1 RT-N12D1 RT-N12HP RT-N12HP_B1 RT-N12VP ))
@@ -1710,6 +1753,11 @@ ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10P RT-N12B1 RT-N12C1 RT-N12D1 
 	rm -f $(TARGETDIR)/usr/lib/libblkid*
 	rm -f $(TARGETDIR)/usr/lib/libcom*
 	rm -f $(TARGETDIR)/usr/lib/libe2p*
+ifeq ($(RTCONFIG_OPENVPN),y)
+	rm -f $(TARGETDIR)/www/client*.ovpn
+	cp -f $(SRCBASE)/image/openvpnclient/client.ovpn $(TARGETDIR)/www
+	cp -f $(SRCBASE)/image/openvpnclient/client1.ovpn $(TARGETDIR)/www
+endif
 endif
 
 image:
