@@ -1103,7 +1103,7 @@ ej_dump(int eid, webs_t wp, int argc, char_t **argv)
 	else if(!strcmp(file, "openvpn_connected")){
 		int unit = nvram_get_int("vpn_server_unit");
 		parse_openvpn_status(unit);
-		sprintf(filename, "/etc/openvpn/server%d/client_status", unit);
+		sprintf(filename, "/etc/openvpn/server/client_status", unit);
 		ret += dump_file(wp, filename);
 	}
 #endif
@@ -1644,7 +1644,7 @@ int validate_instance(webs_t wp, char *name)
 #ifdef RTCONFIG_OPENVPN
 	else if(strncmp(name, "vpn_server_", 11)==0) {
 		for(i=1;i<3;i++) {
-			sprintf(prefix, "vpn_server%d_", i);
+			sprintf(prefix, "vpn_server_", i);
 			value = websGetVar(wp, strcat_r(prefix, name+11, tmp), NULL);
 			if(value && strcmp(nvram_safe_get(tmp), value)) {
 				dbG("nvram set %s = %s\n", tmp, value);
@@ -1655,7 +1655,7 @@ int validate_instance(webs_t wp, char *name)
 	}
 	else if(strncmp(name, "vpn_client_", 11)==0) {
 		for(i=1;i<3;i++) {
-			sprintf(prefix, "vpn_client%d_", i);
+			sprintf(prefix, "vpn_client_", i);
 			value = websGetVar(wp, strcat_r(prefix, name+11, tmp), NULL);
 			if(value && strcmp(nvram_safe_get(tmp), value)) {
 				dbG("nvram set %s = %s\n", tmp, value);
@@ -1811,7 +1811,7 @@ static int validate_apply(webs_t wp) {
 #endif
 #ifdef RTCONFIG_OPENVPN
 			else if(!strncmp(name, "vpn_server_", 11) && unit!=-1) {
-				snprintf(prefix, sizeof(prefix), "vpn_server%d_", unit);
+				snprintf(prefix, sizeof(prefix), "vpn_server_", unit);
 				(void)strcat_r(prefix, name+11, tmp);
 
 				if(strcmp(nvram_safe_get(tmp), value)) {
@@ -1821,7 +1821,7 @@ static int validate_apply(webs_t wp) {
 				}
 			}
 			else if(!strncmp(name, "vpn_client_", 11) && unit!=-1) {
-				snprintf(prefix, sizeof(prefix), "vpn_client%d_", unit);
+				snprintf(prefix, sizeof(prefix), "vpn_client_", unit);
 				(void)strcat_r(prefix, name+11, tmp);
 
 				if(strcmp(nvram_safe_get(tmp), value)) {
@@ -6811,37 +6811,37 @@ do_vpnupload_cgi(char *url, FILE *stream)
 			nvram_commit();
 		}
 		else if(!strcmp(filetype, "ca")) {
-			sprintf(nv, "vpn_crt_client%s_ca", unit);
+			sprintf(nv, "vpn_crt_client_ca", unit);
 			set_crt_parsed(nv, VPN_CLIENT_UPLOAD);
 			state = nvram_get_int("vpn_upload_state");
 			nvram_set_int("vpn_upload_state", state & (~VPN_UPLOAD_NEED_CA_CERT));
 		}
 		else if(!strcmp(filetype, "cert")) {
-			sprintf(nv, "vpn_crt_client%s_crt", unit);
+			sprintf(nv, "vpn_crt_client_crt", unit);
 			set_crt_parsed(nv, VPN_CLIENT_UPLOAD);
 			state = nvram_get_int("vpn_upload_state");
 			nvram_set_int("vpn_upload_state", state & (~VPN_UPLOAD_NEED_CERT));
 		}
 		else if(!strcmp(filetype, "key")) {
-			sprintf(nv, "vpn_crt_client%s_key", unit);
+			sprintf(nv, "vpn_crt_client_key", unit);
 			set_crt_parsed(nv, VPN_CLIENT_UPLOAD);
 			state = nvram_get_int("vpn_upload_state");
 			nvram_set_int("vpn_upload_state", state & (~VPN_UPLOAD_NEED_KEY));
 		}
 		else if(!strcmp(filetype, "static")) {
-			sprintf(nv, "vpn_crt_client%s_static", unit);
+			sprintf(nv, "vpn_crt_client_static", unit);
 			set_crt_parsed(nv, VPN_CLIENT_UPLOAD);
 			state = nvram_get_int("vpn_upload_state");
 			nvram_set_int("vpn_upload_state", state & (~VPN_UPLOAD_NEED_STATIC));
 		}
 		else if(!strcmp(filetype, "ccrl")) {
-			sprintf(nv, "vpn_crt_client%s_crl", unit);
+			sprintf(nv, "vpn_crt_client_crl", unit);
 			set_crt_parsed(nv, VPN_CLIENT_UPLOAD);
 			state = nvram_get_int("vpn_upload_state");
 			nvram_set_int("vpn_upload_state", state & (~VPN_UPLOAD_NEED_CRL));
 		}
-		else if(!strcmp(filetype, "scrl")) {
-			sprintf(nv, "vpn_crt_server%s_crl", unit);
+		else if(!strcmp(filetype, "scrl")) { //not sure but try
+			sprintf(nv, "vpn_crt_server_crl", unit);
 			set_crt_parsed(nv, VPN_CLIENT_UPLOAD);
 		}
 	}
