@@ -163,7 +163,7 @@ function validForm(){
 		}else{
 			if(!validator.numberRange(document.form.ddns_refresh_x, 0, 365))
 				return false;
-		
+
 			if(document.form.ddns_hostname_x.value == ""){
 				alert("<#LANHostConfig_x_DDNS_alarm_14#>");
 				document.form.ddns_hostname_x.focus();
@@ -172,25 +172,27 @@ function validForm(){
 			}else if(!validator.string(document.form.ddns_hostname_x)){
 				return false;
 			}
+
+			if(document.form.ddns_server_x.selectedIndex != 9){             // Not CUSTOM
+				if(document.form.ddns_username_x.value == ""){
+					alert("<#QKSet_account_nameblank#>");
+					document.form.ddns_username_x.focus();
+					document.form.ddns_username_x.select();
+					return false;
+				}else if(!validator.string(document.form.ddns_username_x)){
+					return false;
+				}
 			
-			if(document.form.ddns_username_x.value == ""){
-				alert("<#QKSet_account_nameblank#>");
-				document.form.ddns_username_x.focus();
-				document.form.ddns_username_x.select();
-				return false;
-			}else if(!validator.string(document.form.ddns_username_x)){
-				return false;
+				if(document.form.ddns_passwd_x.value == ""){
+					alert("<#File_Pop_content_alert_desc6#>");
+					document.form.ddns_passwd_x.focus();
+					document.form.ddns_passwd_x.select();
+					return false;
+				}else if(!validator.string(document.form.ddns_passwd_x)){
+					return false;
+				}
 			}
-			
-			if(document.form.ddns_passwd_x.value == ""){
-				alert("<#File_Pop_content_alert_desc6#>");
-				document.form.ddns_passwd_x.focus();
-				document.form.ddns_passwd_x.select();
-				return false;
-			}else if(!validator.string(document.form.ddns_passwd_x)){
-				return false;
-			}
-			
+
 			if(document.form.ddns_regular_period.value < 30){	
 				alert(Untranslated.period_time_validation + " : 30");
 				document.form.ddns_regular_period.focus();
@@ -356,7 +358,8 @@ function onSubmitApply(s){
                   		</select>
 				<a id="link" href="javascript:openLink('x_DDNSServer')" style=" margin-left:5px; text-decoration: underline;"><#LANHostConfig_x_DDNSServer_linkname#></a>
 				<a id="linkToHome" href="javascript:openLink('x_DDNSServer')" style=" margin-left:5px; text-decoration: underline;"><#ddns_home_link#></a>
-				<div id="customnote" style="display:none;"><span>For the Custom DDNS you must enable the JFFS partition, and create a ddns-start script that handles your custom notification.</span></div>
+				<div id="customnote" style="display:none;"><span>For the Custom DDNS you must manually create a ddns-start script that handles your custom notification.</span></div>
+				<div id="need_custom_scripts" style="display:none;"><span>WARNING: you must enable both the JFFS2 partition and custom scripts support!<br>Click <a href="Advanced_System_Content.asp" style="text-decoration: underline;">HERE</a> to proceed.</span></div>
 				</td>
 			</tr>
 			<tr id="ddns_hostname_tr">

@@ -203,7 +203,7 @@ ifeq ($(RTCONFIG_RALINK),y)
 #################################################################################
 obj-y += wireless_tools
 
-ifeq ($(or $(RTN14U),$(RTAC52U),$(RTAC51U),$(RTN11P),$(RTN54U),$(RTAC1200HP),$(RTN56UV2)),y)
+ifeq ($(or $(RTN14U),$(RTAC52U),$(RTAC51U),$(RTN11P),$(RTN54U),$(RTAC1200HP),$(RTN56UB1),$(RTAC54U)),y)
 obj-y += reg
 endif
 
@@ -213,7 +213,7 @@ obj-y += rt2880_app
 else	#!ifneq ($(findstring linux-3.x,$(LINUXDIR)),)
 obj-y += ated
 obj-y += flash
-ifeq (($(or $(RTN14U),$(RTAC52U),$(RTAC51U),$(RTN11P),$(RTN54U),$(RTAC1200HP)),$(RTN56UV2)),y)
+ifeq (($(or $(RTN14U),$(RTAC52U),$(RTAC51U),$(RTN11P),$(RTN54U),$(RTAC1200HP)),$(RTN56UB1),$(RTAC54U)),y)
 else
 obj-y += hw_nat
 endif
@@ -363,8 +363,8 @@ obj-$(RTCONFIG_NFS) += nfs-utils
 obj-$(RTCONFIG_NFS) += portmap
 
 #obj-y += dosfstools
-#obj-$(RTCONFIG_FTP) += $(if $(RTCONFIG_QCA),vsftpd-3.x,vsftpd)
-obj-$(RTCONFIG_FTP) += vsftpd-3.x
+obj-$(RTCONFIG_FTP) += $(if $(RTCONFIG_QCA),vsftpd-3.x,vsftpd)
+#obj-$(RTCONFIG_FTP) += vsftpd-3.x
 
 ifeq ($(CONFIG_LINUX26),y)
 ifeq ($(RTCONFIG_SAMBASRV),y)
@@ -468,7 +468,7 @@ obj-$(RTCONFIG_TIMEMACHINE) += libgcrypt-1.5.1
 obj-$(RTCONFIG_TIMEMACHINE) += db-4.8.30
 obj-$(RTCONFIG_TIMEMACHINE) += netatalk-3.0.5
 ifeq ($(or $(RTCONFIG_TIMEMACHINE),$(RTCONFIG_MDNS)),y)
-obj-$(RTCONFIG_TIMEMACHINE) += libdaemon
+obj-y += libdaemon
 obj-y += avahi-0.6.31
 obj-y += expat-2.0.1
 else
@@ -612,6 +612,13 @@ obj-$(RTCONFIG_BLINK_LED) += bled
 obj-$(RTCONFIG_BONDING) += ifenslave
 
 obj-$(RTCONFIG_GEOIP) += GeoIP-1.6.2
+
+ifeq ($(RTCONFIG_TOR),y)
+obj-y += openssl
+obj-y += zlib
+obj-y += libevent-2.0.21
+obj-y += tor-0.2.5.10
+endif
 
 #For TR-069 agent
 obj-$(RTCONFIG_TR069) += openssl
@@ -2898,6 +2905,36 @@ iperf-install:
 iperf-clean:
 	[ ! -f iperf/Makefile ] || $(MAKE) -C iperf distclean
 
+libevent-2.0.21: libevent-2.0.21/stamp-h1
+	$(MAKE) -C $@
+	$(MAKE) -C $@ install
+
+libevent-2.0.21/stamp-h1:
+	cd libevent-2.0.21 && CFLAGS="-Os -Wall $(EXTRACFLAGS)" \
+	$(CONFIGURE) --prefix=$(TOP)/libevent --enable-static
+	touch $@
+
+libevent-2.0.21-clean:
+	[ ! -f libevent-2.0.21/Makefile ] || $(MAKE) -C libevent-2.0.21 clean
+	@rm -f libevent-2.0.21/stamp-h1
+
+
+tor-0.2.5.10: openssl zlib libevent-2.0.21 tor-0.2.5.10/Makefile
+	@$(SEP)
+	$(MAKE) -C $@
+
+tor-0.2.5.10/Makefile:
+	(cd tor-0.2.5.10 ; $(CONFIGURE) --enable-static-libevent --with-libevent-dir=$(TOP)/libevent \
+					--enable-static-openssl --with-openssl-dir=$(TOP)/openssl \
+					--enable-static-zlib --with-zlib-dir=$(TOP)/zlib)
+
+tor-0.2.5.10-install: tor-0.2.5.10
+	install -D tor-0.2.5.10/src/or/tor $(INSTALLDIR)/tor-0.2.5.10/usr/sbin/Tor
+	$(STRIP) $(INSTALLDIR)/tor-0.2.5.10/usr/sbin/Tor
+
+tor-0.2.5.10-clean:
+	[ ! -f tor-0.2.5.10/Makefile ] || $(MAKE) -C tor-0.2.5.10 clean
+
 iproute2:
 	@$(SEP)
 	@$(MAKE) -C $@ KERNEL_INCLUDE=$(LINUXDIR)/include EXTRACFLAGS="$(EXTRACFLAGS) $(if $(RTCONFIG_IPV6),-DUSE_IPV6,-DNO_IPV6)" $(PARALLEL_BUILD)
@@ -3447,7 +3484,7 @@ openpam-install: openpam
 	$(STRIP) -s $(INSTALLDIR)/openpam/usr/lib/pam_unix.so
 
 openpam-clean:
-	@[ ! -f openpam/Makefile ] || $(MAKE) -C openpam clean
+	@[ ! -f openpam/Makefile ] || $(MAKE) -C openpam distclean
 	@rm -f openpam/stamp-h1
 
 openvpn/stamp-h1: lzo zlib
@@ -3799,7 +3836,7 @@ webdav_client$(BCMEX)-clean:
 #add install libcurl
 curl-7.21.7/stamp-h1:
 	cd curl-7.21.7 && \
-	$(CONFIGURE) CC=$(CC) --enable-http --with-ssl=$(TOP)/openssl LDFLAGS="-ldl"
+	$(CONFIGURE) CC=$(CC) --enable-http --with-ssl=$(TOP)/openssl --with-ca-bundle=/rom/ca-bundle.crt LDFLAGS="-ldl"
 	touch $@
 
 curl-7.21.7: curl-7.21.7/stamp-h1

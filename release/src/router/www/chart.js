@@ -1174,7 +1174,11 @@ var pie_flag;
 			// ctx.lineTo(this.controlPoints.outer.x,this.controlPoints.outer.y);
 			// ctx.stroke();
 
-			// ctx.restore();		}
+			// ctx.restore();
+
+
+
+		}
 	});
 
 	Chart.Arc = Chart.Element.extend({
@@ -3116,7 +3120,11 @@ var pie_flag;
 
 	var root = this,
 		Chart = root.Chart,
-		helpers = Chart.helpers;	Chart.Type.extend({
+		helpers = Chart.helpers;
+
+
+
+	Chart.Type.extend({
 		name: "Radar",
 		defaults:{
 			//Boolean - Whether to show lines for each scale point
@@ -3409,7 +3417,11 @@ var pie_flag;
 					if (point.hasValue()){
 						point.transition(this.scale.getPointPosition(index, this.scale.calculateCenterOffset(point.value)), easeDecimal);
 					}
-				},this);				//Draw the line between all the points
+				},this);
+
+
+
+				//Draw the line between all the points
 				ctx.lineWidth = this.options.datasetStrokeWidth;
 				ctx.strokeStyle = dataset.strokeColor;
 				ctx.beginPath();
@@ -3441,5 +3453,9 @@ var pie_flag;
 		}
 
 	});
+
+
+
+
 
 }).call(this);

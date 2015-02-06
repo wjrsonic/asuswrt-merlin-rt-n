@@ -1,5 +1,5 @@
-Asuswrt-Merlin - build 376.50 (xx-xxx-2015)
-===========================================
+Asuswrt-Merlin - build 378.50 beta 3 (xx-Feb-2015)
+==================================================
 
 About
 -----
@@ -45,7 +45,7 @@ of the routers.  Same with the "W" variants that are simply white.
 
 Features
 --------
-Here is a list of features that Asuswrt-merlin brings over the original 
+Here is a list of features that Asuswrt-merlin adds over the original 
 firmware:
 
 System:
@@ -60,14 +60,13 @@ System:
      all LEDs
    - Entware easy setup script (alternative to Optware - the two are 
      mutually exclusive) (not available on RT-AC56/RT-AC68/RT-AC87)
-   - Full SNMP support (based on experimental code from Asus)
+   - SNMP support (based on experimental code from Asus)
 
 
 Disk sharing:
    - Enable/disable the use of shorter share names
    - Disk spindown after user-configurable inactivity timeout
    - NFS sharing (through webui)
-   - Improved compatibility with 3TB+ and Advanced Format HDDs
    - Allow or disable WAN access to the FTP server
    - Updated Samba version (3.6)
 
@@ -118,6 +117,8 @@ integrated/enabled/re-implemented in the official firmware:
 - The various MAC/IP selection pulldowns will also display hostnames
   when possible instead of just NetBIOS names
 - SSHD
+- Improved compatibility with 3TB+ and Advanced Format HDDs
+
 
 
 Installation
@@ -135,6 +136,9 @@ strongly recommended for the following cases:
 
 If upgrading from anything older and you experience issues, then 
 consider doing a factory default reset then as well.
+
+Always read the changelog, as mandatory resets will be mentionned 
+there when they are necessary.
 
 In all of these cases, do NOT load a saved copy of your settings!
 This would be the same thing as NOT resetting at all, as you will 
@@ -198,6 +202,10 @@ Available scripts:
                get started
  * nat-start: nat rules (i.e. port forwards and such) have been applied 
               (nat table)
+ * openvpn-event: Called whenever an OpenVPN server gets
+                  started/stopped, or an OpenVPN client connects to a
+                  remote server.  Uses the same syntax/parameters as
+                  the "up" and "down" scripts in OpenVPN.
  * post-mount:  Just after a partition is mounted
  * pre-mount: Just before a partition is mounted.  Be careful with 
               this script.  This is run in a blocking call and will 
@@ -212,10 +220,6 @@ Available scripts:
               argument, which will be "init" (when QoS is being
               initialized and it has setup the tc classes) or
               "rules" (when the iptables rules are being setup).
- * openvpn-event: Called whenever an OpenVPN server gets 
-                  started/stopped, or an OpenVPN client connects to a 
-                  remote server.  Uses the same syntax/parameters as 
-                  the "up" and "down" scripts in OpenVPN.
  * services-start: Initial service start at boot
  * services-stop: Services are stopped at shutdown/reboot
  * unmount: Just before unmounting a partition.  This is a blocking 
@@ -236,11 +240,11 @@ And like any Linux script, they need to start with a shebang:
 
 
 ** SSHD **
-SSH support (through Dropbear) was re-enabled.  Password-based login 
-will use the same username and password as telnet/web access.  You can 
-also optionally insert a RSA or ECDSA public key there for 
-keypair-based authentication.  There is also an option to make ssh 
-access available over WAN.
+The router can be accessed over SSH (through Dropbear).  Password-based 
+login will use the same username and password as telnet/web access.  
+You can also optionally insert a RSA or ECDSA public key there for 
+keypair-based authentication.  Finally, there is also an option to 
+make SSH access available over WAN.
 
 
 
@@ -353,7 +357,7 @@ documentation for more details on the ccd directory.
 ** Customized config files **
 The services executed by the router such as minidlna or dnsmasq relies 
 on dynamically-generated config files.  There are various methods 
-through which you can interact with these config scripts to customize 
+through which you can interact with these config files to customize 
 them.
 
 The first method is through custom configs.  You can append content to 
@@ -378,6 +382,9 @@ enabled, under Administration -> System.
 
 The list of available config overrides:
 
+ * adisk.service
+ * afpd.service
+ * avahi-daemon.conf
  * dhcp6s.conf
  * dnsmasq.conf
  * exports (only exports.add supported)
@@ -386,6 +393,7 @@ The list of available config overrides:
  * group, gshadow, passwd, shadow (only .add versions supported)
  * hosts (for /etc/hosts)
  * minidlna.conf
+ * mt-daap.service
  * pptpd.conf
  * profile (shell profile, only profile.add suypported)
  * radvd.conf
@@ -404,7 +412,7 @@ server instance's ccd directory when the server is started.
 
 
 ** Postconf scripts **
-A lot of the configuration scripts used by the router services
+A lot of the configuration files used by the router services
 (such as dnsmasq) are dynamically generated by the firmware.  This
 makes it hard for advanced users to apply modifications to these, short
 of entirely replacing the config file.
@@ -415,8 +423,8 @@ before the related service gets started.  This means you can use those
 scripts to manipulate the configuration script, using tools such as 
 "sed" for example.
 
-Postconf scripts must be stored in /jffs/scripts/ .JFFS must be enabled, 
-as well as the option to use custom scripts and configs.  
+Postconf scripts must be stored in /jffs/scripts/ .  JFFS must be 
+enabled, as well as the option to use custom scripts and configs.  
 This can be configured under Administration -> System.
 
 The path/filename of the target config file is passed as argument to 
@@ -424,6 +432,9 @@ the postconf script.
 
 The list of available postconf scripts is:
 
+ * adisk.postconf (Time Machine)
+ * afpd.postconf (Time Machine)
+ * avahi-daemon.postconf (Time Machine)
  * dhcp6s.postconf
  * dnsmasq.postconf
  * exports.postconf
@@ -432,6 +443,7 @@ The list of available postconf scripts is:
  * gshadow.postconf
  * hosts.postconf
  * minidlna.postconf
+ * mt-daap.postconf
  * openvpnclient1.postconf (and openvpnclient2.postconf)
  * openvpnserver1.postconf (and openvpnserver2.postconf)
  * passwd.postconf
@@ -585,14 +597,14 @@ http://l7-filter.clearfoundation.com/
 
 
 ** Custom DDNS **
-If you set the DDNS (dynamic DNS) service to "Custom", then you will be able 
-to fully control the update process through a ddns-start user script.  That 
-script could launch a custom DDNS update client, or run a simple "wget" on 
-a provider's update URL.  The ddns-start script will be passed the WAN IP 
-as an argument.
+If you set the DDNS (dynamic DNS) service to "Custom", then you will be 
+able to fully control the update process through a ddns-start user 
+script.  That script could launch a custom DDNS update client, or run a 
+simple "wget" on a provider's update URL.  The ddns-start script will 
+be passed the WAN IP as an argument.
 
-Note that the script will also be responsible for notifying the firmware on 
-the success or failure of the process.  To do this you must simply 
+Note that the script will also be responsible for notifying the firmware 
+on the success or failure of the process.  To do this you must simply 
 run the following command:
 
    /sbin/ddns_custom_updated 0|1
@@ -622,6 +634,7 @@ Finally, like all custom scripts, the option to support custom scripts and
 config files must be enabled under Administration -> System.
 
 
+
 Source code
 -----------
 The source code with all my modifications can be found on Github, at:
@@ -633,23 +646,60 @@ https://github.com/RMerl/asuswrt-merlin
 History
 -------
 378.50 (xx-xxx-2015)
-   - IMPORTANT: There are a lot of changes in this release from Asus.
-                I also took the occasion to do additional changes of 
-                my own at the same time, so it's important that you
-                do a factory default reset after flashing this new
-                version, and manually reconfigure your setting.  Failure
-                to do so can lead to various issues with wifi, OpenVPN,
+   - CHANGED: Reverted back to vsftpd 2.x, as 3.0.2 doesn't work properly
+              on MIPS architectures (and possibly other particular
+              scenarios as well).
+   - CHANGED: Added warning to the DDNS page if you set the type
+              to Custom and either JFFS or custom script support isn't
+              enabled
+   - FIXED: A few unescaped quotes in the French dict breaking VPN pages
+   - FIXED: MAC list would get corrupted when removing and re-adding
+            entries on the MAC filter list
+   - FIXED: AC68U CFE update wasn't written to flash due to permission
+            issues
+   - FIXED: Static Key field wasn't visible when using HMAC
+   - FIXED: syslogd was always enforcing the -S switch
+   - FIXED: When setting a static DHCP from the networkmap, the user-entered
+            name wouldn't be used.  Now it gets used, and we rely on the rc
+            daemon to properly handle it if it's not a valid hostname (it will
+            simply not provide it to dnsmasq's static name list).
+
+
+378.50 Beta 2 (31-Jan-2015)
+   - NEW: Added custom config and postconf support for avahi, netatalk 
+          and mt-daapd (iTunes server).
+   - CHANGED: Moved the AC68U CFE update process to the same location
+              as in GPL 3626 to see if it works more consistently.
+   - FIXED: Non-DPI build of AC56U had incompatible Tuxera modules
+   - FIXED: vsftpd wouldn't start if you had IPv6 enabled.
+   - FIXED: Asus had disabled the NAT loopback fix on MIPS's iptables
+            in GPL 3762.  Re-enabled.
+   - FIXED: Wireless clients that hadn't communicated in a while wouldn't
+            be properly shown on the Wireless log (patch by pinwing)
+   - FIXED: QoS rules weren't applied properly when IPv6 was enabled
+            (was changed in recent GPL - reverted it)
+   - FIXED: Can't apply a Custom DDNS if you don't have something entered
+            in the username/password fields (shown in other DDNS services)
+   - FIXED: NFS page wasn't properly loading
+
+
+378.50 Beta 1 (25-Jan-2015)
+   - IMPORTANT: You must do a factory default reset, and manually
+                reconfigure your setting.  Failure to do so can 
+                lead to various issues with wifi, OpenVPN,
                 and the new AC68U bootloader.
 
    - IMPORTANT: Please read this changelog, especially the changes 
                 related to jffs, user scripts/config and OpenVPN.
 
    - NEW: Merged with Asus 378_3913 GPL code.  Most notable changes:
-            * TrendMicro DPI engine for RT-AC68U
+            * Trend Micro DPI engine for RT-AC68U
+            * Updated Trend Micro engine for RT-AC87U
+            * Updated Quantenna firmware/driver
             * Various updates to 3G/4G support and Dual WAN
 
-   - NEW: ddns-start user script, run after the DDNS update was
-          launched (can be used to update additional services)
+   - NEW: ddns-start user script, executed after the DDNS update 
+          was launched (can be used to update additional services)
    - NEW: Custom DDNS (handled through ddns-start script)
           See the documentation for how to create such
           a script.
@@ -676,6 +726,10 @@ History
               partition.
    - CHANGED: The Local IP in an IPv6 firewall rule can now be
               left empty.
+   - CHANGED: Download Master will now be downloaded at install time 
+              rather than included in the firmware, to increase the
+              amount of space available to JFFS - this matches
+              the AC56/AC68. (N16, N66)
    - FIXED: Under certain conditions, the OpenVPN server page 
             would report an initializing state when it was 
             already running.
@@ -703,7 +757,7 @@ History
            very small DHCP pool combined with many out-of-pool 
            reservations.  Now the limit will be either 253 or the 
            pool size, whichever is the largest (Asus issue)
-  - FIXED: SSHD port forwarding couldn't be configured
+  - FIXED: SSHD port forwarding couldn't be enabled/disabled
   - FIXED: DHCP log spam when using IPv6 with a Windows 8
            client (patch by pinwing)
   - FIXED: snmp exposes a lot of sensitive information such as
@@ -711,6 +765,8 @@ History
            have been disabled.
   - FIXED: Very long SSIDs with special characters/spaces in them 
            would be shown as "undefined" in the banner.
+  - FIXED: Curl would fail to access SSL sites due to lack of
+           a CA bundle.
 
 
 376.49_5 (9-Jan-2015)
