@@ -393,7 +393,7 @@ var_vpn(struct variable *vp,
     case OPENVPNCERTAUTH:
         *write_method = write_openVPNCertAuth;
         unit = nvram_safe_get("vpn_client_unit");        
-        sprintf(nv, "vpn_crt_client%s_ca", unit);        
+        sprintf(nv, "vpn_crt_client_ca", unit);        
         if(nmp_safe_get(nv) != NULL)
         {
             memset(tmpstr, 0, SPRINT_MAX_LEN);
@@ -406,7 +406,7 @@ var_vpn(struct variable *vp,
     case OPENVPNCLIENTCERT:
         *write_method = write_openVPNClientCert;
         unit = nvram_safe_get("vpn_client_unit");        
-        sprintf(nv, "vpn_crt_client%s_crt", unit);           
+        sprintf(nv, "vpn_crt_client_crt", unit);           
         if(nmp_safe_get(nv) != NULL)
         {
             memset(tmpstr, 0, SPRINT_MAX_LEN);
@@ -419,7 +419,7 @@ var_vpn(struct variable *vp,
     case OPENVPNCLIENTKEY:
         *write_method = write_openVPNClientKey;
         unit = nvram_safe_get("vpn_client_unit");        
-        sprintf(nv, "vpn_crt_client%s_key", unit);          
+        sprintf(nv, "vpn_crt_client_key", unit);          
         if(nmp_safe_get(nv) != NULL)
         {
             memset(tmpstr, 0, SPRINT_MAX_LEN);
@@ -432,7 +432,7 @@ var_vpn(struct variable *vp,
     case OPENVPNSTATICKEY:
         *write_method = write_openVPNStaticKey;
         unit = nvram_safe_get("vpn_client_unit");        
-        sprintf(nv, "vpn_crt_client%s_static", unit);            
+        sprintf(nv, "vpn_crt_client_static", unit);            
         if(nmp_safe_get(nv) != NULL)
         {
             memset(tmpstr, 0, SPRINT_MAX_LEN);
@@ -775,7 +775,7 @@ var_vpnServerTable(struct variable *vp,
                         char *unit = nvram_safe_get("vpn_client_unit");        
                         char nv[32] = {0};
 
-                        sprintf(nv, "vpn_client%s_state", unit);
+                        sprintf(nv, "vpn_client_state", unit);
                         if(nmp_get_int(nv) == 2)
                             tmpval = 1;
                     }
@@ -1117,13 +1117,13 @@ write_oVPNCfgFileExport(int      action,
             if(value == 1)//export        
             {
                 memset(tmpstr, 0x0, SPRINT_MAX_LEN);         
-                sprintf(tmpstr, "vpn_server%s_state", nmp_safe_get("vpn_server_unit"));
+                sprintf(tmpstr, "vpn_server_state", nmp_safe_get("vpn_server_unit"));
                 if(!strcmp(nmp_safe_get(tmpstr), "2"))
                 {        
                     if(strcmp(tftpsrvip,""))
                     {
                         memset(dir, 0x0, 32);
-                        sprintf(dir, "/tmp/etc/openvpn/server%s", nmp_safe_get("vpn_server_unit"));
+                        sprintf(dir, "/tmp/etc/openvpn/server", nmp_safe_get("vpn_server_unit"));
                         if(!chdir(dir))/* 0: Success -1: Failure */            
                             eval("tftp", "-p", "-l", configfile, "-r", configfile, tftpsrvip);
                     }        
@@ -2182,19 +2182,19 @@ write_openVPNFileImport(int      action,
                         read_config_file(VPN_CLIENT_UPLOAD, atoi(unit));
                     }
                     else if(importFileType == 2) {//Certificate Authority
-                        sprintf(nv, "vpn_crt_client%s_ca", unit);
+                        sprintf(nv, "vpn_crt_client_ca", unit);
                         set_crt_parsed(nv, VPN_CLIENT_UPLOAD);
                     }
                     else if(importFileType == 3) {//Client Certificate
-                        sprintf(nv, "vpn_crt_client%s_crt", unit);
+                        sprintf(nv, "vpn_crt_client_crt", unit);
                         set_crt_parsed(nv, VPN_CLIENT_UPLOAD);
                     }
                     else if(importFileType == 4) {//Client Key
-                        sprintf(nv, "vpn_crt_client%s_key", unit);
+                        sprintf(nv, "vpn_crt_client_key", unit);
                         set_crt_parsed(nv, VPN_CLIENT_UPLOAD);
                     }
                     else if(importFileType == 5) {//static key
-                        sprintf(nv, "vpn_crt_client%s_static", unit);
+                        sprintf(nv, "vpn_crt_client_static", unit);
                         set_crt_parsed(nv, VPN_CLIENT_UPLOAD);
                     }                                                    
 
@@ -2256,7 +2256,7 @@ write_openVPNCertAuth(int      action,
             strncpy(tmpstr, (u_char *)var_val, var_val_len); 
             tmpstr[var_val_len] = '\0';
             unit = nmp_safe_get("vpn_client_unit");
-            sprintf(nv, "vpn_crt_client%s_ca", unit);
+            sprintf(nv, "vpn_crt_client_ca", unit);
             nmp_set(nv, tmpstr);                  
           break;
 
@@ -2313,7 +2313,7 @@ write_openVPNClientCert(int      action,
             strncpy(tmpstr, (u_char *)var_val, var_val_len); 
             tmpstr[var_val_len] = '\0';
             unit = nmp_safe_get("vpn_client_unit");
-            sprintf(nv, "vpn_crt_client%s_crt", unit);
+            sprintf(nv, "vpn_crt_client_crt", unit);
             nmp_set(nv, tmpstr);                           
           break;
 
@@ -2370,7 +2370,7 @@ write_openVPNClientKey(int      action,
             strncpy(tmpstr, (u_char *)var_val, var_val_len); 
             tmpstr[var_val_len] = '\0';
             unit = nmp_safe_get("vpn_client_unit");
-            sprintf(nv, "vpn_crt_client%s_key", unit);
+            sprintf(nv, "vpn_crt_client_key", unit);
             nmp_set(nv, tmpstr);                               
           break;
 
@@ -2426,7 +2426,7 @@ write_openVPNStaticKey(int      action,
             strncpy(tmpstr, (u_char *)var_val, var_val_len); 
             tmpstr[var_val_len] = '\0';
             unit = nvram_safe_get("vpn_client_unit");
-            sprintf(nv, "vpn_crt_client%s_static", unit);
+            sprintf(nv, "vpn_crt_client_static", unit);
             nmp_set(nv, tmpstr);                  
           break;
 
@@ -3517,9 +3517,9 @@ write_vpnServerConnect(int      action,
                     {
                         nmp_set("vpnc_proto", "openvpn");
                         nmp_set("vpn_client_unit", ip);//ip is the value of client unit when the VPN type is OpenVPN.
-                        sprintf(tmpstr, "vpn_client%s_username", ip);
+                        sprintf(tmpstr, "vpn_client_username", ip);
                         nmp_set(tmpstr, username);
-                        sprintf(tmpstr, "vpn_client%s_password", ip);
+                        sprintf(tmpstr, "vpn_client_password", ip);
                         nmp_set(tmpstr, passwd);
                     }
                     else
@@ -3540,9 +3540,9 @@ write_vpnServerConnect(int      action,
                     if(!strcmp(proto, "OpenVPN"))
                     {
                         nmp_set("vpn_client_unit", "");
-                        sprintf(tmpstr, "vpn_client%s_username", ip);
+                        sprintf(tmpstr, "vpn_client_username", ip);
                         nmp_set(tmpstr, "");
-                        sprintf(tmpstr, "vpn_client%s_password", ip);
+                        sprintf(tmpstr, "vpn_client_password", ip);
                         nmp_set(tmpstr, "");
                     }
                     else
