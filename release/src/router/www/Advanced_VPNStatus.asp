@@ -20,10 +20,8 @@
 wan_route_x = '<% nvram_get("wan_route_x"); %>';
 wan_nat_x = '<% nvram_get("wan_nat_x"); %>';
 wan_proto = '<% nvram_get("wan_proto"); %>';
-server1pid = '<% sysinfo("pid.vpnserver1"); %>';
-server2pid = '<% sysinfo("pid.vpnserver2"); %>';
-client1pid = '<% sysinfo("pid.vpnclient1"); %>';
-client2pid = '<% sysinfo("pid.vpnclient2"); %>';
+serverpid = '<% sysinfo("pid.vpnserver"); %>';
+clientpid = '<% sysinfo("pid.vpnclient"); %>';
 pptpdpid = '<% sysinfo("pid.pptpd"); %>';
 
 var overlib_str0 = new Array();	//Viz add 2013.04 for record longer VPN client username/pwd
@@ -38,36 +36,23 @@ function initial(){
 	show_menu();
 
 	if (openvpnd_support){
-		if (server1pid > 0)
-			$("server1_Block_Running").innerHTML = state_r;
+		if (serverpid > 0)
+			$("server_Block_Running").innerHTML = state_r;
 		else
-			$("server1_Block_Running").innerHTML = state_s;
+			$("server_Block_Running").innerHTML = state_s;
 
-		if (client1pid > 0)
-			$("client1_Block_Running").innerHTML = state_r;
+		if (clientpid > 0)
+			$("client_Block_Running").innerHTML = state_r;
 		else
-			$("client1_Block_Running").innerHTML = state_s;
+			$("client_Block_Running").innerHTML = state_s;
 
-		if (server2pid > 0)
-			$("server2_Block_Running").innerHTML = state_r;
-		else
-			$("server2_Block_Running").innerHTML = state_s;
-
-		if (client2pid > 0)
-			$("client2_Block_Running").innerHTML = state_r;
-		else
-			$("client2_Block_Running").innerHTML = state_s;
-
-        
-		parseStatus(document.form.status_server1.value, "server1_Block");
-		parseStatus(document.form.status_client1.value, "client1_Block");
-		parseStatus(document.form.status_server2.value, "server2_Block");
-		parseStatus(document.form.status_client2.value, "client2_Block");
+		        
+		parseStatus(document.form.status_server.value, "server_Block");
+		parseStatus(document.form.status_client.value, "client_Block");
+		
 	} else {
-		showhide("server1", 0);
-		showhide("server2", 0);
-		showhide("client1", 0);
-		showhide("client2", 0);
+		showhide("server", 0);
+		showhide("client", 0);
 	}
 
 	if (pptpd_support) {
@@ -384,10 +369,8 @@ function show_vpnc_rulelist(){
 <input type="hidden" name="SystemCmd" value="">
 <input type="hidden" name="preferred_lang" id="preferred_lang" value="<% nvram_get("preferred_lang"); %>">
 <input type="hidden" name="firmver" value="<% nvram_get("firmver"); %>">
-<input type="hidden" name="status_server1" value="<% sysinfo("vpnstatus.server.1"); %>">
-<input type="hidden" name="status_server2" value="<% sysinfo("vpnstatus.server.2"); %>">
-<input type="hidden" name="status_client1" value="<% sysinfo("vpnstatus.client.1"); %>">
-<input type="hidden" name="status_client2" value="<% sysinfo("vpnstatus.client.2"); %>">
+<input type="hidden" name="status_server" value="<% sysinfo("vpnstatus.server"); %>">
+<input type="hidden" name="status_client" value="<% sysinfo("vpnstatus.client"); %>">
 <input type="hidden" name="status_pptp" value="<% nvram_dump("pptp_connected",""); %>">
 <input type="hidden" name="vpnc_proto" value="<% nvram_get("vpnc_proto"); %>">
 <input type="hidden" name="vpnc_pppoe_username" value="<% nvram_get("vpnc_pppoe_username"); %>">
@@ -430,15 +413,15 @@ function show_vpnc_rulelist(){
 
 				<br>
 
-				<table width="100%" id="server1" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+				<table width="100%" id="server" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
 					<thead>
 						<tr>
-							<td><span id="server1_Block_UpdateTime" style="float: right; background: transparent;"></span>OpenVPN Server 1<span id="server1_Block_Running" style="background: transparent;"></span></td>
+							<td><span id="server_Block_UpdateTime" style="float: right; background: transparent;"></span>OpenVPN Server<span id="server_Block_Running" style="background: transparent;"></span></td>
 						</tr>
 					</thead>
 					<tr>
 						<td style="border: none;">
-							<div id="server1_Block"></div>
+							<div id="server_Block"></div>
 						</td>
 					</tr>
 
@@ -446,47 +429,15 @@ function show_vpnc_rulelist(){
 
 				<br>
 
-				<table width="100%" id="server2" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+				<table width="100%" id="client" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
 					<thead>
 						<tr>
-							<td><span id="server2_Block_UpdateTime" style="float: right; background: transparent;"></span>OpenVPN Server 2<span id="server2_Block_Running" style="background: transparent;"></span></td>
+							<td><span id="client_Block_UpdateTime" style="float: right; background: transparent;"></span>OpenVPN Client<span id="client_Block_Running" style="background: transparent;"></span></td>
 						</tr>
 					</thead>
 					<tr>
 						<td style="border: none;">
-							<div id="server2_Block"></div>
-						</td>
-					</tr>
-
-				</table>
-
-				<br>
-
-				<table width="100%" id="client1" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
-					<thead>
-						<tr>
-							<td><span id="client1_Block_UpdateTime" style="float: right; background: transparent;"></span>OpenVPN Client 1<span id="client1_Block_Running" style="background: transparent;"></span></td>
-						</tr>
-					</thead>
-					<tr>
-						<td style="border: none;">
-							<div id="client1_Block"></div>
-						</td>
-					</tr>
-
-				</table>
-
-				<br>
-
-				<table width="100%" id="client2" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
-					<thead>
-						<tr>
-							<td><span id="client2_Block_UpdateTime" style="float: right; background: transparent;"></span>OpenVPN Client 2<span id="client2_Block_Running" style="background: transparent;"></span></td>
-						</tr>
-					</thead>
-					<tr>
-						<td style="border: none;">
-							<div id="client2_Block"></div>
+							<div id="client_Block"></div>
 						</td>
 					</tr>
 

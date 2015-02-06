@@ -1314,7 +1314,13 @@ struct nvram_tuple router_defaults[] = {
 	{ "xhcimode_waitsec", "1"},
 #endif
 #endif
+
 	{ "usb_usb2", "1"},
+#if defined(RTN10P) || defined(RTN12B1) || defined(RTN12C1) || defined(RTN12D1) || defined(RTN12HP) || defined(RTN12HP_B1) || defined(RTN12VP) || defined(RTN53)
+	#ifndef MR
+	{ "qos_rulenum_x", "0"},
+	#endif
+#else
 	{ "usb_ftpenable_x", "1"},
 	{ "usb_ftpanonymous_x", "1"},
 	{ "usb_ftpsuper_x", "0"},
@@ -1333,6 +1339,7 @@ struct nvram_tuple router_defaults[] = {
 	{ "usb_ftpmaxuser_x", ""},
 	{ "usb_ftprights_x", ""},
 	{ "usb_ftpbanip_x", ""},
+#endif
 
 	// remain default setting control as tomato
 	{ "usb_enable", "1"},
@@ -1345,6 +1352,8 @@ struct nvram_tuple router_defaults[] = {
 #endif
 	{ "usb_usb2", "1"},
 	{ "usb_irq_thresh", "0"},
+#if defined(RTN10P) || defined(RTN12B1) || defined(RTN12C1) || defined(RTN12D1) || defined(RTN12HP) || defined(RTN12HP_B1) || defined(RTN12VP) || defined(RTN53)
+#else
 	{ "usb_storage", "1"},
 	{ "usb_printer", "1"},
 	{ "usb_ext_opt", ""},
@@ -1353,6 +1362,7 @@ struct nvram_tuple router_defaults[] = {
 	{ "usb_hfs_opt", ""},
 	{ "usb_fs_ext3", "1"},
 	{ "usb_fs_fat", "1"},
+#endif
 #ifdef RTCONFIG_NTFS
 	{ "usb_fs_ntfs", "1"},
 	{ "usb_fs_ntfs_sparse", "0"},
@@ -1369,6 +1379,8 @@ struct nvram_tuple router_defaults[] = {
 	{ "script_usbmount", ""},
 	{ "script_usbumount", ""},
 
+#if defined(RTN10P) || defined(RTN12B1) || defined(RTN12C1) || defined(RTN12D1) || defined(RTN12HP) || defined(RTN12HP_B1) || defined(RTN12VP) || defined(RTN53)
+#else
 	{ "smbd_enable", "1"},
 //	{ "smbd_autoshare", "1"},
 	{ "smbd_cpage", ""},
@@ -1383,6 +1395,7 @@ struct nvram_tuple router_defaults[] = {
 	{ "smbd_wanac", "0"},
 	{ "smbd_simpler_naming", "0"},
 	{ "smbd_enable_smb2", "0"},
+#endif
 
 #ifdef RTCONFIG_NFS
 	{ "nfsd_enable", "0"},
@@ -1397,10 +1410,17 @@ struct nvram_tuple router_defaults[] = {
 	{ "console_loglevel", "5"},	/* <  KERN_INFO */
 
 #if defined(RTCONFIG_JFFS2) || defined(RTCONFIG_BRCM_NAND_JFFS2)
-	{ "jffs2_on", "1" },
+#if defined(RTN10PV2) || defined(RTN12) || defined(RTN10D1)
+	{ "jffs2_on", "0" },
 	{ "jffs2_scripts", "0" },
 	{ "jffs2_exec", "" },
 	{ "jffs2_format", "0" },
+#else
+	{ "jffs2_on", "1" },
+	{ "jffs2_scripts", "1" },
+	{ "jffs2_exec", "" },
+	{ "jffs2_format", "0" },
+#endif
 #endif
 
 #ifdef RTCONFIG_UBIFS
@@ -1409,6 +1429,8 @@ struct nvram_tuple router_defaults[] = {
 #endif
 
 #ifdef RTCONFIG_USB
+#if defined(RTN10P) || defined(RTN12B1) || defined(RTN12C1) || defined(RTN12D1) || defined(RTN12HP) || defined(RTN12HP_B1) || defined(RTN12VP) || defined(RTN53)
+#else
 	{ "acc_num", "1"},
 	{ "acc_list", "admin>admin"},
 	{ "st_samba_mode", "4"},
@@ -1420,7 +1442,7 @@ struct nvram_tuple router_defaults[] = {
 	{ "ftp_lang", "EN" },
 	{ "ftp_wanac", "0"},
 
-//#ifdef RTCONFIG_WEBDAV
+#ifdef RTCONFIG_WEBDAV
 	{ "enable_webdav", "0"}, // 0: Disable, 1: enable
 	{ "st_webdav_mode", "2"}, // 0: http, 1: https, 2: both
 	{ "webdav_proxy", "0"},
@@ -1434,15 +1456,15 @@ struct nvram_tuple router_defaults[] = {
 	{ "webdav_lock_interval", "2"},
 	{ "webdav_lock_times", "3"},
 	{ "webdav_last_login_info", ""},
-//#endif
+#endif
 
-//#ifdef RTCONFIG_CLOUDSYNC
+#ifdef RTCONFIG_CLOUDSYNC
 	{ "enable_cloudsync", "0" },
 	{ "cloud_sync", ""},
 	{ "share_link_param", ""},
 	{ "share_link_result", ""},
 	{ "share_link_host", ""},
-//#endif
+#endif
 
 #ifdef RTCONFIG_DISK_MONITOR
 	{ "diskmon_policy", "disk"}, // all, disk, part
@@ -1462,6 +1484,7 @@ struct nvram_tuple router_defaults[] = {
 	{ "diskremove_bad_device", "1"}, // 0: disable, 1: remove the bad device
 #else
 	{ "diskremove_bad_device", "0"},
+#endif
 #endif
 #endif
 #endif
@@ -1518,6 +1541,8 @@ struct nvram_tuple router_defaults[] = {
 #if !defined(RTCONFIG_BCMARM) && !defined(RTCONFIG_QCA)
 	{ "apps_ipkg_old", "1" },
 #endif
+#if defined(RTN10P) || defined(RTN12B1) || defined(RTN12C1) || defined(RTN12D1) || defined(RTN12HP) || defined(RTN12HP_B1) || defined(RTN12VP) || defined(RTN53)
+#else
 	{ "apps_ipkg_server", "" },
 	{ "apps_wget_timeout", "30" },
 	{ "apps_local_space", "/rom" },
@@ -1526,6 +1551,7 @@ struct nvram_tuple router_defaults[] = {
 	{ "apps_swap_file", ".swap" },
 	{ "apps_swap_size", "33000" }, // 32M
 	{ "apps_state_autofix", "1" },
+#endif
 
 	{ "http_username", "admin" },
 	{ "http_passwd", "admin" },
@@ -1594,6 +1620,8 @@ struct nvram_tuple router_defaults[] = {
 #endif
 
 #ifdef RTCONFIG_USB_MODEM
+#if defined(RTN10P) || defined(RTN12B1) || defined(RTN12C1) || defined(RTN12D1) || defined(RTN12HP) || defined(RTN12HP_B1) || defined(RTN12VP) || defined(RTN53)
+#else
 	{ "usb_qmi", "1"},
 	{ "Dev3G", "AUTO"},
 	{ "modem_enable", "1"}, // 0: disabled, 1: WCDMA, 2: CDMA2000, 3: TD-SCDMA, 4: WiMAX.
@@ -1634,6 +1662,7 @@ struct nvram_tuple router_defaults[] = {
 	{ "modem_bytes_tx", "0"},
 	{ "modem_limit_unit", "0"}, /* 0: GBytes  1: MBytes*/
 	{ "modem_warning_unit", "0"}, /* 0: GBytes  1: MBytes*/	
+#endif
 #endif
 
 	{ "udpxy_enable_x", "0"},
@@ -1771,7 +1800,7 @@ struct nvram_tuple router_defaults[] = {
 	{ "vpn_server_igncrt",		"1"		},
 	{ "vpn_server_userpass_auth",	"0"		},
 	{ "vpn_serverx_clientlist",	""		},
-	{ "vpn_server1_poll",		"0"		},
+/*	{ "vpn_server1_poll",		"0"		},
 	{ "vpn_server1_if",		"tun"		},
 	{ "vpn_server1_proto",		"udp"		},
 	{ "vpn_server1_port",		"1194"		},
@@ -1797,19 +1826,19 @@ struct nvram_tuple router_defaults[] = {
 	{ "vpn_server1_rgw",		"0"		},
 	{ "vpn_server1_custom",		""		},
 	{ "vpn_server1_userpass_auth",	"0"		},
-	{ "vpn_server1_igncrt",		"1"		},
-	{ "vpn_server1_state",		"0"		},
-	{ "vpn_server1_errno",		"0"		},
-	{ "vpn_crt_server1_static",	""		},
-	{ "vpn_crt_server1_ca",		""		},
-	{ "vpn_crt_server1_ca_key",	""		},
-	{ "vpn_crt_server1_crt",	""		},
-	{ "vpn_crt_server1_key",	""		},
-	{ "vpn_crt_server1_client_crt",	""		},
-	{ "vpn_crt_server1_client_key",	""		},
-	{ "vpn_crt_server1_dh",		""		},
-	{ "vpn_crt_server1_crl",	""		},
-	{ "vpn_server2_poll",		"0"		},
+	{ "vpn_server1_igncrt",		"1"		},*/
+	{ "vpn_server_state",		"0"		},
+	{ "vpn_server_errno",		"0"		},
+	{ "vpn_crt_server_static",	""		},
+	{ "vpn_crt_server_ca",		""		},
+	{ "vpn_crt_server_ca_key",	""		},
+	{ "vpn_crt_server_crt",	""		},
+	{ "vpn_crt_server_key",	""		},
+	{ "vpn_crt_server_client_crt",	""		},
+	{ "vpn_crt_server_client_key",	""		},
+	{ "vpn_crt_server_dh",		""		},
+	{ "vpn_crt_server_crl",	""		},
+/*	{ "vpn_server2_poll",		"0"		},
 	{ "vpn_server2_if",		"tun"		},
 	{ "vpn_server2_proto",		"udp"		},
 	{ "vpn_server2_port",		"1194"		},
@@ -1846,10 +1875,10 @@ struct nvram_tuple router_defaults[] = {
 	{ "vpn_crt_server2_client_crt",	""		},
 	{ "vpn_crt_server2_client_key",	""		},
 	{ "vpn_crt_server2_dh",		""		},
-	{ "vpn_crt_server2_crl",	""		},
+	{ "vpn_crt_server2_crl",	""		}, */
 	{ "vpn_client_unit",		"1"		},
 	{ "vpn_clientx_eas",		""		},
-	{ "vpn_client1_poll",		"0"		},
+/*	{ "vpn_client1_poll",		"0"		},
 	{ "vpn_client1_if",		"tun"		},
 	{ "vpn_client1_bridge",		"1"		},
 	{ "vpn_client1_nat",		"1"		},
@@ -1881,10 +1910,10 @@ struct nvram_tuple router_defaults[] = {
 	{ "vpn_client1_userauth",	"0"		},
 	{ "vpn_client1_username",	""		},
 	{ "vpn_client1_password",	""		},
-	{ "vpn_client1_useronly",	"0"		},
-	{ "vpn_client1_state",		"0"		},
-	{ "vpn_client1_errno",		"0"		},
-	{ "vpn_client2_poll",		"0"		},
+	{ "vpn_client1_useronly",	"0"		}, */
+	{ "vpn_client_state",		"0"		},
+	{ "vpn_client_errno",		"0"		},
+/*	{ "vpn_client2_poll",		"0"		},
 	{ "vpn_client2_if",		"tun"		},
 	{ "vpn_client2_bridge",		"1"		},
 	{ "vpn_client2_nat",		"1"		},
@@ -1918,7 +1947,7 @@ struct nvram_tuple router_defaults[] = {
 	{ "vpn_client2_username",	""		},
 	{ "vpn_client2_password",	""		},
 	{ "vpn_client2_state",		"0"		},
-	{ "vpn_client2_errno",		"0"		},
+	{ "vpn_client2_errno",		"0"		}, */
 	{ "vpn_client_poll",		"0"		},
 	{ "vpn_client_if",		"tun"		},
 	{ "vpn_client_bridge",		"1"		},
@@ -1942,6 +1971,11 @@ struct nvram_tuple router_defaults[] = {
 	{ "vpn_client_gw",		""		},
 	{ "vpn_client_cn",		""		},
 	{ "vpn_client_tlsremote",	"0"		},
+	{ "vpn_crt_client_static",	""		},
+	{ "vpn_crt_client_ca",		""		},
+	{ "vpn_crt_client_crt",	""		},
+	{ "vpn_crt_client_key",	""		},
+	{ "vpn_crt_client_crl",	""		},
 	{ "vpn_client_custom",		""		},
 	{ "vpn_client_userauth",	"0"		},
 	{ "vpn_client_username",	""		},
@@ -2344,6 +2378,8 @@ struct nvram_tuple router_state_defaults[] = {
 #endif
 #endif
 
+#if defined(RTN10P) || defined(RTN12B1) || defined(RTN12C1) || defined(RTN12D1) || defined(RTN12HP) || defined(RTN12HP_B1) || defined(RTN12VP) || defined(RTN53)
+#else
 	{ "apps_dev", "" },
 	{ "apps_mounted_path", "" },
 	{ "apps_state_action", "" },
@@ -2373,6 +2409,7 @@ struct nvram_tuple router_state_defaults[] = {
 	{ "webs_notif_flag", "" },
 
 	{ "ftp_ports", ""},
+#endif
 
 #ifdef RTCONFIG_DSL
 // name starting with 'dsl' are reserved for dsl unit

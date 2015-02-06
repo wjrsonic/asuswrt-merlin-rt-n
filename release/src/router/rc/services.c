@@ -4253,9 +4253,9 @@ again:
 				modprobe_r("wl_high");
 				modprobe_r("wl");
 #ifdef RTCONFIG_USB
-#if defined(RTN53)
 				stop_usb();
 				stop_usbled();
+#if !defined(RTN53)
 				remove_storage_main(1);
 				remove_usb_module();
 #endif
@@ -5497,13 +5497,13 @@ check_ddr_done:
 #endif
 
 #ifdef RTCONFIG_OPENVPN
-	else if (strncmp(script, "vpnclient", 9) == 0) {
-		if (action & RC_SERVICE_STOP) stop_vpnclient(atoi(&script[9]));
-		if (action & RC_SERVICE_START) start_vpnclient(atoi(&script[9]));
+	else if (strcmp(script, "vpnclient") == 0) {
+		if (action & RC_SERVICE_STOP) stop_vpnclient(1);
+		if (action & RC_SERVICE_START) start_vpnclient(1);
 	}
-	else if (strncmp(script, "vpnserver" ,9) == 0) {
-		if (action & RC_SERVICE_STOP) stop_vpnserver(atoi(&script[9]));
-		if (action & RC_SERVICE_START) start_vpnserver(atoi(&script[9]));
+	else if (strcmp(script, "vpnserver") == 0) {
+		if (action & RC_SERVICE_STOP) stop_vpnserver(1);
+		if (action & RC_SERVICE_START) start_vpnserver(1);
 	}
 #endif
 #if defined(RTCONFIG_PPTPD) || defined(RTCONFIG_ACCEL_PPTPD) || defined(RTCONFIG_OPENVPN)
@@ -5517,7 +5517,7 @@ check_ddr_done:
 			stop_pptpd();
 #endif
 #if defined(RTCONFIG_OPENVPN)
-			stop_vpnserver(openvpn_unit);
+			stop_vpnserver(1);
 #endif
 		}
 		if (action & RC_SERVICE_START){
@@ -5526,8 +5526,8 @@ check_ddr_done:
 #endif
 			start_firewall(wan_primary_ifunit(), 0);
 #if defined(RTCONFIG_OPENVPN)
-			if (check_ovpn_server_enabled(openvpn_unit)){
-				start_vpnserver(openvpn_unit);
+			if (check_ovpn_server_enabled(1)){
+				start_vpnserver(1);
 			}
 #endif
 		}

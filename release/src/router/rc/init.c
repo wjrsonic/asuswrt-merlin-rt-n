@@ -1777,15 +1777,15 @@ int init_nvram(void)
 	conf_swmode_support(model);
 #endif
 #ifdef RTCONFIG_OPENVPN
-	nvram_set("vpn_server1_state", "0");
-	nvram_set("vpn_server2_state", "0");
-	nvram_set("vpn_client1_state", "0");
-	nvram_set("vpn_client2_state", "0");
-	nvram_set("vpn_server1_errno", "0");
-	nvram_set("vpn_server2_errno", "0");
-	nvram_set("vpn_client1_errno", "0");
-	nvram_set("vpn_client2_errno", "0");
-	nvram_set("vpn_upload_state", "");
+//	nvram_set("vpn_server_state", "0");
+//	nvram_set("vpn_server2_state", "0");
+//	nvram_set("vpn_client_state", "0");
+//	nvram_set("vpn_client2_state", "0");
+//	nvram_set("vpn_server_errno", "0");
+//	nvram_set("vpn_server2_errno", "0");
+//	nvram_set("vpn_client_errno", "0");
+//	nvram_set("vpn_client2_errno", "0");
+//	nvram_set("vpn_upload_state", "");
 #endif
 
 #ifdef RTCONFIG_DSL_TCLINUX
@@ -2742,7 +2742,7 @@ int init_nvram(void)
 		//nvram_set("wan_ifnames", "eth0");
 		//nvram_set("wandevs", "et0");
 		nvram_set("wl_ifnames", "eth1");
-		if(!nvram_get("ct_max") || nvram_get("ct_max") < 32768 )
+		if(!nvram_get("ct_max"))
 			nvram_set("ct_max", "32768"); //force
 
 	if (model == MODEL_RTN12D1 || model == MODEL_RTN12HP || model == MODEL_RTN12HP_B1)
@@ -2871,7 +2871,7 @@ int init_nvram(void)
 		nvram_set_int("sb/1/ledbh0", 0x82);
 		nvram_set("ehci_ports", "1-1");
 		nvram_set("ohci_ports", "2-1");
-		if (!nvram_get("ct_max") || nvram_get("ct_max") < 65535)
+		if (!nvram_get("ct_max"))
 			nvram_set("ct_max", "65535"); //force
 		add_rc_support("2.4G mssid usbX1 small_fw");
 		add_rc_support("switchctrl"); // broadcom: for jumbo frame only
@@ -3027,7 +3027,7 @@ int init_nvram(void)
 		nvram_unset("vlan2ports");
 		nvram_unset("vlan2hwname");
 		/* end */
-		if (!nvram_get("ct_max") || nvram_get("ct_max") < 65535 )
+		if (!nvram_get("ct_max"))
 			nvram_set("ct_max", "65535"); //force
 
 		add_rc_support("2.4G 5G mssid no5gmssid small_fw");
@@ -4092,7 +4092,7 @@ int init_nvram(void)
 #endif
 		nvram_set("ehci_ports", "1-1");
 		nvram_set("ohci_ports", "2-1");
-		if (!nvram_get("ct_max") || nvram_get("ct_max") < 16384 )
+		if (!nvram_get("ct_max"))
 			nvram_set("ct_max", "16384"); //force
 		add_rc_support("2.4G mssid media usbX1 update");
 #ifndef RTCONFIG_CLOUDSYNC
@@ -4187,7 +4187,7 @@ int init_nvram(void)
 		nvram_set_int("led_usb_gpio", 8);
 		nvram_set("ehci_ports", "1-1");
 		nvram_set("ohci_ports", "2-1");
-		if (!nvram_get("ct_max") || nvram_get("ct_max") < 32768 )
+		if (!nvram_get("ct_max"))
 			nvram_set("ct_max", "32768"); //force
 		add_rc_support("2.4G mssid usbX1 small_fw");
 #ifndef RTCONFIG_CLOUDSYNC
@@ -4305,8 +4305,8 @@ int init_nvram(void)
 		nvram_set("wl1_country_code", "#a");
 		nvram_set("sb/1/eu_edthresh2g", "-69"); //for CE adaptivity certification
 
-		if (!nvram_get("ct_max") || nvram_get("ct_max") < 8192 ) {
-			if (model == MODEL_RTN10D1 || model == MODEL_RTN10PV2)
+		if (!nvram_get("ct_max")) {
+			if (model == MODEL_RTN10D1)
 				nvram_set("ct_max", "8192");
 			else 
 				nvram_set("ct_max", "16384");
@@ -4494,14 +4494,14 @@ int init_nvram(void)
 	// TODO: hide USB Modem UI in 3.0.0.1
 	if (strcmp(nvram_safe_get("firmver"), "3.0.0.1")!=0) {
 		if (model==MODEL_RTN10P||model==MODEL_RTN12B1||model==MODEL_RTN12C1||model==MODEL_RTN12D1
-		 ||model==MODEL_RTN12HP||model==MODEL_RTN12HP_B1||model==MODEL_RTN12VP) ;
+		 ||model==MODEL_RTN12HP||model==MODEL_RTN12HP_B1||model==MODEL_RTN12VP||model==MODEL_RTN53) ;
 		else 
 			add_rc_support("modem");
 				}
 
 #ifdef RTCONFIG_USB_BECEEM
 	if (model==MODEL_RTN10P||model==MODEL_RTN12B1||model==MODEL_RTN12C1||model==MODEL_RTN12D1
-		 ||model==MODEL_RTN12HP||model==MODEL_RTN12HP_B1||model==MODEL_RTN12VP) ;
+		 ||model==MODEL_RTN12HP||model==MODEL_RTN12HP_B1||model==MODEL_RTN12VP||model==MODEL_RTN53) ;
 		else 
 			add_rc_support("wimax");
 			

@@ -120,51 +120,11 @@ var wl_info = {
 // parsing rc_support
 var rc_support = '<% nvram_get("rc_support"); %>';
 function isSupport(_ptn){
-	if(_ptn == "rog"){
-		var hasRogClient = false;
-		decodeURIComponent('<% nvram_char_to_ascii("", "custom_clientlist"); %>').replace(/&#62/g, ">").replace(/&#60/g, "<").split('<').forEach(function(element, index){
-			if(element.split('>')[4] != "" && typeof element.split('>')[4] != "undefined" && rc_support.search(_ptn) != -1) hasRogClient = true;
-		});
-		return hasRogClient;
-	}
-	else if(_ptn == "mssid"){
-		var wl_vifnames = '<% nvram_get("wl_vifnames"); %>';
-		var multissid = rc_support.search("mssid");
-		if(sw_mode == 2 || sw_mode == 4)
-			multissid = -1;
-		if(multissid != -1)
-			multissid = wl_vifnames.split(" ").length;
-		return multissid;
-	}
-	else if(_ptn == "aicloudipk"){
-		//MODELDEP : DSL-N55U、DSL-N55U-B、RT-N56U
-		if(based_modelid == "DSL-N55U" || based_modelid == "DSL-N55U-B" || based_modelid == "RT-N56U")
-			return true;
-		else
-			return false;
-	}
-	else if(_ptn == "nwtool"){
-		return true;
-	}
-	else if(_ptn == "11AC"){
-		if(Rawifi_support || Qcawifi_support)
-			return (rc_support.search(_ptn) == -1) ? false : true;
-		else
-			return ('<% nvram_get("wl_phytype"); %>' == 'v' ? true : false)
-	}
-	else if(_ptn == "wlopmode"){
-		return ('<% nvram_get("wlopmode"); %>' == 7 ? true : false)
-	}
-	else if(_ptn == "wl_mfp"){
-		return ('<% nvram_get("wl_mfp"); %>' == "" ? false: true)
-	}
-	else if(_ptn == "localap"){
-		return (sw_mode == 4) ? false : true;
-	}
-	else
-		return (rc_support.search(_ptn) == -1) ? false : true;
+	return (rc_support.search(_ptn) == -1) ? false : true;
 }
 
+var wl_vifnames = "<% nvram_get("wl_vifnames"); %>";
+var dbwww_support = false; 
 var nfsd_support = isSupport("nfsd");
 var wifilogo_support = isSupport("WIFI_LOGO"); 
 var band2g_support = isSupport("2.4G"); 
@@ -184,8 +144,14 @@ var dualWAN_support = isSupport("dualwan");
 var ruisp_support = isSupport("ruisp");
 var ssh_support = isSupport("ssh");
 var snmp_support = isSupport("snmp");
-var multissid_support = isSupport("mssid");
+
+var multissid_support = rc_support.search("mssid");
+if(sw_mode == 2 || sw_mode == 4)
+	multissid_support = -1;
+if(multissid_support != -1)
+	multissid_support = wl_vifnames.split(" ").length;
 var no5gmssid_support = rc_support.search("no5gmssid");
+
 var no5gmssid_support = isSupport("no5gmssid");
 var wifi_hw_sw_support = isSupport("wifi_hw_sw");
 var wifi_tog_btn_support = isSupport("wifi_tog_btn");
@@ -194,10 +160,9 @@ var usbPortMax = rc_support.charAt(rc_support.indexOf("usbX")+4);
 var printer_support = isSupport("printer"); 
 var appbase_support = isSupport("appbase");
 var appnet_support = isSupport("appnet");
-var media_support = isSupport(" media");
+var media_support = isSupport("media");
 var nomedia_support = isSupport("nomedia");
-var cloudsync_support = isSupport("cloudsync");
-var aicloudipk_support = isSupport("aicloudipk");
+var cloudsync_support = isSupport("cloudsync"); 
 var yadns_support = isSupport("yadns");
 var dnsfilter_support = isSupport("dnsfilter");
 var manualstb_support = isSupport("manual_stb");
@@ -205,7 +170,7 @@ var wps_multiband_support = isSupport("wps_multiband");
 
 //MODELDEP : DSL-N55U、DSL-N55U-B、RT-N56U
 if (!cloudsync_support) {
-if(based_modelid == "DSL-N55U" || based_modelid == "DSL-N55U-B" || based_modelid == "RT-N56U"  || based_modelid == "RT-N14UHP")
+if(based_modelid == "DSL-N55U" || based_modelid == "DSL-N55U-B" || based_modelid == "RT-N56U" || based_modelid == "RT-N14UHP")
 	var aicloudipk_support = true;
 else
 	var aicloudipk_support = false;
@@ -225,18 +190,23 @@ var downsize_4m_support = isSupport("sfp4m");
 var downsize_8m_support = isSupport("sfp8m");
 var hwmodeSwitch_support = isSupport("swmode_switch");
 var diskUtility_support = isSupport("diskutility");
-var networkTool_support = isSupport("nwtool");
-var band5g_11ac_support = isSupport("11AC");
+var networkTool_support = true;
+if(Rawifi_support)
+	var band5g_11ac_support = isSupport("11AC");
+else
+	var band5g_11ac_support = '<% nvram_get("wl_phytype"); %>' == 'v' ? true : false;
+
 var optimizeXbox_support = isSupport("optimize_xbox");
 var spectrum_support = isSupport("spectrum");
-var mediareview_support = isSupport("wlopmode");var userRSSI_support = isSupport("user_low_rssi");
+var mediareview_support = '<% nvram_get("wlopmode"); %>' == 7 ? true : false;
+var userRSSI_support = isSupport("user_low_rssi");
 var timemachine_support = isSupport("timemachine");
 var kyivstar_support = isSupport("kyivstar");
 var email_support = isSupport("email");
 var feedback_support = isSupport("feedback");
 var swisscom_support = isSupport("swisscom");
 var tmo_support = isSupport("tmo");
-var wl_mfp_support = isSupport("wl_mfp");	// For Protected Management Frames, ARM platform
+var wl_mfp_support = '<% nvram_get("wl_mfp"); %>' == ""? false: true;	// For Protected Management Frames, ARM platform
 var bwdpi_support = isSupport("bwdpi");
 var adBlock_support = isSupport("adBlock");
 var rog_support = isSupport("rog");
@@ -245,7 +215,11 @@ var rrsut_support = isSupport("rrsut");
 var gobi_support = isSupport("gobi");
 var findasus_support = isSupport("findasus");
 var usericon_support = isSupport("usericon");
-var localAP_support = isSupport("localap");
+
+var localAP_support = true;
+if(sw_mode == 4)
+	localAP_support = false;	
+
 var ntfs_sparse_support = isSupport("sparse");
 var tr069_support = isSupport("tr069");
 var tor_support = isSupport("tor");
@@ -520,7 +494,7 @@ var tabtitle = new Array();
 tabtitle[0] = new Array("", "<#menu5_1_1#>", "<#menu5_1_2#>", "WDS", "<#menu5_1_4#>", "<#menu5_1_5#>", "<#menu5_1_6#>", "Site Survey");
 tabtitle[1] = new Array("", "Passpoint");
 
-tabtitle[2] = new Array("", "<#menu5_2_1#>", "<#menu5_2_2#>", "<#menu5_2_3#>", "IPTV", "Switch Control");
+tabtitle[2] = new Array("", "<#menu5_2_1#>", "<#menu5_2_2#>", "<#menu5_2_3#>", "IPTV", "<#Switch_itemname#>");
 tabtitle[3] = new Array("", "<#menu5_3_1#>", "<#dualwan#>", "<#menu5_3_3#>", "<#menu5_3_4#>", "<#menu5_3_5#>", "<#menu5_3_6#>", "<#NAT_passthrough_itemname#>", "<#menu5_4_4#>");
 tabtitle[4] = new Array("", "<#UPnPMediaServer#>", "<#menu5_4_1#>", "Webdav to Samba" , "NFS Exports" , "<#menu5_4_2#>");
 tabtitle[5] = new Array("", "IPv6");
@@ -2845,23 +2819,23 @@ function refreshStatus(xmldoc){
 
 	vpnc_proto = vpnStatus[0].firstChild.nodeValue.replace("vpnc_proto=", "");
 	if(vpnc_proto == "openvpn"){
-		if('<% nvram_get("vpn_client_unit"); %>' == 1){
-			vpnc_state_t = vpnStatus[3].firstChild.nodeValue.replace("vpn_client1_state=", "");
-			vpn_clientX_errno = vpnStatus[6].firstChild.nodeValue.replace("vpn_client1_errno=", "");
+//		if('<% nvram_get("vpn_client_unit"); %>' == 1){
+			vpnc_state_t = vpnStatus[3].firstChild.nodeValue.replace("vpn_client_state=", "");
+			vpn_clientX_errno = vpnStatus[6].firstChild.nodeValue.replace("vpn_client_errno=", "");
 			
-		}else{	//unit 2
-			vpnc_state_t = vpnStatus[4].firstChild.nodeValue.replace("vpn_client2_state=", "");
-			vpn_clientX_errno = vpnStatus[7].firstChild.nodeValue.replace("vpn_client2_errno=", "");
-		}
+//		}else{	//unit 2
+//			vpnc_state_t = vpnStatus[4].firstChild.nodeValue.replace("vpn_client2_state=", "");
+//			vpn_clientX_errno = vpnStatus[7].firstChild.nodeValue.replace("vpn_client2_errno=", "");
+//		}
 	}
 	else	//vpnc (pptp/l2tp)
 		vpnc_state_t = vpnStatus[1].firstChild.nodeValue.replace("vpnc_state_t=", "");
 
 	vpnc_sbstate_t = vpnStatus[2].firstChild.nodeValue.replace("vpnc_sbstate_t=", "");
-	if('<% nvram_get("vpn_server_unit"); %>' == 1)
-		vpnd_state = vpnStatus[8].firstChild.nodeValue.replace("vpn_server1_state=", "");
-	else    //unit 2
-		vpnd_state = vpnStatus[9].firstChild.nodeValue.replace("vpn_server2_state=", "");
+//	if('<% nvram_get("vpn_server_unit"); %>' == 1)
+		vpnd_state = vpnStatus[4].firstChild.nodeValue.replace("vpn_server_state=", "");
+//	else    //unit 2
+//		vpnd_state = vpnStatus[9].firstChild.nodeValue.replace("vpn_server2_state=", "");
 //	vpnd_state = vpnStatus[5].firstChild.nodeValue;
 
 	if(location.pathname == "/"+ QISWIZARD)
