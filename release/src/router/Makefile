@@ -1542,7 +1542,6 @@ endif
 ifeq ($(BUILD_NAME),RT-N10U)
 	rm -f $(TARGETDIR)/www/Advanced_SwitchCtrl_Content.asp
 endif
-
 endif
 endif
 
@@ -1767,7 +1766,6 @@ ifeq ($(RTCONFIG_OPENVPN),y)
 	cp -f $(SRCBASE)/image/openvpnclient/client1.ovpn $(TARGETDIR)/www
 endif
 endif
-
 
 image:
 ifneq ($(RTCONFIG_BCMARM),y)
