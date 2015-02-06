@@ -229,7 +229,8 @@ var networkTool_support = isSupport("nwtool");
 var band5g_11ac_support = isSupport("11AC");
 var optimizeXbox_support = isSupport("optimize_xbox");
 var spectrum_support = isSupport("spectrum");
-var mediareview_support = isSupport("wlopmode");var userRSSI_support = isSupport("user_low_rssi");
+var mediareview_support = isSupport("wlopmode");
+var userRSSI_support = isSupport("user_low_rssi");
 var timemachine_support = isSupport("timemachine");
 var kyivstar_support = isSupport("kyivstar");
 var email_support = isSupport("email");
@@ -2857,22 +2858,22 @@ function refreshStatus(xmldoc){
 	vpnc_proto = vpnStatus[0].firstChild.nodeValue.replace("vpnc_proto=", "");
 	if(vpnc_proto == "openvpn"){
 		if('<% nvram_get("vpn_client_unit"); %>' == 1){
-			vpnc_state_t = vpnStatus[3].firstChild.nodeValue.replace("vpn_client1_state=", "");
-			vpn_clientX_errno = vpnStatus[6].firstChild.nodeValue.replace("vpn_client1_errno=", "");
+			vpnc_state_t = vpnStatus[3].firstChild.nodeValue.replace("vpn_client_state=", "");
+			vpn_clientX_errno = vpnStatus[6].firstChild.nodeValue.replace("vpn_client_errno=", "");
 			
-		}else{	//unit 2
-			vpnc_state_t = vpnStatus[4].firstChild.nodeValue.replace("vpn_client2_state=", "");
-			vpn_clientX_errno = vpnStatus[7].firstChild.nodeValue.replace("vpn_client2_errno=", "");
-		}
+		}//else{	//unit 2
+//			vpnc_state_t = vpnStatus[4].firstChild.nodeValue.replace("vpn_client2_state=", "");
+//			vpn_clientX_errno = vpnStatus[7].firstChild.nodeValue.replace("vpn_client2_errno=", "");
+//		}
 	}
 	else	//vpnc (pptp/l2tp)
 		vpnc_state_t = vpnStatus[1].firstChild.nodeValue.replace("vpnc_state_t=", "");
 
 	vpnc_sbstate_t = vpnStatus[2].firstChild.nodeValue.replace("vpnc_sbstate_t=", "");
 	if('<% nvram_get("vpn_server_unit"); %>' == 1)
-		vpnd_state = vpnStatus[8].firstChild.nodeValue.replace("vpn_server1_state=", "");
-	else    //unit 2
-		vpnd_state = vpnStatus[9].firstChild.nodeValue.replace("vpn_server2_state=", "");
+		vpnd_state = vpnStatus[8].firstChild.nodeValue.replace("vpn_server_state=", "");
+//	else    //unit 2
+//		vpnd_state = vpnStatus[9].firstChild.nodeValue.replace("vpn_server2_state=", "");
 //	vpnd_state = vpnStatus[5].firstChild.nodeValue;
 
 	if(location.pathname == "/"+ QISWIZARD)
