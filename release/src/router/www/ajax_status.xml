@@ -20,13 +20,10 @@
   <vpn>vpnc_proto=<% nvram_get("vpnc_proto"); %></vpn>  
   <vpn>vpnc_state_t=<% nvram_get("vpnc_state_t"); %></vpn>  
   <vpn>vpnc_sbstate_t=<% nvram_get("vpnc_sbstate_t"); %></vpn>
-  <vpn>vpn_client1_state=<% nvram_get("vpn_client1_state"); %></vpn>
-  <vpn>vpn_client2_state=<% nvram_get("vpn_client2_state"); %></vpn>
+  <vpn>vpn_client_state=<% nvram_get("vpn_client_state"); %></vpn>
   <vpn>vpnd_state=<% nvram_get("VPNServer_enable"); %></vpn>
-  <vpn>vpn_client1_errno=<% nvram_get("vpn_client1_errno"); %></vpn>
-  <vpn>vpn_client2_errno=<% nvram_get("vpn_client2_errno"); %></vpn>
-  <vpn>vpn_server1_state=<% nvram_get("vpn_server1_state"); %></vpn>
-  <vpn>vpn_server2_state=<% nvram_get("vpn_server2_state"); %></vpn>
+  <vpn>vpn_client_errno=<% nvram_get("vpn_client_errno"); %></vpn>
+  <vpn>vpn_server_state=<% nvram_get("vpn_server_state"); %></vpn>
   <qtn>qtn_state=<% nvram_get("qtn_ready"); %></qtn>
   <% secondary_ajax_wanstate(); %>
 	<usb>'<% show_usb_path(); %>'</usb>
