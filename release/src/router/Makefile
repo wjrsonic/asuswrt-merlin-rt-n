@@ -1150,6 +1150,7 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 #	cp -f -R  $(SRCBASE)/wl/sysdeps/RT-N10_blobs/wl.ko $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net
 	rm -f -R  $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs
 	rm -f -R  $(TARGETDIR)/lib/modules/2.6.22.19/kernel/lib
+	rm -r $(TARGETDIR)/rom/ca-bundle.crt
 endif
 
 # External Web Kit
@@ -1549,12 +1550,11 @@ endif
 ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10U RT-N15U RT-N14UHP RT-N16 ))
 ifeq ($(RTCONFIG_OPENVPN),y)
 	rm -f $(TARGETDIR)/www/client*.ovpn
-	cp -f $(SRCBASE)/image/openvpnclient/client.ovpn $(TARGETDIR)/www
-	cp -f $(SRCBASE)/image/openvpnclient/client1.ovpn $(TARGETDIR)/www
+	cp -f -R $(SRCBASE)/image/openvpnclient/www/* $(TARGETDIR)/www
 endif
 endif
 
-ifeq ($(BUILD_NAME),RT-N53)
+ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10P RT-N12B1 RT-N12C1 RT-N12D1 RT-N12HP RT-N12HP_B1 RT-N12VP RT-N53 ))
 	rm -f -r $(TARGETDIR)/www/aidisk
 	rm -f -r $(TARGETDIR)/www/images/Tree
 	rm -f -r $(TARGETDIR)/www/images/New_ui/USBExt
@@ -1569,6 +1569,7 @@ ifeq ($(BUILD_NAME),RT-N53)
 	rm -f $(TARGETDIR)/www/APP_Installation.asp
 	rm -f $(TARGETDIR)/www/Advanced_Modem_Content.asp
 	rm -f $(TARGETDIR)/sbin/write_smb_conf
+	rm -f $(TARGETDIR)/sbin/write_3g_ppp_conf
 	rm -f $(TARGETDIR)/sbin/test_disk1
 	rm -f $(TARGETDIR)/sbin/test_disk2
 	rm -f $(TARGETDIR)/usr/sbin/3g*
@@ -1599,7 +1600,7 @@ ifeq ($(BUILD_NAME),RT-N53)
 	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/*fat*.ko
 	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/nls*.ko
 	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/fuse.ko
-	rm -f $(TARGETDIR)/lib/libutil.so.0
+#	rm -f $(TARGETDIR)/lib/libutil.so.0
 #	rm -f $(TARGETDIR)/lib/libdisk.so
 	rm -f $(TARGETDIR)/rom/etc/e2fsck.conf
 #
@@ -1615,22 +1616,41 @@ ifeq ($(BUILD_NAME),RT-N53)
 	rm -f -r $(TARGETDIR)/www/images/*modem*.png
 	rm -f -r $(TARGETDIR)/www/images/*iphone*.png
 	rm -f -r $(TARGETDIR)/www/images/movie.jpg
+	rm -f -r $(TARGETDIR)/www/images/pwd_strength_gradient.jpg
 	rm -f -r $(TARGETDIR)/www/images/setup.jpg
+	rm -f -r $(TARGETDIR)/www/images/New_ui/DnsFiltering.png
 	rm -f -r $(TARGETDIR)/www/images/New_ui/usbstatus.png
+	rm -f -r $(TARGETDIR)/www/images/New_ui/printstatus.png
 	rm -f -r $(TARGETDIR)/www/images/WANunplug_usb.png
+	rm -f -r $(TARGETDIR)/www/require/modules/diskList.js
+	rm -f -r $(TARGETDIR)/www/apps*
+	rm -f -r $(TARGETDIR)/www/update_applist.asp
+	rm -f -r $(TARGETDIR)/www/update_appstate.asp
+	rm -f -r $(TARGETDIR)/www/pwdmeter.css
+	rm -f -r $(TARGETDIR)/www/wcdma_list.js
+	rm -rf $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb
+ifeq ($(BUILD_NAME),RT-N53)
 #
 	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/ohci-hcd.ko
 	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/uhci-hcd.ko
 	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/usblp.ko
 	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/usb-storage.ko
 	rm -rf $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/mon
-	rm -rf $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb
 #	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/wl_high.ko
 #	cp -f -R  $(SRCBASE)/wl/sysdeps/RT-N53_blobs/wl_high.ko $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net
+	rm -rf $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/Beceem_driver
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/cdc*
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/option.ko
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/sierra.ko
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/usbserial.ko
+else
+	rm -f -r $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb
+	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/wl_high.ko
+endif
 # for openvpn
 	rm -f $(TARGETDIR)/bin/comgt
 	rm -f $(TARGETDIR)/usr/bin/sdparm
-	rm -f $(TARGETDIR)/usr/lib/libeap.so.0.0.0
+	rm -f $(TARGETDIR)/usr/lib/libeap.so*
 	rm -f $(TARGETDIR)/usr/sbin/chat
 	rm -f $(TARGETDIR)/usr/sbin/check_spectrum.sh
 	rm -f $(TARGETDIR)/usr/sbin/entware-setup.sh
@@ -1646,125 +1666,19 @@ ifeq ($(BUILD_NAME),RT-N53)
 	rm -f $(TARGETDIR)/sbin/sigmon
 	rm -rf $(TARGETDIR)/rom/Beceem_firmware
 	rm -r $(TARGETDIR)/rom/apn_asus.dat
+	rm -r $(TARGETDIR)/rom/ca-bundle.crt
 	rm -f $(TARGETDIR)/rom/etc/usb_modeswitch.conf
 	rm -rf $(TARGETDIR)/rom/etc/ppp
+	rm -rf $(TARGETDIR)/rom/etc/static_routes/china_telecom.conf
+	rm -rf $(TARGETDIR)/rom/etc/static_routes/china_unicom.conf
 	rm -f $(TARGETDIR)/lib/libengine_beceem.so
 	rm -f $(TARGETDIR)/lib/libeap_supplicant.so
 	rm -f $(TARGETDIR)/lib/libxvi020*
 	rm -rf $(TARGETDIR)/lib/firmware
-	rm -rf $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/Beceem_driver
-	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/cdc*
-	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/option.ko
-	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/sierra.ko
-	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/usbserial.ko
 #
 ifeq ($(RTCONFIG_OPENVPN),y)
 	rm -f $(TARGETDIR)/www/client*.ovpn
-	cp -f $(SRCBASE)/image/openvpnclient/client.ovpn $(TARGETDIR)/www
-	cp -f $(SRCBASE)/image/openvpnclient/client1.ovpn $(TARGETDIR)/www
-endif
-endif
-
-ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10P RT-N12B1 RT-N12C1 RT-N12D1 RT-N12HP RT-N12HP_B1 RT-N12VP ))
-	rm -f -r $(TARGETDIR)/www/aidisk
-	rm -f -r $(TARGETDIR)/www/images/Tree
-	rm -f -r $(TARGETDIR)/www/images/New_ui/USBExt
-	rm -f -r $(TARGETDIR)/www/images/New_ui/aidisk
-	rm -f -r $(TARGETDIR)/www/images/New_ui/advancesetting
-	rm -f $(TARGETDIR)/www/images/New_ui/networkmap/USB*
-	rm -f $(TARGETDIR)/www/images/New_ui/networkmap/*Printer*
-	rm -f $(TARGETDIR)/www/images/New_ui/networkmap/*modem*
-	rm -f $(TARGETDIR)/www/*disk*
-	rm -f $(TARGETDIR)/www/*Disk*
-	rm -f $(TARGETDIR)/www/Advanced_APPList_Content.asp
-	rm -f $(TARGETDIR)/www/APP_Installation.asp
-	rm -f $(TARGETDIR)/www/Advanced_Modem_Content.asp
-	rm -f $(TARGETDIR)/www/Advanced_SwitchCtrl_Content.asp
-	rm -f $(TARGETDIR)/www/mediaserver.asp
-	rm -f $(TARGETDIR)/www/PrinterServer.asp
-	rm -f $(TARGETDIR)/www/Advanced_VPN_Content.asp
-	rm -f $(TARGETDIR)/www/Advanced_VPNAdvanced_Content.asp
-	rm -f $(TARGETDIR)/www/qis/QISMobilePlugin.js
-	rm -f $(TARGETDIR)/www/device-map/*disk*.asp
-	rm -f $(TARGETDIR)/www/device-map/modem.asp
-	rm -f $(TARGETDIR)/www/device-map/printer.asp
-	rm -f -r $(TARGETDIR)/www/images/mobile
-	rm -f -r $(TARGETDIR)/www/images/*modem*.png
-	rm -f -r $(TARGETDIR)/www/images/*iphone*.png
-	rm -f -r $(TARGETDIR)/www/images/movie.jpg
-	rm -f -r $(TARGETDIR)/www/images/setup.jpg
-	rm -f -r $(TARGETDIR)/www/images/New_ui/usbstatus.png
-	rm -f -r $(TARGETDIR)/www/images/New_ui/printstatus.png
-	rm -f -r $(TARGETDIR)/www/images/WANunplug_usb.png
-	rm -f $(TARGETDIR)/www/require/modules/disk*
-	rm -f $(TARGETDIR)/www/qis/*modem*
-	rm -f $(TARGETDIR)/bin/comgt
-	rm -f $(TARGETDIR)/bin/sdparm
-	rm -f $(TARGETDIR)/usr/sbin/gctwimax
-	rm -f $(TARGETDIR)/usr/sbin/madwimax
-	rm -f $(TARGETDIR)/sbin/switchmode
-	rm -f $(TARGETDIR)/sbin/wimaxc
-	rm -f $(TARGETDIR)/sbin/wimaxd
-	rm -f $(TARGETDIR)/sbin/read_sms
-	rm -f $(TARGETDIR)/sbin/send_sms
-	rm -f $(TARGETDIR)/sbin/sigmon
-	rm -r -f $(TARGETDIR)/rom/Beceem_firmware
-	rm -r -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb
-	rm -f -r $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb
-	rm -r -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/scsi
-	rm -r -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/block
-	rm -r -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/cdrom
-	rm -r -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/connector
-	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/ext*.ko
-	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/*fat*.ko
-	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/fuse.ko
-	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/nls*.ko
-	rm -f $(TARGETDIR)/lib/libengine_beceem.so
-	rm -f $(TARGETDIR)/lib/libeap_supplicant.so
-	rm -f $(TARGETDIR)/lib/libxvi020*
-	rm -r -f $(TARGETDIR)/lib/firmware
-	rm -f $(TARGETDIR)/sbin/write_smb_conf
-	rm -f $(TARGETDIR)/sbin/write_3g_ppp_conf
-	rm -f $(TARGETDIR)/sbin/test_disk1
-	rm -f $(TARGETDIR)/sbin/test_disk2
-	rm -f $(TARGETDIR)/sbin/usbled
-	rm -f $(TARGETDIR)/sbin/usb_notify
-	rm -f $(TARGETDIR)/sbin/ejusb
-	rm -f $(TARGETDIR)/sbin/asus_usbbcm
-	rm -f $(TARGETDIR)/sbin/asus_usb_interface
-	rm -f $(TARGETDIR)/usr/sbin/3g*
-	rm -f $(TARGETDIR)/usr/sbin/app_*
-	rm -f $(TARGETDIR)/usr/sbin/badblocks
-	rm -f $(TARGETDIR)/usr/sbin/e2fsck
-	rm -f $(TARGETDIR)/usr/sbin/find_*
-	rm -f $(TARGETDIR)/usr/sbin/modem_*
-	rm -f $(TARGETDIR)/usr/sbin/webs_*
-	rm -f $(TARGETDIR)/usr/sbin/tune2fs
-	rm -f $(TARGETDIR)/usr/sbin/mke2fs
-	rm -f $(TARGETDIR)/usr/sbin/*.ext2
-	rm -f $(TARGETDIR)/usr/sbin/*.ext3
-	rm -f $(TARGETDIR)/usr/sbin/scsi*
-	rm -f $(TARGETDIR)/usr/sbin/sd*
-	rm -f $(TARGETDIR)/usr/sbin/check_spectrum.sh
-	rm -f $(TARGETDIR)/usr/sbin/usb_modeswitch
-	rm -f $(TARGETDIR)/rom/etc/usb_modeswitch.conf
-	rm -f $(TARGETDIR)/usr/sbin/uqmi
-	rm -f $(TARGETDIR)/usr/sbin/hub-ctrl
-	rm -f $(TARGETDIR)/usr/sbin/chat
-	rm -f $(TARGETDIR)/www/wds_aplist_5g.asp
-	rm -f $(TARGETDIR)/www/wds_aplist_5g_2.asp
-	rm -f $(TARGETDIR)/www/QIS_wizard_m.htm
-	rm -f $(TARGETDIR)/www/Lang_Hdr
-	rm -f $(TARGETDIR)/www/switch_AiDisk_app.asp
-	rm -f $(TARGETDIR)/usr/lib/libext2fs*
-	rm -f $(TARGETDIR)/usr/lib/libuuid*
-	rm -f $(TARGETDIR)/usr/lib/libblkid*
-	rm -f $(TARGETDIR)/usr/lib/libcom*
-	rm -f $(TARGETDIR)/usr/lib/libe2p*
-ifeq ($(RTCONFIG_OPENVPN),y)
-	rm -f $(TARGETDIR)/www/client*.ovpn
-	cp -f $(SRCBASE)/image/openvpnclient/client.ovpn $(TARGETDIR)/www
-	cp -f $(SRCBASE)/image/openvpnclient/client1.ovpn $(TARGETDIR)/www
+	cp -f -R $(SRCBASE)/image/openvpnclient/www/* $(TARGETDIR)/www
 endif
 endif
 
