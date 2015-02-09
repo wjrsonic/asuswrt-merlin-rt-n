@@ -70,8 +70,8 @@ var vpn_server_clientlist_array_ori = '<% nvram_char_to_ascii("","vpn_serverx_cl
 var vpn_server_clientlist_array = decodeURIComponent(vpn_server_clientlist_array_ori);
 var openvpn_unit = '<% nvram_get("vpn_server_unit"); %>';
 var vpn_server_mode = 'openvpn';	// Hardcoded for this page, as we support both simultaneously
-//var openvpn_eas = '<% nvram_get("vpn_serverx_start"); %>';
-var vpn_server_enable = '<% nvram_get("VPNServer_enable"); %>';
+var openvpn_eas = '<% nvram_get("vpn_serverx_start"); %>';
+var vpn_server_enable = (openvpn_eas.indexOf(''+(openvpn_unit)) >= 0) ? "1" : "0";
 
 var service_state = "";
 if (openvpn_unit == '1')
@@ -126,7 +126,7 @@ function initial(){
 	// We don't use the global switch, so set it to current instance state instead
 	document.form.VPNServer_enable.value = vpn_server_enable;
 	// Set this based on a compound field
-	setRadioValue(document.form.vpn_server_x_dns, (document.form.vpn_serverx_dns.value >= 0));
+	setRadioValue(document.form.vpn_server_x_dns, ((document.form.vpn_serverx_dns.value.indexOf(''+(openvpn_unit)) >= 0) ? "1" : "0"));
 
 	update_visibility();
 
@@ -428,7 +428,7 @@ function applyRule(){
 						if (getRadioValue(document.form.vpn_server_x_dns) == 1)
 							tmp_value += ""+i+",";
 					} else {
-						if (document.form.vpn_serverx_dns.value >= 0)
+						if (document.form.vpn_serverx_dns.value.indexOf(''+(i)) >= 0)
 							tmp_value += ""+i+","
 					}
 				}	
@@ -707,7 +707,7 @@ function enable_openvpn(state){
 			if (state == 1)
 				tmp_value += ""+i+",";
 		} else {
-			if (document.form.vpn_serverx_start.value >= 0)
+			if (document.form.vpn_serverx_start.value.indexOf(''+(i)) >= 0)
 				tmp_value += ""+i+","
 		}
 	}
@@ -1232,7 +1232,7 @@ function cal_panel_block(){
 														if (openvpn_unit == '1')
 															var service_state_advanced = (<% sysinfo("pid.vpnserver"); %> > 0);
 														else
-															var service_state_advanced = false;
+var service_state_advanced = false;
 															
 														$j('#radio_service_enable').iphoneSwitch(service_state_advanced,
 															function() {

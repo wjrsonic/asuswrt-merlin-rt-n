@@ -73,7 +73,7 @@ void start_vpnclient(int clientNum)
 	if ( (pid = pidof(&buffer[6])) >= 0 )
 	{
 		vpnlog(VPN_LOG_NOTE, "VPN Client 1 already running...", clientNum);
-		vpnlog(VPN_LOG_INFO,"PID: 1", pid);
+		vpnlog(VPN_LOG_INFO,"PID: %d", pid);
 		return;
 	}
 
@@ -788,7 +788,7 @@ void start_vpnserver(int serverNum)
 	if ( (pid = pidof(&buffer[6])) >= 0 )
 	{
 		vpnlog(VPN_LOG_NOTE, "VPN Server 1 already running...", serverNum);
-		vpnlog(VPN_LOG_INFO,"PID: 1", pid);
+		vpnlog(VPN_LOG_INFO,"PID: %d", pid);
 		return;
 	}
 
@@ -2107,42 +2107,42 @@ void start_vpn_eas()
 
 	// Parse and start servers
 	strlcpy(&buffer[0], nvram_safe_get("vpn_serverx_start"), sizeof(buffer));
-	if ( strlen(&buffer[0]) != 0 ) vpnlog(VPN_LOG_INFO, "Starting OpenVPN servers (eas): %s", &buffer[0]);
+	if ( strlen(&buffer[0]) != 0 ) vpnlog(VPN_LOG_INFO, "Starting OpenVPN server (eas): 1", &buffer[0]);
 	i = 0;
-	for( cur = strtok(&buffer[0],","); cur != NULL && i < 4; cur = strtok(NULL, ",")) { nums[i++] = atoi(cur); }
+	//for( cur = strtok(&buffer[0],","); cur != NULL && i < 4; cur = strtok(NULL, ",")) { nums[i++] = atoi(cur); }
 	nums[i] = 0;
-	for( i = 0; nums[i] > 0; i++ )
-	{
+	//for( i = 0; nums[i] > 0; i++ )
+	//{
 
 		sprintf(&buffer[0], "vpnserver", nums[i]);
 		if ( pidof(&buffer[0]) >= 0 )
 		{
-			vpnlog(VPN_LOG_INFO, "Stopping OpenVPN server %d (eas)", nums[i]);
-			stop_vpnserver(nums[i]);
+			vpnlog(VPN_LOG_INFO, "Stopping OpenVPN server 1 (eas)", nums[i]);
+			stop_vpnserver(1);
 		}
 
-		vpnlog(VPN_LOG_INFO, "Starting OpenVPN server %d (eas)", nums[i]);
-		start_vpnserver(nums[i]);
-	}
+		vpnlog(VPN_LOG_INFO, "Starting OpenVPN server 1 (eas)", nums[i]);
+		start_vpnserver(1);
+	//}
 
 	// Parse and start clients
 	strlcpy(&buffer[0], nvram_safe_get("vpn_clientx_eas"), sizeof(buffer));
-	if ( strlen(&buffer[0]) != 0 ) vpnlog(VPN_LOG_INFO, "Starting clients (eas): %s", &buffer[0]);
+	if ( strlen(&buffer[0]) != 0 ) vpnlog(VPN_LOG_INFO, "Starting clients (eas): 1", &buffer[0]);
 	i = 0;
-	for( cur = strtok(&buffer[0],","); cur != NULL && i < 4; cur = strtok(NULL, ",")) { nums[i++] = atoi(cur); }
+	//for( cur = strtok(&buffer[0],","); cur != NULL && i < 4; cur = strtok(NULL, ",")) { nums[i++] = atoi(cur); }
 	nums[i] = 0;
-	for( i = 0; nums[i] > 0; i++ )
-	{
+	//for( i = 0; nums[i] > 0; i++ )
+	//{
 		sprintf(&buffer[0], "vpnclient", nums[i]);
 		if ( pidof(&buffer[0]) >= 0 )
 		{
-			vpnlog(VPN_LOG_INFO, "Stopping OpenVPN client %d (eas)", nums[i]);
-			stop_vpnclient(nums[i]);
+			vpnlog(VPN_LOG_INFO, "Stopping OpenVPN client 1 (eas)", nums[i]);
+			stop_vpnclient(1);
 		}
 
-		vpnlog(VPN_LOG_INFO, "Starting OpenVPN client %d (eas)", nums[i]);
-		start_vpnclient(nums[i]);
-	}
+		vpnlog(VPN_LOG_INFO, "Starting OpenVPN client 1 (eas)", nums[i]);
+		start_vpnclient(1);
+	//}
 }
 
 void stop_vpn_eas()
@@ -2152,35 +2152,35 @@ void stop_vpn_eas()
 
 	// Parse and stop servers
 	strlcpy(&buffer[0], nvram_safe_get("vpn_serverx_start"), sizeof(buffer));
-	if ( strlen(&buffer[0]) != 0 ) vpnlog(VPN_LOG_INFO, "Stopping OpenVPN servers (eas): %s", &buffer[0]);
+	if ( strlen(&buffer[0]) != 0 ) vpnlog(VPN_LOG_INFO, "Stopping OpenVPN servers (eas): 1", &buffer[0]);
 	i = 0;
-	for( cur = strtok(&buffer[0],","); cur != NULL && i < 4; cur = strtok(NULL, ",")) { nums[i++] = atoi(cur); }
+	//for( cur = strtok(&buffer[0],","); cur != NULL && i < 4; cur = strtok(NULL, ",")) { nums[i++] = atoi(cur); }
 	nums[i] = 0;
-	for( i = 0; nums[i] > 0; i++ )
-	{
+	//for( i = 0; nums[i] > 0; i++ )
+	//{
 		sprintf(&buffer[0], "vpnserver", nums[i]);
 		if ( pidof(&buffer[0]) >= 0 )
 		{
-			vpnlog(VPN_LOG_INFO, "Stopping OpenVPN server %d (eas)", nums[i]);
-			stop_vpnserver(nums[i]);
+			vpnlog(VPN_LOG_INFO, "Stopping OpenVPN server 1 (eas)", nums[i]);
+			stop_vpnserver(1);
 		}
-	}
+	//}
 
 	// Parse and stop clients
 	strlcpy(&buffer[0], nvram_safe_get("vpn_clientx_eas"), sizeof(buffer));
-	if ( strlen(&buffer[0]) != 0 ) vpnlog(VPN_LOG_INFO, "Stopping OpenVPN clients (eas): %s", &buffer[0]);
+	if ( strlen(&buffer[0]) != 0 ) vpnlog(VPN_LOG_INFO, "Stopping OpenVPN clients (eas): 1", &buffer[0]);
 	i = 0;
-	for( cur = strtok(&buffer[0],","); cur != NULL && i < 4; cur = strtok(NULL, ",")) { nums[i++] = atoi(cur); }
+	//for( cur = strtok(&buffer[0],","); cur != NULL && i < 4; cur = strtok(NULL, ",")) { nums[i++] = atoi(cur); }
 	nums[i] = 0;
-	for( i = 0; nums[i] > 0; i++ )
-	{
+	//for( i = 0; nums[i] > 0; i++ )
+	//{
 		sprintf(&buffer[0], "vpnclient", nums[i]);
 		if ( pidof(&buffer[0]) >= 0 )
 		{
-			vpnlog(VPN_LOG_INFO, "Stopping OpenVPN client %d (eas)", nums[i]);
-			stop_vpnclient(nums[i]);
+			vpnlog(VPN_LOG_INFO, "Stopping OpenVPN client 1 (eas)", nums[i]);
+			stop_vpnclient(1);
 		}
-	}
+	//}
 }
 
 void run_vpn_firewall_scripts()
@@ -2223,16 +2223,16 @@ void write_vpn_dnsmasq_config(FILE* f)
 	FILE *dnsf;
 
 	strlcpy(&buf[0], nvram_safe_get("vpn_serverx_dns"), sizeof(buf));
-	for ( pos = strtok(&buf[0],","); pos != NULL; pos=strtok(NULL, ",") )
-	{
-		cur = atoi(pos);
-		if ( cur )
-		{
+	//for ( pos = strtok(&buf[0],","); pos != NULL; pos=strtok(NULL, ",") )
+	//{
+		cur = 1; //atoi(pos);
+	//	if ( cur )
+	//	{
 			vpnlog(VPN_LOG_EXTRA, "Adding server interface to dns config", cur);
 			snprintf(&nv[0], sizeof(nv), "vpn_server_if", cur);
 			fprintf(f, "interface=%s21\n", nvram_safe_get(&nv[0]), SERVER_IF_START+cur);
-		}
-	}
+	//	}
+	//}
 
 	if ( (dir = opendir("/etc/openvpn/dns")) != NULL )
 	{
@@ -2241,7 +2241,7 @@ void write_vpn_dnsmasq_config(FILE* f)
 			if ( file->d_name[0] == '.' )
 				continue;
 
-			if ( sscanf(file->d_name, "client.resol", &cur, &ch) == 2 )
+			if ( sscanf(file->d_name, "client%d.resol%c", &cur, &ch) == 2 )
 			{
 				vpnlog(VPN_LOG_EXTRA, "Checking ADNS settings for client ", cur);
 				snprintf(&buf[0], sizeof(buf), "vpn_client_adns", cur);
@@ -2253,7 +2253,7 @@ void write_vpn_dnsmasq_config(FILE* f)
 				}
 			}
 
-			if ( sscanf(file->d_name, "client.con", &cur, &ch) == 2 )
+			if ( sscanf(file->d_name, "client%d.con%c", &cur, &ch) == 2 )
 			{
 				if ( (dnsf = fopen(file->d_name, "r")) != NULL )
 				{
@@ -2293,7 +2293,7 @@ int write_vpn_resolv(FILE* f)
 		if ( fn[0] == '.' )
 			continue;
 
-		if ( sscanf(fn, "client.resol", &num, &ch) == 2 )
+		if ( sscanf(fn, "client%d.resol%c", &num, &ch) == 2 )
 		{
 			if ( (dnsf = fopen(fn, "r")) == NULL )
 				continue;
