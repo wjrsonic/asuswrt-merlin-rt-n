@@ -303,6 +303,9 @@ endif
 ifneq ($(RTCONFIG_SNMPD),y)
 	rm -rf $(INSTALLDIR)/www/Advanced_SNMP_Content.asp
 endif
+ifneq ($(RTCONFIG_TOR),y)
+	rm -rf $(INSTALLDIR)/www/Advanced_TOR_Content.asp
+endif
 ifeq ($(RTCONFIG_DSL),y)
 	rm -rf $(INSTALLDIR)/www/qis/QIS_welcome.htm
 	rm -rf $(INSTALLDIR)/www/images/New_ui/rt.jpg
