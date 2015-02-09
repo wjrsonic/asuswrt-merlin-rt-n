@@ -1643,7 +1643,7 @@ int validate_instance(webs_t wp, char *name)
 // Is it really necessary?  lan_ does not seem to use it.
 #ifdef RTCONFIG_OPENVPN
 	else if(strncmp(name, "vpn_server_", 11)==0) {
-		for(i=1;i<3;i++) {
+		for(i=1;i<2;i++) {
 			sprintf(prefix, "vpn_server_", i);
 			value = websGetVar(wp, strcat_r(prefix, name+11, tmp), NULL);
 			if(value && strcmp(nvram_safe_get(tmp), value)) {
@@ -1654,7 +1654,7 @@ int validate_instance(webs_t wp, char *name)
 		}
 	}
 	else if(strncmp(name, "vpn_client_", 11)==0) {
-		for(i=1;i<3;i++) {
+		for(i=1;i<2;i++) {
 			sprintf(prefix, "vpn_client_", i);
 			value = websGetVar(wp, strcat_r(prefix, name+11, tmp), NULL);
 			if(value && strcmp(nvram_safe_get(tmp), value)) {
@@ -1820,9 +1820,9 @@ static int validate_apply(webs_t wp) {
 					_dprintf("set %s=%s\n", tmp, value);
 				}
 			}
-			else if(!strncmp(name, "vpn_client_", 11) && unit!=-1) {
+			else if(!strncmp(name, "vpn_client_", 10) && unit!=-1) {
 				snprintf(prefix, sizeof(prefix), "vpn_client_", unit);
-				(void)strcat_r(prefix, name+11, tmp);
+				(void)strcat_r(prefix, name+10, tmp);
 
 				if(strcmp(nvram_safe_get(tmp), value)) {
 					nvram_set(tmp, value);
