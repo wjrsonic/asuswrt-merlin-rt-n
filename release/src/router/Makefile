@@ -1097,10 +1097,19 @@ endif
 ifeq ($(RTCONFIG_4M_SFP),y)
 #	rm -r -f $(TARGETDIR)/www/images
 	rm -r -f $(TARGETDIR)/www/images/New_ui/new_qis
-#	rm -r -f $(TARGETDIR)/www/images/New_ui/mode_operations.jpg
+	rm -r -f $(TARGETDIR)/www/images/New_ui/mode_operations.jpg
+ifeq ($(BUILD_NAME),RT-N12)
+	rm -r -f $(TARGETDIR)/www/Advanced_OperationMode_Content.asp
+#	rm -r -f $(TARGETDIR)/www/images/New_ui/midup_bg.png
+#	rm -r -f $(TARGETDIR)/www/images/New_ui/title_bg.png
+endif
+	rm -r -f $(TARGETDIR)/www/images/New_ui/rt.jpg
+	rm -r -f $(TARGETDIR)/www/images/New_ui/ap.jpg
+	rm -r -f $(TARGETDIR)/www/images/New_ui/re.jpg
 	rm -r -f $(TARGETDIR)/www/images/New_ui/network_config.png
 	rm -r -f $(TARGETDIR)/www/images/New_ui/parental-control.png
 	rm -r -f $(TARGETDIR)/www/images/New_ui/QoS.png
+	rm -r -f $(TARGETDIR)/www/images/New_ui/DnsFiltering.png
 	rm -f -r $(TARGETDIR)/www/images/WANunplug_usb.png
 	rm -r -f $(TARGETDIR)/www/images/mobile
 	rm -r -f $(TARGETDIR)/www/images/map-iconRouter_iphone.png
@@ -1118,6 +1127,8 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 #	rm -f $(TARGETDIR)/www/Advanced_QOSUserRules_Content.asp
 #	rm -f $(TARGETDIR)/www/QoS_EZQoS.asp
 	rm -f $(TARGETDIR)/www/Advanced_SwitchCtrl_Content.asp
+#	rm -f $(TARGETDIR)/www/Advanced_Wireless_Survey.asp
+#	rm -f -r $(TARGETDIR)/www/images/survey
 	rm -f $(TARGETDIR)/www/QIS_wizard_m.htm
 	rm -f $(TARGETDIR)/www/qis/QISMobilePlugin.js
 	rm -f $(TARGETDIR)/www/apps_test.asp
@@ -1151,6 +1162,9 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -f -R  $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs
 	rm -f -R  $(TARGETDIR)/lib/modules/2.6.22.19/kernel/lib
 	rm -r $(TARGETDIR)/rom/ca-bundle.crt
+	rm -r -f $(TARGETDIR)/www/images/zoom*.png
+	cp -f -R  $(SRCBASE)/image/4m/images/* $(TARGETDIR)/www/images
+#	rm -r -f $(TARGETDIR)/www/images/merlin-logo.png
 endif
 
 # External Web Kit
@@ -1537,8 +1551,12 @@ ifeq ($(EXT_WEB_KIT),n)
 	rm -f $(TARGETDIR)/www/switch_AiDisk_app.asp
 	rm -f $(TARGETDIR)/www/Advanced_VPN_Content.asp
 	rm -f $(TARGETDIR)/www/Advanced_VPNAdvanced_Content.asp
+	rm -r $(TARGETDIR)/rom/ca-bundle.crt
 ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10U RT-N15U ))
 	rm -f $(TARGETDIR)/www/mediaserver.asp
+	rm -r -f $(TARGETDIR)/www/images/New_ui/rt.jpg
+	rm -r -f $(TARGETDIR)/www/images/New_ui/ap.jpg
+	rm -r -f $(TARGETDIR)/www/images/New_ui/re.jpg
 endif
 ifeq ($(BUILD_NAME),RT-N10U)
 	rm -f $(TARGETDIR)/www/Advanced_SwitchCtrl_Content.asp
@@ -1554,6 +1572,15 @@ endif
 endif
 
 ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10P RT-N12B1 RT-N12C1 RT-N12D1 RT-N12HP RT-N12HP_B1 RT-N12VP RT-N53 ))
+ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N12B1 RT-N12C1 RT-N12D1 ))
+	rm -r -f $(TARGETDIR)/www/images/New_ui/mode_operations.jpg
+	rm -r -f $(TARGETDIR)/www/Advanced_OperationMode_Content.asp
+#	rm -r -f $(TARGETDIR)/www/images/New_ui/midup_bg.png
+#	rm -r -f $(TARGETDIR)/www/images/New_ui/title_bg.png
+endif
+	rm -r -f $(TARGETDIR)/www/images/New_ui/rt.jpg
+	rm -r -f $(TARGETDIR)/www/images/New_ui/ap.jpg
+	rm -r -f $(TARGETDIR)/www/images/New_ui/re.jpg
 	rm -f -r $(TARGETDIR)/www/aidisk
 	rm -f -r $(TARGETDIR)/www/images/Tree
 	rm -f -r $(TARGETDIR)/www/images/New_ui/USBExt
