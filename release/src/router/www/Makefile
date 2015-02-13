@@ -202,8 +202,8 @@ ifeq ($(RTCONFIG_4M_SFP),y)
 	rm -rf $(INSTALLDIR)/www/AiStream*
 	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_NFS.asp
 	rm -rf $(INSTALLDIR)/www/Advanced_AiDisk_webdav.asp
-	rm -rf $(INSTALLDIR)/www/DNSFilter.asp
-	rm -rf $(INSTALLDIR)/www/Home_Security.asp
+#	rm -rf $(INSTALLDIR)/www/DNSFilter.asp
+#	rm -rf $(INSTALLDIR)/www/Home_Security.asp
 	rm -rf $(INSTALLDIR)/www/Advanced_OpenVPNClient_Content.asp
 	rm -rf $(INSTALLDIR)/www/Advanced_VPN_OpenVPN.asp
 	rm -rf $(INSTALLDIR)/www/Advanced_PerformanceTuning_Content.asp
