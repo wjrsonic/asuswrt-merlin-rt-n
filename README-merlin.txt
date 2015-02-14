@@ -1,5 +1,5 @@
-Asuswrt-Merlin - build 378.50 beta 3 (xx-Feb-2015)
-==================================================
+Asuswrt-Merlin - build 378.51 (xx-xxx-2015)
+===========================================
 
 About
 -----
@@ -36,6 +36,7 @@ Supported devices are:
  * RT-AC68U
  * RT-AC68P
  * RT-AC87U
+ * RT-AC3200
 
 NOTE: all the "R" versions (for example RT-N66R) are the same as their 
 "U" counterparts, they are just different packages aimed at large 
@@ -59,7 +60,7 @@ System:
    - LED control - put your router in "Stealth Mode" by turning off 
      all LEDs
    - Entware easy setup script (alternative to Optware - the two are 
-     mutually exclusive) (not available on RT-AC56/RT-AC68/RT-AC87)
+     mutually exclusive)
    - SNMP support (based on experimental code from Asus)
 
 
@@ -535,10 +536,10 @@ Access your router through SSH/Telnet, and run
 "entware-setup.sh".
 
 Note that Entware requires the JFFS partition to be enabled, and an 
-ext2/ext3 formatted USB disk (NTFS, HFS+ and FAT32 are not supported).
+ext2/ext3/ext4 formatted USB disk (NTFS, HFS+ and FAT32 are not supported).
 
-Also note that Entware is not available for the RT-AC56U, RT-AC68U 
-or RT-AC87 due to the different CPU architecture.
+Since 378.51 Entware also has a ARM-based repository, for 
+AC56/AC68/AC87/AC3200 routers, provided by Zyxmon.
 
 
 
@@ -645,7 +646,26 @@ https://github.com/RMerl/asuswrt-merlin
 
 History
 -------
-378.50 (xx-xxx-2015)
+378.51 (xx-xxx-2015)
+   - NEW: Added support for the RT-AC3200.
+   - NEW: ARM support for Entware, using Zyxmon's Qnapware repository.
+   - FIXED: When enabling WAN access to webui, the router would always
+            forward both http and https ports regardless of if either of
+            these were disabled.
+
+
+378.50 (7-Feb-2015)
+   - IMPORTANT: You must do a factory default reset, and manually
+                reconfigure your setting if coming from a version
+                older than 378.50.  Failure to do so can
+                lead to various issues with wifi, OpenVPN,
+                and the new AC68U bootloader.
+
+   - IMPORTANT: Please read this changelog, especially the changes
+                related to jffs, user scripts/config and OpenVPN in
+                the previous 378.50 betas.
+
+   - NEW: Merged with Asus GPL 378_4129 code.
    - CHANGED: Reverted back to vsftpd 2.x, as 3.0.2 doesn't work properly
               on MIPS architectures (and possibly other particular
               scenarios as well).
@@ -657,7 +677,7 @@ History
             entries on the MAC filter list
    - FIXED: AC68U CFE update wasn't written to flash due to permission
             issues
-   - FIXED: Static Key field wasn't visible when using HMAC
+   - FIXED: Static Key field wasn't visible when using HMAC authentication
    - FIXED: syslogd was always enforcing the -S switch
    - FIXED: When setting a static DHCP from the networkmap, the user-entered
             name wouldn't be used.  Now it gets used, and we rely on the rc
