@@ -1161,7 +1161,7 @@ endif
 #	cp -f -R  $(SRCBASE)/wl/sysdeps/RT-N10_blobs/wl.ko $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net
 	rm -f -R  $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs
 	rm -f -R  $(TARGETDIR)/lib/modules/2.6.22.19/kernel/lib
-	rm -r $(TARGETDIR)/rom/ca-bundle.crt
+	rm -f $(TARGETDIR)/rom/ca-bundle.crt
 	rm -r -f $(TARGETDIR)/www/images/zoom*.png
 	cp -f -R  $(SRCBASE)/image/4m/images/* $(TARGETDIR)/www/images
 #	rm -r -f $(TARGETDIR)/www/images/merlin-logo.png
@@ -1551,7 +1551,7 @@ ifeq ($(EXT_WEB_KIT),n)
 	rm -f $(TARGETDIR)/www/switch_AiDisk_app.asp
 	rm -f $(TARGETDIR)/www/Advanced_VPN_Content.asp
 	rm -f $(TARGETDIR)/www/Advanced_VPNAdvanced_Content.asp
-	rm -r $(TARGETDIR)/rom/ca-bundle.crt
+	rm -f $(TARGETDIR)/rom/ca-bundle.crt
 ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N10U RT-N15U ))
 	rm -f $(TARGETDIR)/www/mediaserver.asp
 	rm -r -f $(TARGETDIR)/www/images/New_ui/rt.jpg
@@ -1691,8 +1691,8 @@ endif
 	rm -f $(TARGETDIR)/sbin/send_sms
 	rm -f $(TARGETDIR)/sbin/sigmon
 	rm -rf $(TARGETDIR)/rom/Beceem_firmware
-	rm -r $(TARGETDIR)/rom/apn_asus.dat
-	rm -r $(TARGETDIR)/rom/ca-bundle.crt
+	rm -f $(TARGETDIR)/rom/apn_asus.dat
+	rm -f $(TARGETDIR)/rom/ca-bundle.crt
 	rm -f $(TARGETDIR)/rom/etc/usb_modeswitch.conf
 	rm -rf $(TARGETDIR)/rom/etc/ppp
 	rm -rf $(TARGETDIR)/rom/etc/static_routes/china_telecom.conf
