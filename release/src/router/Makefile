@@ -1195,6 +1195,11 @@ endif # nfs end
 
 ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N15U RT-N10U ))
 
+# remove Operation Mode icons due mode_operation.png
+	rm -r -f $(TARGETDIR)/www/images/New_ui/rt.jpg
+	rm -r -f $(TARGETDIR)/www/images/New_ui/ap.jpg
+	rm -r -f $(TARGETDIR)/www/images/New_ui/re.jpg
+
 ifneq ($(RTCONFIG_MEDIA_SERVER),y)
 	rm -f $(TARGETDIR)/www/mediaserver.asp
 endif
@@ -1222,12 +1227,24 @@ endif
 #	rm -f -r $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/cdc*.ko
 #	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/nls_*.ko
 #	rm -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/cifs.ko
+#
+	mkdir -p $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/drivers/net/usb
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/net/usb $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/drivers/net
+	mkdir -p $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/drivers/usb
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/usbserial.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/drivers/usb
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/usblp.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/drivers/usb
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/sierra.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/drivers/usb
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/option.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/drivers/usb
+	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/cdc*.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/drivers/usb
+#
 	mkdir -p $(SRCBASE)/image/ext/bin
 	mv -f $(TARGETDIR)/bin/comgt $(SRCBASE)/image/ext/bin
 	mkdir -p $(SRCBASE)/image/ext/rom/etc/ppp
 	mv -f $(TARGETDIR)/rom/etc/ppp/3g $(SRCBASE)/image/ext/rom/etc/ppp
 	mv -f $(TARGETDIR)/rom/etc/static_routes $(SRCBASE)/image/ext/rom/etc
 	mv -f $(TARGETDIR)/rom/etc/usb_modeswitch.conf $(SRCBASE)/image/ext/rom/etc
+	mv -f $(TARGETDIR)/rom/apn_asus.dat $(SRCBASE)/image/ext/rom
+	mv -f $(TARGETDIR)/rom/ca-bundle.crt $(SRCBASE)/image/ext/rom
 	mkdir -p $(SRCBASE)/image/ext/sbin
 	mv -f $(TARGETDIR)/sbin/write_smb_conf $(SRCBASE)/image/ext/sbin
 	mv -f $(TARGETDIR)/sbin/read_sms $(SRCBASE)/image/ext/sbin
@@ -1255,8 +1272,11 @@ endif
 	mkdir -p $(SRCBASE)/image/ext/www/images/New_ui
 	mv -f $(TARGETDIR)/www/Advanced_AiDisk_samba.asp $(SRCBASE)/image/ext/www
 	mv -f $(TARGETDIR)/www/Advanced_AiDisk_ftp.asp $(SRCBASE)/image/ext/www
+	mv -f $(TARGETDIR)/www/PrinterServer.asp $(SRCBASE)/image/ext/www
 	mv -f $(TARGETDIR)/www/images/New_ui/advancesetting $(SRCBASE)/image/ext/www/images/New_ui
+	rm -r -f $(TARGETDIR)/www/images/zoom*.png
 	cp -f -R  $(SRCBASE)/image/storage/bin/* $(TARGETDIR)/bin
+	cp -f -R  $(SRCBASE)/image/storage/lib/* $(TARGETDIR)/lib
 	cp -f -R  $(SRCBASE)/image/storage/rom/* $(TARGETDIR)/rom
 	cp -f -R  $(SRCBASE)/image/storage/sbin/* $(TARGETDIR)/sbin
 	cp -f -R  $(SRCBASE)/image/storage/usr/* $(TARGETDIR)/usr
@@ -1277,7 +1297,6 @@ ifeq ($(RTCONFIG_USB_BECEEM),y)
 	mv -f $(TARGETDIR)/sbin/wimaxc $(SRCBASE)/image/ext/sbin
 	mv -f $(TARGETDIR)/sbin/wimaxd $(SRCBASE)/image/ext/sbin
 	mv -f $(TARGETDIR)/rom/Beceem_firmware $(SRCBASE)/image/ext/rom
-	mv -f $(TARGETDIR)/rom/apn_asus.dat $(SRCBASE)/image/ext/rom
 	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/drivers/usb/Beceem_driver $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/drivers/usb
 	mv -f $(TARGETDIR)/lib/libeap_supplicant.so $(SRCBASE)/image/ext/lib
 	mv -f $(TARGETDIR)/lib/libengine_beceem.so $(SRCBASE)/image/ext/lib
@@ -1381,15 +1400,16 @@ ifeq ($(NTFS),tuxera)
 	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/cifs.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
 	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/fuse.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
 #	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/nls*.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
+#	mv -f $(TARGETDIR)/lib/modules/2.6.22.19/kernel/fs/thfsplus.ko $(SRCBASE)/image/ext/lib/modules/2.6.22.19/kernel/fs
 #	mv -f $(TARGETDIR)/usr/sbin/e2fsck $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/usr/sbin/fsck_msdos $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/usr/sbin/newfs_msdos $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/usr/sbin/fsck_hfs $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/usr/sbin/newfs_hfs $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/usr/sbin/badblocks $(SRCBASE)/image/ext/usr/sbin
-	mv -f $(TARGETDIR)/usr/sbin/mke2fs $(SRCBASE)/image/ext/usr/sbin
+#	mv -f $(TARGETDIR)/usr/sbin/mke2fs $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/usr/sbin/mkntfs $(SRCBASE)/image/ext/usr/sbin
-	mv -f $(TARGETDIR)/usr/sbin/ntfsck $(SRCBASE)/image/ext/usr/sbin
+#	mv -f $(TARGETDIR)/usr/sbin/ntfsck $(SRCBASE)/image/ext/usr/sbin
 	mv -f $(TARGETDIR)/usr/sbin/tune2fs $(SRCBASE)/image/ext/usr/sbin
 	cp -f -R $(SRCBASE)/image/tuxera/lib/* $(TARGETDIR)/lib/
 	cp -f -R $(SRCBASE)/image/tuxera/usr/* $(TARGETDIR)/usr/
@@ -1535,6 +1555,10 @@ endif
 	rm -f $(TARGETDIR)/www/Lang_Hdr
 	rm -f $(TARGETDIR)/www/Advanced_APPList_Content.asp
 	rm -f $(TARGETDIR)/www/switch_AiDisk_app.asp
+#after new VPN pages remove old
+	rm -f $(TARGETDIR)/www/Advanced_VPN_Content.asp
+	rm -f $(TARGETDIR)/www/Advanced_VPNAdvanced_Content.asp
+	rm -f -r $(TARGETDIR)/www/images/New_ui/DnsFiltering.png
 endif
 endif
 # External Web Kit end
