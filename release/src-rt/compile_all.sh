@@ -5,6 +5,18 @@ cp ./target_full.mak ./target.mak
 rm ./.config
 make clean
 ./cmd_clean.sh
+make rt-n10pv2
+rm ./.config
+make clean
+./cmd_clean.sh
+make rt-n10d1
+rm ./.config
+make clean
+./cmd_clean.sh
+make rt-n12
+rm ./.config
+make clean
+./cmd_clean.sh
 make rt-n15u
 rm ./.config
 make clean
@@ -53,8 +65,8 @@ make rt-n16
 rm ./target.mak
 cp ./target_kit.mak ./target.mak
 VER_EXT=`cat ./router/extendno.conf`
-VER_EXT=$VER_EXT"-webkit"
-echo $VER_EXT > ./router/extendno.conf
+VER_EXT_WEB=$VER_EXT"-webkit"
+echo $VER_EXT_WEB > ./router/extendno.conf
 rm ./.config
 make clean
 ./cmd_clean.sh
@@ -71,3 +83,4 @@ rm ./.config
 make clean
 ./cmd_clean.sh
 make rt-n16
+echo $VER_EXT_WEB > ./router/extendno.conf
