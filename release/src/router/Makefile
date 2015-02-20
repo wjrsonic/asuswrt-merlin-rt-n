@@ -1193,6 +1193,12 @@ ifeq ($(RTCONFIG_NFS),y)
 	cp -f -R  $(SRCBASE)/image/nfs/usr/* $(TARGETDIR)/usr
 endif # nfs end
 
+ifeq ($(BUILD_NAME),RT-N14UHP)
+	mkdir -p $(SRCBASE)/image/ext/rom
+	mv -f $(TARGETDIR)/rom/ca-bundle.crt $(SRCBASE)/image/ext/rom
+	cp -f -R  $(SRCBASE)/image/storage/rom/ca-bundle.crt $(TARGETDIR)/rom
+endif
+
 ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), RT-N15U RT-N10U ))
 
 # remove Operation Mode icons due mode_operation.png
@@ -1547,6 +1553,18 @@ ifeq ($(RTCONFIG_SWEBDAVCLIENT),y)
 endif
 # cloudsync clients end
 
+ifeq ($(RTCONFIG_TOR),y)
+	mkdir -p $(SRCBASE)/image/ext/usr/sbin
+	mkdir -p $(SRCBASE)/image/ext/www
+	mv -f $(TARGETDIR)/usr/sbin/Tor $(SRCBASE)/image/ext/usr/sbin
+	mv -f $(TARGETDIR)/www/Advanced_TOR_Content.asp $(SRCBASE)/image/ext/www
+	cp -f -R  $(SRCBASE)/image/tor/usr/sbin/* $(TARGETDIR)/usr/sbin
+	cp -f -R  $(SRCBASE)/image/tor/www/* $(TARGETDIR)/www
+endif
+# Tor end
+
+endif 
+# no RT-N16
 	rm -f $(TARGETDIR)/usr/sbin/webs_*
 	rm -f $(TARGETDIR)/usr/sbin/check_spectrum.sh
 	rm -f $(TARGETDIR)/www/wds_aplist_5g.asp
@@ -1559,7 +1577,7 @@ endif
 	rm -f $(TARGETDIR)/www/Advanced_VPN_Content.asp
 	rm -f $(TARGETDIR)/www/Advanced_VPNAdvanced_Content.asp
 	rm -f -r $(TARGETDIR)/www/images/New_ui/DnsFiltering.png
-endif
+
 endif
 # External Web Kit end
 
