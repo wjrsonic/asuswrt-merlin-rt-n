@@ -1130,6 +1130,7 @@ restore_defaults(void)
 		case MODEL_RTN14UHP:
 			nvram_set("reboot_time", "85");		// default is 70 sec
 			break;
+		case MODEL_HG320:
 		case MODEL_RTN10U:
 			nvram_set("reboot_time", "85");		// default is 70 sec
 			break;
@@ -4121,6 +4122,15 @@ int init_nvram(void)
 		nvram_set("wl1_country_code", "#a");
 		break;
 
+	case MODEL_HG320:
+		nvram_set("vlan0hwname", "et0");
+		nvram_set("vlan0ports", "1 2 3 4 5*");
+		nvram_set("vlan1hwname", "et0");
+		nvram_set("vlan1ports", "0 5");
+		nvram_set("landevs", "vlan0 wl0 wl1");
+		nvram_unset("vlan2hwname");
+		nvram_unset("vlan2ports");
+		/* fall through */
 	case MODEL_RTN10U:
 		nvram_set("lan_ifname", "br0");
 
@@ -4178,12 +4188,21 @@ int init_nvram(void)
 		nvram_set("wl0_vifnames", "wl0.1 wl0.2 wl0.3");
 		nvram_set("wl1_vifnames", "");
 #endif
-
-		nvram_set_int("btn_rst_gpio", 21|GPIO_ACTIVE_LOW);
-		nvram_set_int("btn_wps_gpio", 20|GPIO_ACTIVE_LOW);
-		nvram_set_int("led_pwr_gpio", 6|GPIO_ACTIVE_LOW);
-		nvram_set_int("led_wps_gpio", 7);
-		nvram_set_int("led_usb_gpio", 8);
+		if (model == MODEL_HG320) {
+			nvram_set_int("btn_rst_gpio", 30|GPIO_ACTIVE_LOW);
+			nvram_set_int("btn_radio_gpio", 29|GPIO_ACTIVE_LOW);
+			nvram_set_int("btn_wps_gpio", 28|GPIO_ACTIVE_LOW);
+			nvram_set_int("led_pwr_gpio", 24|GPIO_ACTIVE_LOW);
+			nvram_set_int("led_wps_gpio", 6|GPIO_ACTIVE_LOW);
+			nvram_set_int("led_usb_gpio", 9|GPIO_ACTIVE_LOW);
+		}
+		else {
+			nvram_set_int("btn_rst_gpio", 21|GPIO_ACTIVE_LOW);
+			nvram_set_int("btn_wps_gpio", 20|GPIO_ACTIVE_LOW);
+			nvram_set_int("led_pwr_gpio", 6|GPIO_ACTIVE_LOW);
+			nvram_set_int("led_wps_gpio", 7);
+			nvram_set_int("led_usb_gpio", 8);
+		}
 		nvram_set("ehci_ports", "1-1");
 		nvram_set("ohci_ports", "2-1");
 		if (!nvram_get("ct_max"))
@@ -5546,6 +5565,9 @@ static void sysinit(void)
 
 		f_write_string("/proc/sys/vm/panic_on_oom", "1", 0, 0);
 		f_write_string("/proc/sys/vm/overcommit_ratio", "100", 0, 0);
+	}
+	if (model == MODEL_HG320) {
+		gpio_write(7, 1);
 	}
 #endif
 

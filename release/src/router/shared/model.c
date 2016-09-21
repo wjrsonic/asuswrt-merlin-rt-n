@@ -68,6 +68,7 @@ static const struct model_s model_list[] = {
 	{ "RT-N10D1",	MODEL_RTN10D1	},
 	{ "RT-N10PV2",	MODEL_RTN10PV2	},
 	{ "DSL-AC68U",	MODEL_DSLAC68U	},
+	{ "HG320",	MODEL_HG320	},
 #endif	/* !RTCONFIG_RALINK */
 	{ NULL, 0 },
 };
@@ -151,6 +152,9 @@ int get_model(void)
 		model = get_model_by_hw();
 	if (model == MODEL_APN12)
 		model = get_model_by_hw();
+	if (strtoul(nvram_safe_get("boardtype"), NULL, 0) == 0x053d &&
+	    strtoul(nvram_safe_get("boardrev"), NULL, 0) == 0x1202)
+		model = MODEL_HG320;
 #endif
 	return model;
 }

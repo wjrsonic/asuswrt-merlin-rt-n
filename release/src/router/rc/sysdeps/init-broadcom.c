@@ -478,6 +478,7 @@ void generate_switch_para(void)
 			break;
 		}
 
+		case MODEL_HG320:
 		case MODEL_RTN10U:
 		{					/* WAN L1 L2 L3 L4 CPU */
 			const int ports[SWPORT_COUNT] = { 0, 4, 3, 2, 1, 5 };
@@ -1452,6 +1453,7 @@ reset_mssid_hwaddr(int unit)
 			case MODEL_RTN10D1:
 			case MODEL_RTN10PV2:
 			case MODEL_RTAC53U:
+			case MODEL_HG320:
 				if (unit == 0)	/* 2.4G */
 					snprintf(macaddr_str, sizeof(macaddr_str), "sb/1/macaddr");
 				else		/* 5G */
@@ -1760,6 +1762,7 @@ void init_syspara(void)
 		case MODEL_RTN10P:
 		case MODEL_RTN10D1:
 		case MODEL_RTN10PV2:
+		case MODEL_HG320:
 			if (!nvram_get("et0macaddr"))	// eth0, eth1
 				nvram_set("et0macaddr", "00:22:15:A5:03:00");
 			if (!nvram_get("0:macaddr"))	// eth2(5G)
@@ -2294,6 +2297,7 @@ int set_wltxpower()
 			case MODEL_RTN10D1:
 			case MODEL_RTN10PV2:
 			case MODEL_RTAC53U:
+			case MODEL_HG320:
 				if (unit == 0)	/* 2.4G */
 					snprintf(prefix2, sizeof(prefix2), "sb/1/");
 				else		/* 5G */
@@ -5166,6 +5170,7 @@ set_wan_tag(char *interface) {
 			eval("et", "robowr", "0x34", "0x6", "0x300e");
  		}
 		break;
+	case MODEL_HG320:
 	case MODEL_RTN10U:
 		/* Reset vlan 1 */
 		eval("vconfig", "rem", "vlan1");

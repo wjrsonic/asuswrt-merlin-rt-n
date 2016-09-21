@@ -152,6 +152,7 @@ setMAC_2G(const char *mac)
 		case MODEL_RTN10D1:
 		case MODEL_RTN10PV2:
 		case MODEL_RTAC53U:
+		case MODEL_HG320:
 		{
 			memset(cmd_l, 0, 64);
 			sprintf(cmd_l, "asuscfeet0macaddr=%s", mac);
@@ -411,6 +412,7 @@ setRegrev_2G(const char *regrev)
 		case MODEL_RTN10D1:
 		case MODEL_RTN10PV2:
 		case MODEL_RTAC53U:
+		case MODEL_HG320:
 		{
 			memset(cmd, 0, 32);
 			sprintf(cmd, "asuscfesb/1/regrev=%s", regrev);
@@ -919,6 +921,7 @@ GetPhyStatus(void)
 	case MODEL_RTAC3200:
 	case MODEL_RTN18U:
 	case MODEL_RTAC53U:
+	case MODEL_HG320:
 		/* WAN L1 L2 L3 L4 */
 		ports[0]=0; ports[1]=1; ports[2]=2; ports[3]=3; ports[4]=4;
 		break;
@@ -1189,6 +1192,7 @@ setAllLedOn(void)
 			eval("radio", "on"); /* wireless */
 			break;
 		}
+		case MODEL_HG320:
 		case MODEL_RTN10U:
 		{
 			led_control(LED_WPS, LED_ON);
@@ -1471,6 +1475,7 @@ setAllLedOff(void)
 			eval("radio", "off"); /* wireless */
 			break;
 		}
+		case MODEL_HG320:
 		case MODEL_RTN10U:
 		{
 			led_control(LED_WPS, LED_OFF);
@@ -1622,6 +1627,7 @@ setATEModeLedOn(void){
 			eval("et", "robowr", "00", "0x12", "0xfd55");
 			break;
 		}
+		case MODEL_HG320:
 		case MODEL_RTN10U:
 		{
 			led_control(LED_WPS, LED_ON);
@@ -1827,6 +1833,7 @@ getBootVer(void)
 	case MODEL_RTN10P:
 	case MODEL_RTN10D1:
 	case MODEL_RTN10PV2:
+	case MODEL_HG320:
 		puts(nvram_safe_get("hardware_version"));
 		break;
 	default:
@@ -1921,6 +1928,7 @@ getRegrev_2G(void)
 		case MODEL_RTN10D1:
 		case MODEL_RTN10PV2:
 		case MODEL_RTAC53U:
+		case MODEL_HG320:
 		{
 			puts(nvram_safe_get("sb/1/regrev"));
 			break;
@@ -3242,6 +3250,7 @@ reset_countryrev_2g(void)
 		case MODEL_RTN10D1:
 		case MODEL_RTN10PV2:
 		case MODEL_RTAC53U:
+		case MODEL_HG320:
 			strcpy(country_rev_str, "sb/1/regrev");
 			break;
 
