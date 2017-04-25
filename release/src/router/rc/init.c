@@ -4123,6 +4123,7 @@ int init_nvram(void)
 		break;
 
 	case MODEL_HG320:
+		nvram_set("ledbh5", "0x87");
 		nvram_set("vlan0hwname", "et0");
 		nvram_set("vlan0ports", "1 2 3 4 5*");
 		nvram_set("vlan1hwname", "et0");
